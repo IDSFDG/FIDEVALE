@@ -63217,6 +63217,14 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
     
        // importFormat:"csv",
        // autoColumns:true,
+        downloadConfig:{
+            columnHeaders:false, //do not include column headers in downloaded table
+            columnGroups:false, //do not include column groups in column headers for downloaded table
+            rowHeaders:false, //do not include row headers in downloaded table
+            rowGroups:false, //do not include row groups in downloaded table
+            columnCalcs:false, //do not include column calcs in downloaded table
+            dataTree:false, //do not include data tree in downloaded table
+        },
     rowFormatter:function(row){
     
           // alert('rowformatter');
