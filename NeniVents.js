@@ -63242,10 +63242,12 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
         pagination:false,
        // paginationElement:paginacionSCR, //build pagination controls in this element
     
-        responsiveLayout:true, // enable responsive layouts
-        responsiveLayout:"collapse", // collapse columns that no longer fit on the table into a list under the row
+       // responsiveLayout:true, // enable responsive layouts
+       // responsiveLayout:"collapse", // collapse columns that no longer fit on the table into a list under the row
        // responsiveLayout:"hide",
       // layout:"fitDataStretch",
+    
+    
           rowHeader:{field:"_id", hozAlign:"center", headerSort:false, title:"Sel.Ren.", headerWordWrap:true},
      // height:"211px",
      //   height:"100%",
