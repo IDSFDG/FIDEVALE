@@ -63253,7 +63253,7 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
         height:"70%",
       spreadsheet:true,
       spreadsheetRows:10,
-      spreadsheetColumns:4,
+      spreadsheetColumns:5,
       spreadsheetColumnDefinition:{editable:editCheck,editor:"input"},
     
         spreadsheetSheets:sheets,        // DEFINICION HOJAS ARREGLO
@@ -63268,6 +63268,7 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
     
     
        table.on("tableBuilt", function(){
+    
            var cols = table.getColumns() //get array of column components
     
             cols[0].updateDefinition({title:' ',width:5});
