@@ -63324,7 +63324,7 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
         //   table.setSheetData("uno",sheetDataConsulta);       // API
            var cols = table.getColumns() //get array of column components
     
-            cols[0].updateDefinition({title:' ',width:8});
+            cols[0].updateDefinition({title:' ',width:5});
             cols[1].updateDefinition({title:'Nombre',width:150,responsive:0});
             cols[2].updateDefinition({title:'Articulo',width:150,responsive:0});
             cols[3].updateDefinition({title:'Importe',width:75,responsive:0});
@@ -64823,7 +64823,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
           table.clearSheet("uno"); //clear the data from the info sheet
           var cols = table.getColumns() //get array of column components
       
-              cols[0].updateDefinition({title:' ',width:8});
+              cols[0].updateDefinition({title:' ',width:5});
               cols[1].updateDefinition({title:'Nombre',width:150,responsive:0});
               cols[2].updateDefinition({title:'Articulo',width:150,responsive:0});
               cols[3].updateDefinition({title:'Importe',width:75,responsive:0});
