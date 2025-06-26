@@ -63325,8 +63325,8 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
            var cols = table.getColumns() //get array of column components
     
             cols[0].updateDefinition({title:' ',width:5});
-            cols[1].updateDefinition({title:'Nombre',width:150,responsive:0});
-            cols[2].updateDefinition({title:'Articulo',width:150,responsive:0});
+            cols[1].updateDefinition({title:'Nombre',width:140,responsive:0});
+            cols[2].updateDefinition({title:'Articulo',width:140,responsive:0});
             cols[3].updateDefinition({title:'Importe',width:75,responsive:0});
             cols[4].updateDefinition({title:'P./E.',width:70});
             cols[5].updateDefinition({title:'VD/SUB',width:70});
