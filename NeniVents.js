@@ -64953,6 +64953,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     };
     this.Salir1Click = function (Sender) {
       this.Close();
+      pas["WEBLib.Forms"].Application.Terminate();
     };
     this.LimpiarHoja1Click = function (Sender) {
       var table = Tabulator.findTable("#tabExample")[0];
