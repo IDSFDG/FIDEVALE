@@ -64395,10 +64395,11 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     this.Estudios1Click = function (Sender) {
       let archivo = prompt("Por favor captura el nombre del archivo", "Archivo");
        archivo = archivo.trim()+'.csv';
+        archivo = archivo.trim()+'.xlsx';
        var table = Tabulator.findTable("#tabExample")[0];
       // table.download("csv", "datos1.csv", {delimiter:","}); //download a CSV file that uses a fullstop (.) delimiter
       // table.download("csv", archivo, {delimiter:","}); //download a CSV file that uses a fullstop (.) delimiter
-        table.download("xlsx", "data.xlsx", {compress:false}); //prevent compression of output file;
+        table.download("xlsx", archivo, {compress:false}); //prevent compression of output file;
     };
     this.Analisis1Click = function (Sender) {
       var table = Tabulator.findTable("#tabExample")[0];
