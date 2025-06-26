@@ -63753,6 +63753,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.WebScrollBox1 = null;
       this.AnlisisGrfico1 = null;
       this.Salir1 = null;
+      this.LimpiarHoja1 = null;
     };
     this.$final = function () {
       this.WebPanel1 = undefined;
@@ -63810,6 +63811,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.WebScrollBox1 = undefined;
       this.AnlisisGrfico1 = undefined;
       this.Salir1 = undefined;
+      this.LimpiarHoja1 = undefined;
       pas["WEBLib.Forms"].TForm.$final.call(this);
     };
     this.WebButton1Click = function (Sender) {
@@ -64396,9 +64398,10 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     };
     this.Consultas1Click = function (Sender) {
       var table = Tabulator.findTable("#tabExample")[0];
-      // table.import("csv", ".csv","buffer");
-      // table.import("xlsx", [".xlsx", ".csv", ".ods"], "buffer");
-       table.import("xlsx", ".xlsx", "buffer");
+      
+        // table.import("csv", ".csv","buffer");
+        // table.import("xlsx", [".xlsx", ".csv", ".ods"], "buffer");
+         table.import("xlsx", ".xlsx", "buffer");
     };
     this.Estudios1Click = function (Sender) {
       let archivo = prompt("Por favor captura el nombre del archivo", "Archivo");
@@ -64815,6 +64818,18 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     this.Salir1Click = function (Sender) {
       this.Close();
     };
+    this.LimpiarHoja1Click = function (Sender) {
+      var table = Tabulator.findTable("#tabExample")[0];
+          table.clearSheet("uno"); //clear the data from the info sheet
+          var cols = table.getColumns() //get array of column components
+      
+              cols[0].updateDefinition({title:'',width:0});
+              cols[1].updateDefinition({title:'Nombre',width:150,responsive:0});
+              cols[2].updateDefinition({title:'Articulo',width:150,responsive:0});
+              cols[3].updateDefinition({title:'Importe',width:75,responsive:0});
+              cols[4].updateDefinition({title:'P./E.',width:70});
+              cols[5].updateDefinition({title:'VD/SUB',width:70});
+    };
     this.LoadDFMValues = function () {
       pas["WEBLib.Forms"].TCustomForm.LoadDFMValues.call(this);
       this.WebDiv = pas["WEBLib.WebCtrls"].THTMLDiv.$create("Create$2",["tabExample"]);
@@ -64860,6 +64875,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.Copiar1 = pas["WEBLib.Menus"].TMenuItem.$create("Create$1",[this]);
       this.Copiar2 = pas["WEBLib.Menus"].TMenuItem.$create("Create$1",[this]);
       this.Cortar1 = pas["WEBLib.Menus"].TMenuItem.$create("Create$1",[this]);
+      this.LimpiarHoja1 = pas["WEBLib.Menus"].TMenuItem.$create("Create$1",[this]);
       this.Exportar3 = pas["WEBLib.Menus"].TMenuItem.$create("Create$1",[this]);
       this.ExportarPDF1 = pas["WEBLib.Menus"].TMenuItem.$create("Create$1",[this]);
       this.Excel1 = pas["WEBLib.Menus"].TMenuItem.$create("Create$1",[this]);
@@ -64915,6 +64931,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.Copiar1.BeforeLoadDFMValues();
       this.Copiar2.BeforeLoadDFMValues();
       this.Cortar1.BeforeLoadDFMValues();
+      this.LimpiarHoja1.BeforeLoadDFMValues();
       this.Exportar3.BeforeLoadDFMValues();
       this.ExportarPDF1.BeforeLoadDFMValues();
       this.Excel1.BeforeLoadDFMValues();
@@ -65370,6 +65387,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.Pacientes1.SetParentComponent(this.Archivo1);
         this.Pacientes1.SetName("Pacientes1");
         this.Pacientes1.SetCaption("Nuevo");
+        this.Pacientes1.FVisible = false;
         this.SetEvent$1(this.Pacientes1,this,"OnClick","Pacientes1Click");
         this.Consultas1.SetParentComponent(this.Archivo1);
         this.Consultas1.SetName("Consultas1");
@@ -65398,16 +65416,22 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.Editar1.SetParentComponent(this.WebMainMenu1);
         this.Editar1.SetName("Editar1");
         this.Editar1.SetCaption("Editar");
-        this.Editar1.FVisible = false;
         this.Copiar1.SetParentComponent(this.Editar1);
         this.Copiar1.SetName("Copiar1");
         this.Copiar1.SetCaption("Copiar");
+        this.Copiar1.FVisible = false;
         this.Copiar2.SetParentComponent(this.Editar1);
         this.Copiar2.SetName("Copiar2");
         this.Copiar2.SetCaption("Pegar");
+        this.Copiar2.FVisible = false;
         this.Cortar1.SetParentComponent(this.Editar1);
         this.Cortar1.SetName("Cortar1");
         this.Cortar1.SetCaption("Cortar");
+        this.Cortar1.FVisible = false;
+        this.LimpiarHoja1.SetParentComponent(this.Editar1);
+        this.LimpiarHoja1.SetName("LimpiarHoja1");
+        this.LimpiarHoja1.SetCaption("Limpiar Hoja");
+        this.SetEvent$1(this.LimpiarHoja1,this,"OnClick","LimpiarHoja1Click");
         this.Exportar3.SetParentComponent(this.WebMainMenu1);
         this.Exportar3.SetName("Exportar3");
         this.Exportar3.SetCaption("Exportar");
@@ -65497,6 +65521,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.Copiar1.AfterLoadDFMValues();
         this.Copiar2.AfterLoadDFMValues();
         this.Cortar1.AfterLoadDFMValues();
+        this.LimpiarHoja1.AfterLoadDFMValues();
         this.Exportar3.AfterLoadDFMValues();
         this.ExportarPDF1.AfterLoadDFMValues();
         this.Excel1.AfterLoadDFMValues();
@@ -65569,6 +65594,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     $r.addField("WebScrollBox1",pas["WEBLib.ExtCtrls"].$rtti["TScrollBox"]);
     $r.addField("AnlisisGrfico1",pas["WEBLib.Menus"].$rtti["TMenuItem"]);
     $r.addField("Salir1",pas["WEBLib.Menus"].$rtti["TMenuItem"]);
+    $r.addField("LimpiarHoja1",pas["WEBLib.Menus"].$rtti["TMenuItem"]);
     $r.addMethod("WebButton1Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("WebButton2Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("WebButton3Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
@@ -65600,6 +65626,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     $r.addMethod("WebDivClick",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("AnlisisGrfico1Click",0,[["Sender",pas.System.$rtti["TObject"]]],null,16,{attr: [pas.JS.AsyncAttribute,"Create"]});
     $r.addMethod("Salir1Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
+    $r.addMethod("LimpiarHoja1Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
   });
   this.Form1 = null;
 });
