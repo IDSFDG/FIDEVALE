@@ -64388,7 +64388,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     };
     this.Consultas1Click = function (Sender) {
       var table = Tabulator.findTable("#tabExample")[0];
-       table.import("csv", ".csv");
+       table.import("csv", ".csv","buffer");
       // table.import("xlsx", [".xlsx", ".csv", ".ods"], "buffer");
     };
     this.Estudios1Click = function (Sender) {
