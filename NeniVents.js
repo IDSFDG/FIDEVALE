@@ -64388,15 +64388,17 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     };
     this.Consultas1Click = function (Sender) {
       var table = Tabulator.findTable("#tabExample")[0];
-       table.import("csv", ".csv","buffer");
+      // table.import("csv", ".csv","buffer");
       // table.import("xlsx", [".xlsx", ".csv", ".ods"], "buffer");
+       table.import("xlsx", ".xlsx", "buffer");
     };
     this.Estudios1Click = function (Sender) {
       let archivo = prompt("Por favor captura el nombre del archivo", "Archivo");
        archivo = archivo.trim()+'.csv';
        var table = Tabulator.findTable("#tabExample")[0];
       // table.download("csv", "datos1.csv", {delimiter:","}); //download a CSV file that uses a fullstop (.) delimiter
-       table.download("csv", archivo, {delimiter:","}); //download a CSV file that uses a fullstop (.) delimiter;
+      // table.download("csv", archivo, {delimiter:","}); //download a CSV file that uses a fullstop (.) delimiter
+        table.download("xlsx", "data.xlsx", {compress:false}); //prevent compression of output file;
     };
     this.Analisis1Click = function (Sender) {
       var table = Tabulator.findTable("#tabExample")[0];
