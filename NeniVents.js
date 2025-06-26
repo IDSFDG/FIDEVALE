@@ -63178,6 +63178,139 @@ rtl.module("WEBLib.SideMenu",["System","Classes","SysUtils","Types","WEBLib.Cont
 rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","WEBLib.Controls","WEBLib.Forms","WEBLib.Dialogs","WEBLib.Controls","WEBLib.WebCtrls","WEBLib.StdCtrls","WEBLib.StdCtrls","WEBLib.ExtCtrls","WEBLib.REST","WEBLib.JQCtrls","WEBLib.SideMenu","WEBLib.Menus","WEBLib.Menus"],function () {
   "use strict";
   var $mod = this;
+  this.IniciarHoja = function () {
+    var selpacid = "";
+    var selpacnom = "";
+    var editCheck = function(cell){
+        //cell - the cell component for the editable cell
+        //get row data
+        var data = cell.getRow().getData();
+       // return data.age > 18; // only allow the name cell to be edited if the age is over 18
+       return false // no editable
+     // return true // editable
+    };
+    //********************************************************************************
+     //********************************************************************************
+      var sheetDataConsulta = [];
+    
+    
+     //********************************************************************************
+     //********************************************************************************
+         var sheets = [
+        {
+          name:'huno',
+          title:"Registro",
+          key:"uno",
+          rows:10,
+          columns:5,
+          data:[],
+      },
+    
+    ];
+             var table = new Tabulator("#tabExample",
+     {
+    
+       dependencies:{
+            XLSX:XLSX,
+        },
+    
+    
+       // importFormat:"csv",
+       // autoColumns:true,
+        downloadConfig:{
+            columnHeaders:false, //do not include column headers in downloaded table
+            columnGroups:false, //do not include column groups in column headers for downloaded table
+            rowHeaders:false, //do not include row headers in downloaded table
+            rowGroups:false, //do not include row groups in downloaded table
+            columnCalcs:false, //do not include column calcs in downloaded table
+            dataTree:false, //do not include data tree in downloaded table
+        },
+    rowFormatter:function(row){
+    
+          // alert('rowformatter');
+         // console.log(row.getData());    //OK
+            if((row.getData()._id % 2 ) > 0){
+               // console.log ('rowformatter');
+              //  row.getElement().classList.add("Modern"); //mark rows with age greater than or equal to 18 as successful;
+           // row.getElement().style.backgroundColor = "#d5f7d7"; //apply css change to row element
+            row.getElement().style.backgroundColor = "#7cbfb2";
+            row.getElement().style.backgroundColor = "#b87cbf"; // Gine
+          //  row.getElement().classList.add("table-danger");
+            }
+        },
+    
+        pagination:false,
+       // paginationElement:paginacionSCR, //build pagination controls in this element
+    
+        responsiveLayout:true, // enable responsive layouts
+        responsiveLayout:"collapse", // collapse columns that no longer fit on the table into a list under the row
+       // responsiveLayout:"hide",
+      // layout:"fitDataStretch",
+          rowHeader:{field:"_id", hozAlign:"center", headerSort:false, title:"Sel.Ren.", headerWordWrap:true},
+     // height:"211px",
+     //   height:"100%",
+        height:"311px",
+        height:"70%",
+      spreadsheet:true,
+      spreadsheetRows:10,
+      spreadsheetColumns:4,
+      spreadsheetColumnDefinition:{editable:editCheck,editor:"input"},
+    
+        spreadsheetSheets:sheets,        // DEFINICION HOJAS ARREGLO
+        spreadsheetSheetTabs:true,
+      //  spreadsheetSheetTabsElement:"#table-tabs", //insert tabs in element with id of table-tabs
+    
+    
+      editorEmptyValue:undefined, //ensure empty values are set to undefined so they arent included in spreadsheet output data
+    
+      spreadsheetColumnDefinition:{editor:"input"}, //add an input editor to every cell
+      },);
+    
+    
+       table.on("tableBuilt", function(){
+           var cols = table.getColumns() //get array of column components
+    
+            cols[0].updateDefinition({title:' ',width:5});
+            cols[1].updateDefinition({title:'Nombre',width:120,responsive:0});
+            cols[2].updateDefinition({title:'Articulo',width:120,responsive:0});
+            cols[3].updateDefinition({title:'Importe',width:75,responsive:0});
+            cols[4].updateDefinition({title:'P./E.',width:70});
+            cols[5].updateDefinition({title:'VD/SUB',width:70});
+        //  alert('tableBuilt');
+    
+    
+           });
+    
+    table.on("rowClick", function(e, row) {
+      // alert('row click');
+         // alert(row);
+       // alert(' identifica'+row.getData().Identifica);
+    
+      //iden=row.getData().Identifica;
+     var iden=row.getData();
+        //alert(' iden'+iden);
+        console.log(iden);
+        console.log('idenA',iden.A);
+        console.log('idenA',iden.B);
+        selpacid = iden.A
+        selpacnom = iden.B
+        console.log('id',selpacid);
+     //   alert('paciente');
+     //   alert(selpacid);
+    
+       edPaciente.value = selpacid;
+       edPacNombre.value =selpacnom;
+      // alert (edPacNombre.value);
+     //  table.setFilter('B like '+edPacNombre.value);
+    });
+      table.on("sheetUpdated", function(sheet){
+        //sheet - sheet component for sheet
+      //  alert('sheetUpdated');
+    });
+    
+     //********************************************************************************
+     //********************************************************************************;
+  };
   this.CargarVentas = function () {
     var selpacid = "";
     var selpacnom = "";
@@ -64427,7 +64560,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     };
     this.WebFormCreate = function (Sender) {
       this.WebPanel4.SetVisible(false);
-      pas.uCargarConsultas.CargarVentas();
+      pas.uCargarConsultas.IniciarHoja();
       this.WebPanel4.GetElementHandle().style.setProperty("overflow","visible");
       this.WebPanel4.SetVisible(true);
       this.WebPanel4.FElementBodyClassName = "";
