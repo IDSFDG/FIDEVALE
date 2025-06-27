@@ -63202,7 +63202,7 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
           title:"Registro",
           key:"uno",
           rows:10,
-          columns:5,
+          columns:6,
           data:[],
       },
     
@@ -63214,7 +63214,19 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
             XLSX:XLSX,
         },
     
+      columnDefaults:{
+            headerTooltip:function(e, cell, onRendered){
+                //e - mouseover event
+                //cell - cell component
+                //onRendered - onRendered callback registration function
     
+                var el = document.createElement("div");
+                el.style.backgroundColor = "red";
+                el.innerText = column.getDefinition().title;
+    
+                return el;
+            },
+        },
        // importFormat:"csv",
        // autoColumns:true,
         downloadConfig:{
@@ -63255,7 +63267,7 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
         height:"70%",
       spreadsheet:true,
       spreadsheetRows:10,
-      spreadsheetColumns:5,
+      spreadsheetColumns:6,
       spreadsheetColumnDefinition:{editable:editCheck,editor:"input"},
     
         spreadsheetSheets:sheets,        // DEFINICION HOJAS ARREGLO
@@ -63266,19 +63278,21 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
       editorEmptyValue:undefined, //ensure empty values are set to undefined so they arent included in spreadsheet output data
     
       spreadsheetColumnDefinition:{editor:"input"}, //add an input editor to every cell
-      },);
+      },
+    );
     
     
        table.on("tableBuilt", function(){
     
            var cols = table.getColumns() //get array of column components
     
-            cols[0].updateDefinition({title:'Ren',width:5});
-            cols[1].updateDefinition({title:'Nombre',width:100,responsive:0});
-            cols[2].updateDefinition({title:'Articulo',width:100,responsive:0});
-            cols[3].updateDefinition({title:'Importe',width:75,responsive:0});
-            cols[4].updateDefinition({title:'P./E.',width:70});
-            cols[5].updateDefinition({title:'VD/SUB',width:70});
+            cols[0].updateDefinition({title:'Ren',width:5,headerTooltip:''});
+            cols[1].updateDefinition({title:'Nombre',width:100,responsive:0,headerTooltip:'Nombre'});
+            cols[2].updateDefinition({title:'Articulo',width:100,responsive:0,headerTooltip:'Articulo'});
+            cols[3].updateDefinition({title:'Importe',width:75,responsive:0,headerTooltip:'Importe'});
+            cols[4].updateDefinition({title:'P.',width:35,headerTooltip:'Pagado'});
+            cols[5].updateDefinition({title:'E.',width:35,headerTooltip:'Entregado'});
+            cols[6].updateDefinition({title:'VD/SUB',width:70,headerTooltip:'Vta.Directa /Subasta'});
         //  alert('tableBuilt');
     
     
@@ -63890,6 +63904,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.AnlisisGrfico1 = null;
       this.Salir1 = null;
       this.LimpiarHoja1 = null;
+      this.lbarchivo = null;
     };
     this.$final = function () {
       this.WebPanel1 = undefined;
@@ -63948,6 +63963,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.AnlisisGrfico1 = undefined;
       this.Salir1 = undefined;
       this.LimpiarHoja1 = undefined;
+      this.lbarchivo = undefined;
       pas["WEBLib.Forms"].TForm.$final.call(this);
     };
     this.WebButton1Click = function (Sender) {
@@ -64533,11 +64549,27 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       table.activeSheet("uno");
     };
     this.Consultas1Click = function (Sender) {
+      var nomarch = "";
+      nomarch = "";
       var table = Tabulator.findTable("#tabExample")[0];
       
         // table.import("csv", ".csv","buffer");
         // table.import("xlsx", [".xlsx", ".csv", ".ods"], "buffer");
          table.import("xlsx", ".xlsx", "buffer");
+         table.on("importImporting", function(files){
+      //files - the files array returned from the file picker
+           console.log(files);
+           console.log(files[0].name);
+           nomarch ='Archivo:'+files[0].name;
+        const editBox = document.getElementById("nomarchivo");
+       // Set the text content of the editbox
+        editBox.value = nomarch;
+       //  $('#nomarchivo').html(nomarch);
+       //  $('#nomarchivo').innerHTML=nomarch;
+       //  $('#nomarchivo').innerText=nomarch;
+           console.log($('#nomarchivo'));
+        //   $('#nomarchivo').visible= true;
+          });
     };
     this.Estudios1Click = function (Sender) {
       let archivo = prompt("Por favor captura el nombre del archivo", "Archivo");
@@ -64960,12 +64992,15 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
           table.clearSheet("uno"); //clear the data from the info sheet
           var cols = table.getColumns() //get array of column components
       
-              cols[0].updateDefinition({title:'Ren',width:5});
-              cols[1].updateDefinition({title:'Nombre',width:120,responsive:0});
-              cols[2].updateDefinition({title:'Articulo',width:120,responsive:0});
-              cols[3].updateDefinition({title:'Importe',width:75,responsive:0});
-              cols[4].updateDefinition({title:'P./E.',width:70});
-              cols[5].updateDefinition({title:'VD/SUB',width:70});
+      
+              cols[0].updateDefinition({title:'Ren',width:5,headerTooltip:''});
+              cols[1].updateDefinition({title:'Nombre',width:100,responsive:0,headerTooltip:'Nombre'});
+              cols[2].updateDefinition({title:'Articulo',width:100,responsive:0,headerTooltip:'Articulo'});
+              cols[3].updateDefinition({title:'Importe',width:75,responsive:0,headerTooltip:'Importe'});
+              cols[4].updateDefinition({title:'P.',width:35,headerTooltip:'Pagado'});
+              cols[5].updateDefinition({title:'E.',width:35,headerTooltip:'Entregado'});
+              cols[6].updateDefinition({title:'VD/SUB',width:70,headerTooltip:'Vta.Directa /Subasta'});
+      this.lbarchivo.SetText("");
     };
     this.LoadDFMValues = function () {
       pas["WEBLib.Forms"].TCustomForm.LoadDFMValues.call(this);
@@ -64997,6 +65032,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.WebButton11 = pas["WEBLib.StdCtrls"].TButton.$create("Create$1",[this]);
       this.WebButton12 = pas["WEBLib.StdCtrls"].TButton.$create("Create$1",[this]);
       this.WebButton13 = pas["WEBLib.StdCtrls"].TButton.$create("Create$1",[this]);
+      this.lbarchivo = pas["WEBLib.StdCtrls"].TEdit.$create("Create$2",["nomarchivo"]);
       this.WebScrollBox1 = pas["WEBLib.ExtCtrls"].TScrollBox.$create("Create$2",["paginacionSCR"]);
       this.WebHttpRequest1 = pas["WEBLib.REST"].THttpRequest.$create("Create$1",[this]);
       this.WebMainMenu1 = pas["WEBLib.Menus"].TMainMenu.$create("Create$1",[this]);
@@ -65053,6 +65089,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.WebButton11.BeforeLoadDFMValues();
       this.WebButton12.BeforeLoadDFMValues();
       this.WebButton13.BeforeLoadDFMValues();
+      this.lbarchivo.BeforeLoadDFMValues();
       this.WebScrollBox1.BeforeLoadDFMValues();
       this.WebHttpRequest1.BeforeLoadDFMValues();
       this.WebMainMenu1.BeforeLoadDFMValues();
@@ -65372,7 +65409,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebLabel1.SetParentComponent(this.WebPanel4);
         this.WebLabel1.SetName("WebLabel1");
         this.WebLabel1.SetLeft(24);
-        this.WebLabel1.SetTop(43);
+        this.WebLabel1.SetTop(31);
         this.WebLabel1.SetWidth(63);
         this.WebLabel1.SetHeight(18);
         this.WebLabel1.SetCaption("Seleccion:");
@@ -65417,7 +65454,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.edPaciente.SetParentComponent(this.WebPanel4);
         this.edPaciente.SetName("edPaciente");
         this.edPaciente.SetLeft(113);
-        this.edPaciente.SetTop(40);
+        this.edPaciente.SetTop(29);
         this.edPaciente.SetWidth(121);
         this.edPaciente.SetHeight(22);
         this.edPaciente.SetChildOrderEx(1);
@@ -65431,7 +65468,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.edPacNombre.SetParentComponent(this.WebPanel4);
         this.edPacNombre.SetName("edPacNombre");
         this.edPacNombre.SetLeft(240);
-        this.edPacNombre.SetTop(40);
+        this.edPacNombre.SetTop(29);
         this.edPacNombre.SetWidth(233);
         this.edPacNombre.SetHeight(22);
         this.edPacNombre.SetChildOrderEx(1);
@@ -65487,6 +65524,19 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebButton13.SetVisible(false);
         this.WebButton13.SetWidthPercent(100.000000000000000000);
         this.SetEvent$1(this.WebButton13,this,"OnClick","WebButton13Click");
+        this.lbarchivo.SetParentComponent(this.WebPanel4);
+        this.lbarchivo.SetName("lbarchivo");
+        this.lbarchivo.SetLeft(16);
+        this.lbarchivo.SetTop(60);
+        this.lbarchivo.SetWidth(300);
+        this.lbarchivo.SetHeight(22);
+        this.lbarchivo.SetBorderStyle(pas["WEBLib.Controls"].TBorderStyle.bsNone);
+        this.lbarchivo.SetChildOrderEx(1);
+        this.lbarchivo.SetColor(12695295);
+        this.lbarchivo.SetHeightStyle(pas["WEBLib.Controls"].TSizeStyle.ssAuto);
+        this.lbarchivo.SetHeightPercent(100.000000000000000000);
+        this.lbarchivo.SetReadOnly(true);
+        this.lbarchivo.SetWidthPercent(100.000000000000000000);
         this.WebScrollBox1.SetParentComponent(this);
         this.WebScrollBox1.SetName("WebScrollBox1");
         this.WebScrollBox1.SetLeft(0);
@@ -65643,6 +65693,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebButton11.AfterLoadDFMValues();
         this.WebButton12.AfterLoadDFMValues();
         this.WebButton13.AfterLoadDFMValues();
+        this.lbarchivo.AfterLoadDFMValues();
         this.WebScrollBox1.AfterLoadDFMValues();
         this.WebHttpRequest1.AfterLoadDFMValues();
         this.WebMainMenu1.AfterLoadDFMValues();
@@ -65732,6 +65783,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     $r.addField("AnlisisGrfico1",pas["WEBLib.Menus"].$rtti["TMenuItem"]);
     $r.addField("Salir1",pas["WEBLib.Menus"].$rtti["TMenuItem"]);
     $r.addField("LimpiarHoja1",pas["WEBLib.Menus"].$rtti["TMenuItem"]);
+    $r.addField("lbarchivo",pas["WEBLib.StdCtrls"].$rtti["TEdit"]);
     $r.addMethod("WebButton1Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("WebButton2Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("WebButton3Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
