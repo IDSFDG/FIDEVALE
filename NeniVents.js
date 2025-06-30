@@ -63230,7 +63230,7 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
        // importFormat:"csv",
        // autoColumns:true,
         downloadConfig:{
-            columnHeaders:false, //do not include column headers in downloaded table
+            columnHeaders:true, //do not include column headers in downloaded table
             columnGroups:false, //do not include column groups in column headers for downloaded table
             rowHeaders:false, //do not include row headers in downloaded table
             rowGroups:false, //do not include row groups in downloaded table
@@ -63278,6 +63278,7 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
       editorEmptyValue:undefined, //ensure empty values are set to undefined so they arent included in spreadsheet output data
     
       spreadsheetColumnDefinition:{editor:"input"}, //add an input editor to every cell
+            rowHeight:40, //set rows to 40px height
       },
     );
     
@@ -63290,8 +63291,8 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
             cols[1].updateDefinition({title:'Nombre',width:100,responsive:0,headerTooltip:'Nombre'});
             cols[2].updateDefinition({title:'Articulo',width:100,responsive:0,headerTooltip:'Articulo'});
             cols[3].updateDefinition({title:'Importe',width:75,responsive:0,headerTooltip:'Importe'});
-            cols[4].updateDefinition({title:'P.',width:35,headerTooltip:'Pagado'});
-            cols[5].updateDefinition({title:'E.',width:35,headerTooltip:'Entregado'});
+            cols[4].updateDefinition({title:'P.',width:35,headerTooltip:'Pagado',editor:true, formatter:"tickCross"});
+            cols[5].updateDefinition({title:'E.',width:35,headerTooltip:'Entregado',editor:true, formatter:"tickCross"});
             cols[6].updateDefinition({title:'VD/SUB',width:70,headerTooltip:'Vta.Directa /Subasta'});
         //  alert('tableBuilt');
     
@@ -64997,8 +64998,8 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
               cols[1].updateDefinition({title:'Nombre',width:100,responsive:0,headerTooltip:'Nombre'});
               cols[2].updateDefinition({title:'Articulo',width:100,responsive:0,headerTooltip:'Articulo'});
               cols[3].updateDefinition({title:'Importe',width:75,responsive:0,headerTooltip:'Importe'});
-              cols[4].updateDefinition({title:'P.',width:35,headerTooltip:'Pagado'});
-              cols[5].updateDefinition({title:'E.',width:35,headerTooltip:'Entregado'});
+              cols[4].updateDefinition({title:'P.',width:35,headerTooltip:'Pagado',editor:true, formatter:"tickCross"});
+              cols[5].updateDefinition({title:'E.',width:35,headerTooltip:'Entregado',editor:true, formatter:"tickCross"});
               cols[6].updateDefinition({title:'VD/SUB',width:70,headerTooltip:'Vta.Directa /Subasta'});
       this.lbarchivo.SetText("");
     };
@@ -65533,6 +65534,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.lbarchivo.SetBorderStyle(pas["WEBLib.Controls"].TBorderStyle.bsNone);
         this.lbarchivo.SetChildOrderEx(1);
         this.lbarchivo.SetColor(12695295);
+        this.lbarchivo.SetEnabled(false);
         this.lbarchivo.SetHeightStyle(pas["WEBLib.Controls"].TSizeStyle.ssAuto);
         this.lbarchivo.SetHeightPercent(100.000000000000000000);
         this.lbarchivo.SetReadOnly(true);
