@@ -1,7 +1,5 @@
-{
-  "usuarios":[
-    {"name":"Let Us C", "author":"Yashavant Kanetkar"},    
-    {"name":"Rich Dad Poor Dad", "author":"Robert Kiyosaki "},  
-    {"name":"Introduction to Algorithms", "author":"Cormen"},
+[
+{"id":1,"nombre":"Vale","estado":1},
+{"id":2,"nombre":"Elia","estado":1},
+{"id":3,"nombre":"Eric","estado":0},
  ]
-}
