@@ -1,17 +1,17 @@
 [
 {
-id:"01",
-nombre:"Vale",
-estado: "1"
+"id":"01",
+"nombre":"Vale",
+"estado": "1"
 },
 {
-id:"02",
-nombre:"Elia",
-estado: "1"
+"id":"02",
+"nombre":"Elia",
+"estado": "1"
 },
 {
-id:"03",
-nombre:"Aracely",
-estado: "0"
+"id":"03",
+"nombre":"Aracely",
+"estado": "0"
 	},
 ]
