@@ -63373,12 +63373,12 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
            var cols = table.getColumns() //get array of column components
     
             cols[0].updateDefinition({title:'Ren',width:5,headerTooltip:''});
-            cols[1].updateDefinition({title:'Nombre',width:100,responsive:0,headerTooltip:'Nombre'});
-            cols[2].updateDefinition({title:'Articulo',width:100,responsive:0,headerTooltip:'Articulo'});
-            cols[3].updateDefinition({title:'Importe',width:75,responsive:0,headerTooltip:'Importe'});
+            cols[1].updateDefinition({title:'Nombre',width:100,responsive:0,headerTooltip:'Nombre',headerFilter:"input"});
+            cols[2].updateDefinition({title:'Articulo',width:100,responsive:0,headerTooltip:'Articulo',headerFilter:"input"});
+            cols[3].updateDefinition({title:'Importe',width:75,responsive:0,headerTooltip:'Importe',headerFilter:"input"});
             cols[4].updateDefinition({title:'P.',width:35,headerTooltip:'Pagado',editor:true, formatter:"tickCross"});
             cols[5].updateDefinition({title:'E.',width:35,headerTooltip:'Entregado',editor:true, formatter:"tickCross"});
-            cols[6].updateDefinition({title:'VD/SUB',width:70,headerTooltip:'Vta.Directa /Subasta'});
+            cols[6].updateDefinition({title:'VD/SUB',width:70,headerTooltip:'Vta.Directa /Subasta',headerFilter:"input"});
         //  alert('tableBuilt');
     
     
@@ -65080,12 +65080,12 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       
       
               cols[0].updateDefinition({title:'Ren',width:5,headerTooltip:''});
-              cols[1].updateDefinition({title:'Nombre',width:100,responsive:0,headerTooltip:'Nombre'});
-              cols[2].updateDefinition({title:'Articulo',width:100,responsive:0,headerTooltip:'Articulo'});
-              cols[3].updateDefinition({title:'Importe',width:75,responsive:0,headerTooltip:'Importe'});
+              cols[1].updateDefinition({title:'Nombre',width:100,responsive:0,headerTooltip:'Nombre',headerFilter:"input"});
+              cols[2].updateDefinition({title:'Articulo',width:100,responsive:0,headerTooltip:'Articulo',headerFilter:"input"});
+              cols[3].updateDefinition({title:'Importe',width:75,responsive:0,headerTooltip:'Importe',headerFilter:"input"});
               cols[4].updateDefinition({title:'P.',width:35,headerTooltip:'Pagado',editor:true, formatter:"tickCross"});
               cols[5].updateDefinition({title:'E.',width:35,headerTooltip:'Entregado',editor:true, formatter:"tickCross"});
-              cols[6].updateDefinition({title:'VD/SUB',width:70,headerTooltip:'Vta.Directa /Subasta'});
+              cols[6].updateDefinition({title:'VD/SUB',width:70,headerTooltip:'Vta.Directa /Subasta',headerFilter:"input"});
       this.lbarchivo.SetText("");
     };
     this.LoadDFMValues = function () {
