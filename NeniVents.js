@@ -63178,6 +63178,91 @@ rtl.module("WEBLib.SideMenu",["System","Classes","SysUtils","Types","WEBLib.Cont
 rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","WEBLib.Controls","WEBLib.Forms","WEBLib.Dialogs","WEBLib.Controls","WEBLib.WebCtrls","WEBLib.StdCtrls","WEBLib.StdCtrls","WEBLib.ExtCtrls","WEBLib.REST","WEBLib.JQCtrls","WEBLib.SideMenu","WEBLib.Menus","WEBLib.Menus"],function () {
   "use strict";
   var $mod = this;
+  this.cargarUsuarios = function () {
+    var i = 0;
+    //********************************************************************************
+     //********************************************************************************
+     //        const sqlPromise = initSqlJs({
+     //       locateFile: file => 'https://idsfdg.github.io/FIDEVALE/'
+     //     });
+     //        const dataPromise = fetch("//idsfdg.github.io/FIDEVALE/BD_Vale.db").then(res => res.arrayBuffer());
+     //        const [SQL, buf] = await Promise.all([sqlPromise, dataPromise])
+     //        const db = new SQL.Database(new Uint8Array(buf));
+     //   alert('fech');
+     //********************************************************************************
+     //********************************************************************************
+    
+      const xhr = new XMLHttpRequest();
+    
+    // For example: https://github.com/lerocha/chinook-database/raw/master/ChinookDatabase/DataSources/Chinook_Sqlite.sqlite
+    //xhr.open('GET', 'https://idsfdg.github.io/ReportesTXT/Base1.db', true);
+      xhr.open('GET', 'https://idsfdg.github.io/FIDEVALE/BD_Vale.db', true);
+    //alert('1');
+    xhr.responseType = 'arraybuffer';
+    //alert('2');
+     xhr.onload =  e => {
+      const uInt8Array = new Uint8Array(xhr.response);
+    //   alert('3');
+      const db = new SQL.Database(uInt8Array);
+    //   alert('4');
+    
+     //********************************************************************************
+     //SELECT SQL *********************************************************************
+     //********************************************************************************
+    
+     // const  contents =   db.exec("SELECT contrapwd,estado FROM tablausuarios where nombre = '"+ustr+"';");
+      const  contents =   db.exec("SELECT nombre,contrapwd,estado FROM tablausuarios;");
+     //********************************************************************************
+     //********************************************************************************
+    
+      // contents is now [{columns:['col1','col2',...], values:[[first row], [second row], ...]}]
+       if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+        // Request finished. Do processing here.
+    
+         var len = contents.length;
+         console.log('contents');
+        console.log(contents.length);
+         if (len > 0)
+         {
+          console.log(contents);
+          console.log('contents columns');
+          console.log(contents[0].columns);
+          console.log('contents values');
+          console.log(contents[0].values);
+          var len2 = contents[0].values.length;
+          if (len2 > 0)
+          {
+              for (var i = 0; i < len2; i++) {
+                 var u =contents[0].values[i][0];
+                 var p =contents[0].values[i][1];
+                 var e =contents[0].values[i][2];
+                 console.log(u);
+                 console.log(p);
+                 console.log(e);
+               //  lista[(i*len2)+0]=u;
+               //  lista[(i*len2)+1]=p;
+               //  lista[(i*len2)+2]=e;
+    
+                const edBox = document.getElementById("tabla");
+              // Set the text content of the editbox
+                 edBox.value = edBox.value+u+"\r"+p+"\r"+e+"\r";
+              }
+             }   //values
+            // console.log('lista*****');
+            //  for (var i = 0; i < 10; i++) {
+            //  console.log(lista[i]);
+               //  WebMemo1.lines.add(lista[i]);
+             //}
+         }  //contents
+      } // readyState
+    //alert('5');
+    
+    
+     //********************************************************************************
+     //********************************************************************************
+    };
+    xhr.send();
+  };
   this.IniciarHoja = function () {
     var selpacid = "";
     var selpacnom = "";
@@ -66125,30 +66210,280 @@ rtl.module("WEBLib.Login",["System","Classes","SysUtils","Types","WEBLib.Control
     rtl.addIntf(this,pas.System.IUnknown);
   });
 });
-rtl.module("uFormaLogin",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","WEBLib.Controls","WEBLib.Forms","WEBLib.Dialogs","WEBLib.Controls","WEBLib.Login","Unit1"],function () {
+rtl.module("uFormaLogin",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","WEBLib.Controls","WEBLib.Forms","WEBLib.Dialogs","WEBLib.Controls","WEBLib.Login","Unit1","WEBLib.StdCtrls","WEBLib.StdCtrls","WEBLib.REST","WEBLib.JSON","uCargarConsultas"],function () {
   "use strict";
   var $mod = this;
+  var $impl = $mod.$impl;
   rtl.createClass(this,"TFormaLogin",pas["WEBLib.Forms"].TForm,function () {
     this.$init = function () {
       pas["WEBLib.Forms"].TForm.$init.call(this);
       this.WebLoginPanel1 = null;
+      this.WebMessageDlg1 = null;
+      this.WebMemo1 = null;
+      this.WebHttpRequest1 = null;
+      this.WebButton1 = null;
     };
     this.$final = function () {
       this.WebLoginPanel1 = undefined;
+      this.WebMessageDlg1 = undefined;
+      this.WebMemo1 = undefined;
+      this.WebHttpRequest1 = undefined;
+      this.WebButton1 = undefined;
       pas["WEBLib.Forms"].TForm.$final.call(this);
     };
     this.WebLoginPanel1Click = function (Sender) {
-      this.Close();
-      pas["WEBLib.Forms"].Application.CreateForm(pas.Unit1.TForm1,{p: pas.Unit1, get: function () {
-          return this.p.Form1;
-        }, set: function (v) {
-          this.p.Form1 = v;
-        }});
+    };
+    this.WebLoginPanel1Login = async function (Sender) {
+      var u = "";
+      var p = "";
+      var mr = 0;
+      var resultado = false;
+      var lBuffer = 0;
+      this.WebMemo1.SetText("");
+      this.WebMemo1.FLines.Clear();
+      u = this.WebLoginPanel1.GetUser();
+      p = this.WebLoginPanel1.GetPassword();
+      $impl.fusuariook = false;
+      resultado = await this.ValidarUsuario(u,p);
+    };
+    this.WebButton1Click = function (Sender) {
+      this.WebHttpRequest1.FURL = "https://idsfdg.github.io/FIDEVALE/usuarios.txt";
+      this.WebHttpRequest1.Execute(null);
+    };
+    this.WebHttpRequest1Response = function (Sender, AResponse) {
+      var ja = null;
+      var sJson = "";
+      var BigSampleData = "";
+      sJson = AResponse;
+      this.WebMemo1.FLines.Add(AResponse);
+      ja = rtl.as(pas["WEBLib.JSON"].TJSONObject.ParseJSONValue(AResponse),pas["WEBLib.JSON"].TJSONArray);
+      var JS_Array = JSON.parse(Aresponse);
+      console.log('JS Array = '+JSON.stringify(JS_Array));
+    };
+    this.WebFormCreate = function (Sender) {
+      var i = 0;
+    };
+    this.WebMemo1Change = function (Sender) {
+      pas["WEBLib.Dialogs"].ShowMessage("on change");
+    };
+    this.ValidarUsuario = async function (u, p) {
+      var Result = false;
+      var ustr = "";
+      var pstr = "";
+      var astr = "";
+      var jresult = false;
+      Result = false;
+      jresult = false;
+      ustr = pas.SysUtils.TStringHelper.UpperCase(u);
+      //********************************************************************************
+       //********************************************************************************
+       //        const sqlPromise = initSqlJs({
+       //       locateFile: file => 'https://idsfdg.github.io/FIDEVALE/'
+       //     });
+       //        const dataPromise = fetch("//idsfdg.github.io/FIDEVALE/BD_Vale.db").then(res => res.arrayBuffer());
+       //        const [SQL, buf] = await Promise.all([sqlPromise, dataPromise])
+       //        const db = new SQL.Database(new Uint8Array(buf));
+       //   alert('fech');
+       //********************************************************************************
+       //********************************************************************************
+      
+        const xhr = new XMLHttpRequest();
+      
+      // For example: https://github.com/lerocha/chinook-database/raw/master/ChinookDatabase/DataSources/Chinook_Sqlite.sqlite
+      //xhr.open('GET', 'https://idsfdg.github.io/ReportesTXT/Base1.db', true);
+        xhr.open('GET', 'https://idsfdg.github.io/FIDEVALE/BD_Vale.db', true);
+      //alert('1');
+      xhr.responseType = 'arraybuffer';
+      //alert('2');
+       xhr.onload =  e => {
+        const uInt8Array = new Uint8Array(xhr.response);
+       // console.log  ('array',uInt8Array);
+      //   alert('3');
+        const db = new SQL.Database(uInt8Array);
+      //   alert('4');
+      
+       //********************************************************************************
+       //SELECT SQL *********************************************************************
+       //********************************************************************************
+       
+        const  contents =   db.exec("SELECT contrapwd,estado FROM tablausuarios where nombre = '"+ustr+"';");
+       //********************************************************************************
+       //********************************************************************************
+      
+        // contents is now [{columns:['col1','col2',...], values:[[first row], [second row], ...]}]
+         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+          // Request finished. Do processing here.
+      
+           var len = contents.length;
+           console.log('contents');
+          console.log(contents.length);
+           if (len > 0)
+           {
+            console.log(contents);
+            console.log('contents columns');
+            console.log(contents[0].columns);
+            console.log('contents values');
+            console.log(contents[0].values);
+            len = contents[0].values.length;
+            if (len > 0)
+            {
+             //  alert('usuario existe');
+               pstr= contents[0].values[0][0];
+               astr= contents[0].values[0][1];
+               console.log('pwd',pstr);
+               console.log('astr',astr);
+              // const edBox = document.getElementById("tabla");
+               if (pstr==p  && astr=="1")
+               {
+                  jresult=true;
+                 // WebMemo1.text = pwd+astr;
+      
+                 //Set the text content of the editbox
+                 //  edBox.value = "OK";
+               }
+               else
+               {
+                    jresult=false;
+                //   edBox.value = "NOT OK";
+               }
+      
+      
+            }
+         }
+        } // readyState
+        console.log('resultado 1',jresult);
+      //alert('5');
+      if (jresult === true) {
+        Result = true;
+        this.Close();
+        pas["WEBLib.Forms"].Application.CreateForm(pas.Unit1.TForm1,{p: pas.Unit1, get: function () {
+            return this.p.Form1;
+          }, set: function (v) {
+            this.p.Form1 = v;
+          }});
+      } else {
+        Result = false;
+        pas["WEBLib.Dialogs"].ShowMessage("Usuario no tiene autorización para entrar al sistema");
+      };
+      //********************************************************************************
+       //********************************************************************************
+      };
+      
+      xhr.send();
+      return Result;
+    };
+    this.ThisMethodIsAsync = async function () {
+      var $Self = this;
+      var Result = null;
+      Result = new Promise(function (ASuccess, AFailed) {
+        ASuccess(7);
+        pas["WEBLib.Dialogs"].ShowMessage("termino");
+      });
+      return Result;
+    };
+    this.ValidarUsuario2 = async function () {
+      var $Self = this;
+      var Result = null;
+      var ustr = "";
+      var pstr = "";
+      var astr = "";
+      var jresult = false;
+      var u = "";
+      var p = "";
+      u = this.WebLoginPanel1.GetUser();
+      p = this.WebLoginPanel1.GetPassword();
+      jresult = false;
+      ustr = pas.SysUtils.TStringHelper.UpperCase(u);
+      Result = new Promise(function (ASuccess, AFailed) {
+        //********************************************************************************
+         //********************************************************************************
+         //        const sqlPromise = initSqlJs({
+         //       locateFile: file => 'https://idsfdg.github.io/FIDEVALE/'
+         //     });
+         //        const dataPromise = fetch("//idsfdg.github.io/FIDEVALE/BD_Vale.db").then(res => res.arrayBuffer());
+         //        const [SQL, buf] = await Promise.all([sqlPromise, dataPromise])
+         //        const db = new SQL.Database(new Uint8Array(buf));
+         //   alert('fech');
+         //********************************************************************************
+         //********************************************************************************
+        
+          const xhr = new XMLHttpRequest();
+        
+        // For example: https://github.com/lerocha/chinook-database/raw/master/ChinookDatabase/DataSources/Chinook_Sqlite.sqlite
+        //xhr.open('GET', 'https://idsfdg.github.io/ReportesTXT/Base1.db', true);
+          xhr.open('GET', 'https://idsfdg.github.io/FIDEVALE/BD_Vale.db', true);
+        //alert('1');
+        xhr.responseType = 'arraybuffer';
+        //alert('2');
+         xhr.onload =  e => {
+          const uInt8Array = new Uint8Array(xhr.response);
+        //   alert('3');
+          const db = new SQL.Database(uInt8Array);
+        //   alert('4');
+        
+         //********************************************************************************
+         //SELECT SQL *********************************************************************
+         //********************************************************************************
+        
+          const  contents =   db.exec("SELECT contrapwd,estado FROM tablausuarios where nombre = '"+ustr+"';");
+         //********************************************************************************
+         //********************************************************************************
+        
+          // contents is now [{columns:['col1','col2',...], values:[[first row], [second row], ...]}]
+           if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+            // Request finished. Do processing here.
+        
+             var len = contents.length;
+             console.log('contents');
+            console.log(contents.length);
+             if (len > 0)
+             {
+             // console.log(contents);
+             // console.log('contents columns');
+             // console.log(contents[0].columns);
+             // console.log('contents values');
+             // console.log(contents[0].values);
+              len = contents[0].values.length;
+              if (len > 0)
+              {
+               //  alert('usuario existe');
+                 pstr= contents[0].values[0][0];
+                 astr= contents[0].values[0][1];
+               //  console.log('pwd',pstr);
+               //  console.log('astr',astr);
+                 if (pstr==p  && astr=="1")
+                 {
+                    jresult=true;
+                   // WebMemo1.text = pwd+astr;
+                  // alert('jresult true');
+                    ASuccess('ok');
+                 }
+              }
+           }
+          } // readyState
+        //alert('5');
+        
+        
+         //********************************************************************************
+         //********************************************************************************
+        };
+        xhr.send();
+        $impl.fusuariook = jresult;
+      });
+      return Result;
     };
     this.LoadDFMValues = function () {
       pas["WEBLib.Forms"].TCustomForm.LoadDFMValues.call(this);
       this.WebLoginPanel1 = pas["WEBLib.Login"].TLoginPanel.$create("Create$1",[this]);
+      this.WebMessageDlg1 = pas["WEBLib.Dialogs"].TMessageDlg.$create("Create$1",[this]);
+      this.WebMemo1 = pas["WEBLib.StdCtrls"].TMemo.$create("Create$2",["tabla"]);
+      this.WebButton1 = pas["WEBLib.StdCtrls"].TButton.$create("Create$1",[this]);
+      this.WebHttpRequest1 = pas["WEBLib.REST"].THttpRequest.$create("Create$1",[this]);
       this.WebLoginPanel1.BeforeLoadDFMValues();
+      this.WebMessageDlg1.BeforeLoadDFMValues();
+      this.WebMemo1.BeforeLoadDFMValues();
+      this.WebButton1.BeforeLoadDFMValues();
+      this.WebHttpRequest1.BeforeLoadDFMValues();
       try {
         this.SetName("FormaLogin");
         this.SetWidth(674);
@@ -66162,6 +66497,7 @@ rtl.module("uFormaLogin",["System","SysUtils","Classes","JS","Web","WEBLib.Graph
         this.FFont.SetName("Tahoma");
         this.FFont.SetStyle({});
         this.SetParentFont(false);
+        this.SetEvent(this,"OnCreate","WebFormCreate");
         this.WebLoginPanel1.SetParentComponent(this);
         this.WebLoginPanel1.SetName("WebLoginPanel1");
         this.WebLoginPanel1.SetLeft(168);
@@ -66178,18 +66514,88 @@ rtl.module("uFormaLogin",["System","SysUtils","Classes","JS","Web","WEBLib.Graph
         this.WebLoginPanel1.SetPasswordLabel("Contraseña:");
         this.WebLoginPanel1.SetUserLabel("Usuario:");
         this.SetEvent$1(this.WebLoginPanel1,this,"OnClick","WebLoginPanel1Click");
+        this.SetEvent$1(this.WebLoginPanel1,this,"OnLogin","WebLoginPanel1Login");
+        this.WebMessageDlg1.SetParentComponent(this);
+        this.WebMessageDlg1.SetName("WebMessageDlg1");
+        this.WebMessageDlg1.SetLeft(48);
+        this.WebMessageDlg1.SetTop(192);
+        this.WebMessageDlg1.SetWidth(24);
+        this.WebMessageDlg1.SetHeight(24);
+        this.WebMessageDlg1.FButtons = {};
+        this.WebMessageDlg1.FOpacity = 0.200000000000000000;
+        this.WebMessageDlg1.FElementButtonClassName = "btn";
+        this.WebMessageDlg1.FElementDialogClassName = "shadow-lg p-3 mb-5 bg-white rounded";
+        this.WebMessageDlg1.FElementTitleClassName = "text-body";
+        this.WebMessageDlg1.FElementContentClassName = "text-body";
+        this.WebMemo1.SetParentComponent(this);
+        this.WebMemo1.SetName("WebMemo1");
+        this.WebMemo1.SetLeft(8);
+        this.WebMemo1.SetTop(64);
+        this.WebMemo1.SetWidth(154);
+        this.WebMemo1.SetHeight(105);
+        this.WebMemo1.SetElementClassName("form-control");
+        this.WebMemo1.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
+        this.WebMemo1.SetHeightPercent(100.000000000000000000);
+        this.WebMemo1.FLines.BeginUpdate();
+        try {
+          this.WebMemo1.FLines.Clear();
+          this.WebMemo1.FLines.Add("");
+        } finally {
+          this.WebMemo1.FLines.EndUpdate();
+        };
+        this.WebMemo1.SetSelLength(0);
+        this.WebMemo1.SetSelStart(2);
+        this.WebMemo1.SetVisible(false);
+        this.WebMemo1.SetWidthPercent(100.000000000000000000);
+        this.SetEvent$1(this.WebMemo1,this,"OnChange","WebMemo1Change");
+        this.WebButton1.SetParentComponent(this);
+        this.WebButton1.SetName("WebButton1");
+        this.WebButton1.SetLeft(24);
+        this.WebButton1.SetTop(243);
+        this.WebButton1.SetWidth(96);
+        this.WebButton1.SetHeight(25);
+        this.WebButton1.SetCaption("WebButton1");
+        this.WebButton1.SetChildOrderEx(3);
+        this.WebButton1.SetElementClassName("btn btn-light");
+        this.WebButton1.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
+        this.WebButton1.SetHeightStyle(pas["WEBLib.Controls"].TSizeStyle.ssAuto);
+        this.WebButton1.SetHeightPercent(100.000000000000000000);
+        this.WebButton1.SetVisible(false);
+        this.WebButton1.SetWidthPercent(100.000000000000000000);
+        this.SetEvent$1(this.WebButton1,this,"OnClick","WebButton1Click");
+        this.WebHttpRequest1.SetParentComponent(this);
+        this.WebHttpRequest1.SetName("WebHttpRequest1");
+        this.SetEvent$1(this.WebHttpRequest1,this,"OnResponse","WebHttpRequest1Response");
+        this.WebHttpRequest1.SetLeft(552);
+        this.WebHttpRequest1.SetTop(152);
       } finally {
         this.WebLoginPanel1.AfterLoadDFMValues();
+        this.WebMessageDlg1.AfterLoadDFMValues();
+        this.WebMemo1.AfterLoadDFMValues();
+        this.WebButton1.AfterLoadDFMValues();
+        this.WebHttpRequest1.AfterLoadDFMValues();
       };
     };
     rtl.addIntf(this,pas["WEBLib.Controls"].IControl);
     rtl.addIntf(this,pas.System.IUnknown);
     var $r = this.$rtti;
     $r.addField("WebLoginPanel1",pas["WEBLib.Login"].$rtti["TLoginPanel"]);
+    $r.addField("WebMessageDlg1",pas["WEBLib.Dialogs"].$rtti["TMessageDlg"]);
+    $r.addField("WebMemo1",pas["WEBLib.StdCtrls"].$rtti["TMemo"]);
+    $r.addField("WebHttpRequest1",pas["WEBLib.REST"].$rtti["THttpRequest"]);
+    $r.addField("WebButton1",pas["WEBLib.StdCtrls"].$rtti["TButton"]);
     $r.addMethod("WebLoginPanel1Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
+    $r.addMethod("WebLoginPanel1Login",0,[["Sender",pas.System.$rtti["TObject"]]],null,16,{attr: [pas.JS.AsyncAttribute,"Create"]});
+    $r.addMethod("WebButton1Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
+    $r.addMethod("WebHttpRequest1Response",0,[["Sender",pas.System.$rtti["TObject"]],["AResponse",rtl.string]]);
+    $r.addMethod("WebFormCreate",0,[["Sender",pas.System.$rtti["TObject"]]]);
+    $r.addMethod("WebMemo1Change",0,[["Sender",pas.System.$rtti["TObject"]]]);
   });
   this.FormaLogin = null;
-});
+  $mod.$implcode = function () {
+    $impl.fusuariook = false;
+  };
+},[]);
 rtl.module("program",["System","WEBLib.Forms","WEBLib.Forms","Unit1","uCargarConsultas","uFormaLogin"],function () {
   "use strict";
   var $mod = this;
