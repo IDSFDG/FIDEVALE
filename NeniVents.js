@@ -63349,7 +63349,7 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
      // height:"211px",
      //   height:"100%",
         height:"311px",
-        height:"70%",
+        height:"85%",
       spreadsheet:true,
       spreadsheetRows:10,
       spreadsheetColumns:6,
@@ -63521,6 +63521,7 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
         paginationSize:10,
         paginationSizeSelector:[5, 10, 15],
         pagination:false, //true,
+    
        // paginationElement:paginacionSCR, //build pagination controls in this element
     
         responsiveLayout:true, // enable responsive layouts
@@ -63934,32 +63935,17 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
   rtl.createClass(this,"TForm1",pas["WEBLib.Forms"].TForm,function () {
     this.$init = function () {
       pas["WEBLib.Forms"].TForm.$init.call(this);
-      this.WebPanel1 = null;
-      this.WebButton2 = null;
-      this.WebButton1 = null;
-      this.WebButton3 = null;
       this.WebHttpRequest1 = null;
       this.WebMemo1 = null;
-      this.WebButton4 = null;
       this.WebDiv = null;
-      this.WebButton5 = null;
-      this.WebPanel2 = null;
       this.WebPanel3 = null;
-      this.WebMessageDlg1 = null;
-      this.WebButton6 = null;
       this.WebPanel4 = null;
-      this.btn_imprimir = null;
-      this.btn_exportar = null;
-      this.btn_exportall = null;
-      this.WebButton7 = null;
-      this.WebButton8 = null;
       this.WebMainMenu1 = null;
       this.WebButton9 = null;
       this.PDF2 = null;
       this.PDF3 = null;
       this.Exportar1 = null;
       this.Exportar2 = null;
-      this.WebButton10 = null;
       this.WebPanel5 = null;
       this.Archivo1 = null;
       this.Pacientes1 = null;
@@ -63986,39 +63972,24 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.WebButton11 = null;
       this.WebButton12 = null;
       this.WebButton13 = null;
-      this.WebScrollBox1 = null;
       this.AnlisisGrfico1 = null;
       this.Salir1 = null;
       this.LimpiarHoja1 = null;
       this.lbarchivo = null;
+      this.WebScrollBox1 = null;
     };
     this.$final = function () {
-      this.WebPanel1 = undefined;
-      this.WebButton2 = undefined;
-      this.WebButton1 = undefined;
-      this.WebButton3 = undefined;
       this.WebHttpRequest1 = undefined;
       this.WebMemo1 = undefined;
-      this.WebButton4 = undefined;
       this.WebDiv = undefined;
-      this.WebButton5 = undefined;
-      this.WebPanel2 = undefined;
       this.WebPanel3 = undefined;
-      this.WebMessageDlg1 = undefined;
-      this.WebButton6 = undefined;
       this.WebPanel4 = undefined;
-      this.btn_imprimir = undefined;
-      this.btn_exportar = undefined;
-      this.btn_exportall = undefined;
-      this.WebButton7 = undefined;
-      this.WebButton8 = undefined;
       this.WebMainMenu1 = undefined;
       this.WebButton9 = undefined;
       this.PDF2 = undefined;
       this.PDF3 = undefined;
       this.Exportar1 = undefined;
       this.Exportar2 = undefined;
-      this.WebButton10 = undefined;
       this.WebPanel5 = undefined;
       this.Archivo1 = undefined;
       this.Pacientes1 = undefined;
@@ -64045,11 +64016,11 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.WebButton11 = undefined;
       this.WebButton12 = undefined;
       this.WebButton13 = undefined;
-      this.WebScrollBox1 = undefined;
       this.AnlisisGrfico1 = undefined;
       this.Salir1 = undefined;
       this.LimpiarHoja1 = undefined;
       this.lbarchivo = undefined;
+      this.WebScrollBox1 = undefined;
       pas["WEBLib.Forms"].TForm.$final.call(this);
     };
     this.WebButton1Click = function (Sender) {
@@ -65093,21 +65064,6 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.WebDiv = pas["WEBLib.WebCtrls"].THTMLDiv.$create("Create$2",["tabExample"]);
       this.WebMemo1 = pas["WEBLib.StdCtrls"].TMemo.$create("Create$1",[this]);
       this.WebPanel5 = pas["WEBLib.ExtCtrls"].TPanel.$create("Create$1",[this]);
-      this.WebPanel1 = pas["WEBLib.ExtCtrls"].TPanel.$create("Create$2",["paginationElement"]);
-      this.WebButton2 = pas["WEBLib.StdCtrls"].TButton.$create("Create$1",[this]);
-      this.WebButton1 = pas["WEBLib.StdCtrls"].TButton.$create("Create$1",[this]);
-      this.WebButton3 = pas["WEBLib.StdCtrls"].TButton.$create("Create$1",[this]);
-      this.WebButton4 = pas["WEBLib.StdCtrls"].TButton.$create("Create$1",[this]);
-      this.WebButton5 = pas["WEBLib.StdCtrls"].TButton.$create("Create$1",[this]);
-      this.WebPanel2 = pas["WEBLib.ExtCtrls"].TPanel.$create("Create$1",[this]);
-      this.WebMessageDlg1 = pas["WEBLib.Dialogs"].TMessageDlg.$create("Create$1",[this]);
-      this.WebButton6 = pas["WEBLib.StdCtrls"].TButton.$create("Create$1",[this]);
-      this.btn_imprimir = pas["WEBLib.StdCtrls"].TButton.$create("Create$1",[this]);
-      this.btn_exportar = pas["WEBLib.StdCtrls"].TButton.$create("Create$1",[this]);
-      this.btn_exportall = pas["WEBLib.StdCtrls"].TButton.$create("Create$1",[this]);
-      this.WebButton7 = pas["WEBLib.StdCtrls"].TButton.$create("Create$2",["exportbtn"]);
-      this.WebButton8 = pas["WEBLib.StdCtrls"].TButton.$create("Create$1",[this]);
-      this.WebButton10 = pas["WEBLib.StdCtrls"].TButton.$create("Create$1",[this]);
       this.WebPanel3 = pas["WEBLib.ExtCtrls"].TPanel.$create("Create$2",["table-tabs"]);
       this.WebPanel4 = pas["WEBLib.ExtCtrls"].TPanel.$create("Create$1",[this]);
       this.WebLabel1 = pas["WEBLib.StdCtrls"].TLabel.$create("Create$1",[this]);
@@ -65150,21 +65106,6 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.WebDiv.BeforeLoadDFMValues();
       this.WebMemo1.BeforeLoadDFMValues();
       this.WebPanel5.BeforeLoadDFMValues();
-      this.WebPanel1.BeforeLoadDFMValues();
-      this.WebButton2.BeforeLoadDFMValues();
-      this.WebButton1.BeforeLoadDFMValues();
-      this.WebButton3.BeforeLoadDFMValues();
-      this.WebButton4.BeforeLoadDFMValues();
-      this.WebButton5.BeforeLoadDFMValues();
-      this.WebPanel2.BeforeLoadDFMValues();
-      this.WebMessageDlg1.BeforeLoadDFMValues();
-      this.WebButton6.BeforeLoadDFMValues();
-      this.btn_imprimir.BeforeLoadDFMValues();
-      this.btn_exportar.BeforeLoadDFMValues();
-      this.btn_exportall.BeforeLoadDFMValues();
-      this.WebButton7.BeforeLoadDFMValues();
-      this.WebButton8.BeforeLoadDFMValues();
-      this.WebButton10.BeforeLoadDFMValues();
       this.WebPanel3.BeforeLoadDFMValues();
       this.WebPanel4.BeforeLoadDFMValues();
       this.WebLabel1.BeforeLoadDFMValues();
@@ -65221,9 +65162,9 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebDiv.SetParentComponent(this);
         this.WebDiv.SetName("WebDiv");
         this.WebDiv.SetLeft(0);
-        this.WebDiv.SetTop(137);
+        this.WebDiv.SetTop(89);
         this.WebDiv.SetWidth(701);
-        this.WebDiv.SetHeight(199);
+        this.WebDiv.SetHeight(353);
         this.WebDiv.SetElementClassName("table-striped");
         this.WebDiv.SetAlign(pas["WEBLib.Controls"].TAlign.alClient);
         this.WebDiv.SetChildOrderEx(1);
@@ -65263,209 +65204,6 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebPanel5.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
         this.WebPanel5.SetTabOrder(1);
         this.WebPanel5.SetVisible(false);
-        this.WebPanel1.SetParentComponent(this);
-        this.WebPanel1.SetName("WebPanel1");
-        this.WebPanel1.SetLeft(0);
-        this.WebPanel1.SetTop(428);
-        this.WebPanel1.SetWidth(701);
-        this.WebPanel1.SetHeight(32);
-        this.WebPanel1.SetElementClassName("card");
-        this.WebPanel1.SetAlign(pas["WEBLib.Controls"].TAlign.alBottom);
-        this.WebPanel1.SetChildOrderEx(4);
-        this.WebPanel1.FElementBodyClassName = "card-body";
-        this.WebPanel1.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
-        this.WebPanel1.SetTabOrder(1);
-        this.WebPanel1.SetVisible(false);
-        this.WebButton2.SetParentComponent(this.WebPanel1);
-        this.WebButton2.SetName("WebButton2");
-        this.WebButton2.SetLeft(118);
-        this.WebButton2.SetTop(3);
-        this.WebButton2.SetWidth(96);
-        this.WebButton2.SetHeight(25);
-        this.WebButton2.SetCaption("Ajax Hoja");
-        this.WebButton2.SetChildOrderEx(2);
-        this.WebButton2.SetElementClassName("btn btn-light");
-        this.WebButton2.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
-        this.WebButton2.SetHeightStyle(pas["WEBLib.Controls"].TSizeStyle.ssAuto);
-        this.WebButton2.SetHeightPercent(100.000000000000000000);
-        this.WebButton2.SetVisible(false);
-        this.WebButton2.SetWidthPercent(100.000000000000000000);
-        this.WebButton1.SetParentComponent(this.WebPanel1);
-        this.WebButton1.SetName("WebButton1");
-        this.WebButton1.SetLeft(16);
-        this.WebButton1.SetTop(3);
-        this.WebButton1.SetWidth(96);
-        this.WebButton1.SetHeight(25);
-        this.WebButton1.SetCaption("ver Hoja");
-        this.WebButton1.SetChildOrderEx(1);
-        this.WebButton1.SetElementClassName("btn btn-light");
-        this.WebButton1.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
-        this.WebButton1.SetHeightStyle(pas["WEBLib.Controls"].TSizeStyle.ssAuto);
-        this.WebButton1.SetHeightPercent(100.000000000000000000);
-        this.WebButton1.SetVisible(false);
-        this.WebButton1.SetWidthPercent(100.000000000000000000);
-        this.WebButton3.SetParentComponent(this.WebPanel1);
-        this.WebButton3.SetName("WebButton3");
-        this.WebButton3.SetLeft(0);
-        this.WebButton3.SetTop(0);
-        this.WebButton3.SetWidth(701);
-        this.WebButton3.SetHeight(25);
-        this.WebButton3.SetAlign(pas["WEBLib.Controls"].TAlign.alTop);
-        this.WebButton3.SetCaption("*Llama API OK");
-        this.WebButton3.SetChildOrderEx(3);
-        this.WebButton3.SetElementClassName("btn btn-light");
-        this.WebButton3.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
-        this.WebButton3.SetHeightStyle(pas["WEBLib.Controls"].TSizeStyle.ssAuto);
-        this.WebButton3.SetHeightPercent(100.000000000000000000);
-        this.WebButton3.SetVisible(false);
-        this.WebButton3.SetWidthPercent(100.000000000000000000);
-        this.SetEvent$1(this.WebButton3,this,"OnClick","WebButton3Click");
-        this.WebButton4.SetParentComponent(this.WebPanel1);
-        this.WebButton4.SetName("WebButton4");
-        this.WebButton4.SetLeft(502);
-        this.WebButton4.SetTop(2);
-        this.WebButton4.SetWidth(96);
-        this.WebButton4.SetHeight(25);
-        this.WebButton4.SetCaption("ajax");
-        this.WebButton4.SetChildOrderEx(3);
-        this.WebButton4.SetElementClassName("btn btn-light");
-        this.WebButton4.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
-        this.WebButton4.SetHeightStyle(pas["WEBLib.Controls"].TSizeStyle.ssAuto);
-        this.WebButton4.SetHeightPercent(100.000000000000000000);
-        this.WebButton4.SetVisible(false);
-        this.WebButton4.SetWidthPercent(100.000000000000000000);
-        this.SetEvent$1(this.WebButton4,this,"OnClick","WebButton4Click");
-        this.WebButton5.SetParentComponent(this.WebPanel1);
-        this.WebButton5.SetName("WebButton5");
-        this.WebButton5.SetLeft(400);
-        this.WebButton5.SetTop(6);
-        this.WebButton5.SetWidth(96);
-        this.WebButton5.SetHeight(25);
-        this.WebButton5.SetCaption("AgregaHoja");
-        this.WebButton5.SetChildOrderEx(4);
-        this.WebButton5.SetElementClassName("btn btn-light");
-        this.WebButton5.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
-        this.WebButton5.SetHeightStyle(pas["WEBLib.Controls"].TSizeStyle.ssAuto);
-        this.WebButton5.SetHeightPercent(100.000000000000000000);
-        this.WebButton5.SetVisible(false);
-        this.WebButton5.SetWidthPercent(100.000000000000000000);
-        this.WebPanel2.SetParentComponent(this);
-        this.WebPanel2.SetName("WebPanel2");
-        this.WebPanel2.SetLeft(0);
-        this.WebPanel2.SetTop(400);
-        this.WebPanel2.SetWidth(701);
-        this.WebPanel2.SetHeight(28);
-        this.WebPanel2.SetElementClassName("card");
-        this.WebPanel2.SetAlign(pas["WEBLib.Controls"].TAlign.alBottom);
-        this.WebPanel2.SetChildOrderEx(2);
-        this.WebPanel2.FElementBodyClassName = "card-body";
-        this.WebPanel2.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
-        this.WebPanel2.SetTabOrder(2);
-        this.WebPanel2.SetVisible(false);
-        this.WebMessageDlg1.SetParentComponent(this.WebPanel2);
-        this.WebMessageDlg1.SetName("WebMessageDlg1");
-        this.WebMessageDlg1.SetLeft(600);
-        this.WebMessageDlg1.SetTop(0);
-        this.WebMessageDlg1.SetWidth(24);
-        this.WebMessageDlg1.SetHeight(24);
-        this.WebMessageDlg1.FButtons = {};
-        this.WebMessageDlg1.FOpacity = 0.200000000000000000;
-        this.WebMessageDlg1.FElementButtonClassName = "btn";
-        this.WebMessageDlg1.FElementDialogClassName = "shadow-lg p-3 mb-5 bg-white rounded";
-        this.WebMessageDlg1.FElementTitleClassName = "text-body";
-        this.WebMessageDlg1.FElementContentClassName = "text-body";
-        this.WebButton6.SetParentComponent(this.WebPanel2);
-        this.WebButton6.SetName("WebButton6");
-        this.WebButton6.SetLeft(16);
-        this.WebButton6.SetTop(0);
-        this.WebButton6.SetWidth(96);
-        this.WebButton6.SetHeight(25);
-        this.WebButton6.SetCaption("columnas");
-        this.WebButton6.SetChildOrderEx(1);
-        this.WebButton6.SetElementClassName("btn btn-light");
-        this.WebButton6.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
-        this.WebButton6.SetHeightStyle(pas["WEBLib.Controls"].TSizeStyle.ssAuto);
-        this.WebButton6.SetHeightPercent(100.000000000000000000);
-        this.WebButton6.SetVisible(false);
-        this.WebButton6.SetWidthPercent(100.000000000000000000);
-        this.btn_imprimir.SetParentComponent(this.WebPanel2);
-        this.btn_imprimir.SetName("btn_imprimir");
-        this.btn_imprimir.SetLeft(118);
-        this.btn_imprimir.SetTop(-3);
-        this.btn_imprimir.SetWidth(96);
-        this.btn_imprimir.SetHeight(25);
-        this.btn_imprimir.SetCaption("Imprimir");
-        this.btn_imprimir.SetChildOrderEx(2);
-        this.btn_imprimir.SetElementClassName("btn btn-light");
-        this.btn_imprimir.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
-        this.btn_imprimir.SetHeightStyle(pas["WEBLib.Controls"].TSizeStyle.ssAuto);
-        this.btn_imprimir.SetHeightPercent(100.000000000000000000);
-        this.btn_imprimir.SetWidthPercent(100.000000000000000000);
-        this.btn_exportar.SetParentComponent(this.WebPanel2);
-        this.btn_exportar.SetName("btn_exportar");
-        this.btn_exportar.SetLeft(220);
-        this.btn_exportar.SetTop(0);
-        this.btn_exportar.SetWidth(96);
-        this.btn_exportar.SetHeight(25);
-        this.btn_exportar.SetCaption("Exportar");
-        this.btn_exportar.SetChildOrderEx(3);
-        this.btn_exportar.SetElementClassName("btn btn-light");
-        this.btn_exportar.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
-        this.btn_exportar.SetHeightStyle(pas["WEBLib.Controls"].TSizeStyle.ssAuto);
-        this.btn_exportar.SetHeightPercent(100.000000000000000000);
-        this.btn_exportar.SetWidthPercent(100.000000000000000000);
-        this.btn_exportall.SetParentComponent(this.WebPanel2);
-        this.btn_exportall.SetName("btn_exportall");
-        this.btn_exportall.SetLeft(322);
-        this.btn_exportall.SetTop(0);
-        this.btn_exportall.SetWidth(96);
-        this.btn_exportall.SetHeight(25);
-        this.btn_exportall.SetCaption("ExportarTodo");
-        this.btn_exportall.SetChildOrderEx(4);
-        this.btn_exportall.SetElementClassName("btn btn-light");
-        this.btn_exportall.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
-        this.btn_exportall.SetHeightStyle(pas["WEBLib.Controls"].TSizeStyle.ssAuto);
-        this.btn_exportall.SetHeightPercent(100.000000000000000000);
-        this.btn_exportall.SetWidthPercent(100.000000000000000000);
-        this.WebButton7.SetParentComponent(this.WebPanel2);
-        this.WebButton7.SetName("WebButton7");
-        this.WebButton7.SetLeft(416);
-        this.WebButton7.SetTop(0);
-        this.WebButton7.SetWidth(129);
-        this.WebButton7.SetHeight(25);
-        this.WebButton7.SetCaption("ExportarTodo2");
-        this.WebButton7.SetChildOrderEx(4);
-        this.WebButton7.SetElementClassName("btn btn-light");
-        this.WebButton7.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
-        this.WebButton7.SetHeightStyle(pas["WEBLib.Controls"].TSizeStyle.ssAuto);
-        this.WebButton7.SetHeightPercent(100.000000000000000000);
-        this.WebButton7.SetWidthPercent(100.000000000000000000);
-        this.WebButton8.SetParentComponent(this.WebPanel2);
-        this.WebButton8.SetName("WebButton8");
-        this.WebButton8.SetLeft(551);
-        this.WebButton8.SetTop(0);
-        this.WebButton8.SetWidth(116);
-        this.WebButton8.SetHeight(25);
-        this.WebButton8.SetCaption("descargarExcel");
-        this.WebButton8.SetChildOrderEx(5);
-        this.WebButton8.SetElementClassName("btn btn-light");
-        this.WebButton8.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
-        this.WebButton8.SetHeightStyle(pas["WEBLib.Controls"].TSizeStyle.ssAuto);
-        this.WebButton8.SetHeightPercent(100.000000000000000000);
-        this.WebButton8.SetWidthPercent(100.000000000000000000);
-        this.WebButton10.SetParentComponent(this.WebPanel2);
-        this.WebButton10.SetName("WebButton10");
-        this.WebButton10.SetLeft(560);
-        this.WebButton10.SetTop(32);
-        this.WebButton10.SetWidth(96);
-        this.WebButton10.SetHeight(25);
-        this.WebButton10.SetCaption("descargarPdf");
-        this.WebButton10.SetChildOrderEx(7);
-        this.WebButton10.SetElementClassName("btn btn-light");
-        this.WebButton10.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
-        this.WebButton10.SetHeightStyle(pas["WEBLib.Controls"].TSizeStyle.ssAuto);
-        this.WebButton10.SetHeightPercent(100.000000000000000000);
-        this.WebButton10.SetWidthPercent(100.000000000000000000);
         this.WebPanel3.SetParentComponent(this);
         this.WebPanel3.SetName("WebPanel3");
         this.WebPanel3.SetLeft(0);
@@ -65477,20 +65215,20 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebPanel3.SetChildOrderEx(3);
         this.WebPanel3.FElementBodyClassName = "card-body";
         this.WebPanel3.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
-        this.WebPanel3.SetTabOrder(3);
+        this.WebPanel3.SetTabOrder(1);
         this.WebPanel4.SetParentComponent(this);
         this.WebPanel4.SetName("WebPanel4");
         this.WebPanel4.SetLeft(0);
         this.WebPanel4.SetTop(49);
         this.WebPanel4.SetWidth(701);
-        this.WebPanel4.SetHeight(88);
+        this.WebPanel4.SetHeight(40);
         this.WebPanel4.SetElementClassName("card");
         this.WebPanel4.SetAlign(pas["WEBLib.Controls"].TAlign.alTop);
         this.WebPanel4.SetChildOrderEx(1);
         this.WebPanel4.SetColor(12695295);
         this.WebPanel4.FElementBodyClassName = "card-body";
         this.WebPanel4.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
-        this.WebPanel4.SetTabOrder(4);
+        this.WebPanel4.SetTabOrder(2);
         this.WebPanel4.SetVisible(false);
         this.WebLabel1.SetParentComponent(this.WebPanel4);
         this.WebLabel1.SetName("WebLabel1");
@@ -65627,15 +65365,16 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebScrollBox1.SetParentComponent(this);
         this.WebScrollBox1.SetName("WebScrollBox1");
         this.WebScrollBox1.SetLeft(0);
-        this.WebScrollBox1.SetTop(336);
+        this.WebScrollBox1.SetTop(442);
         this.WebScrollBox1.SetWidth(701);
-        this.WebScrollBox1.SetHeight(64);
+        this.WebScrollBox1.SetHeight(18);
         this.WebScrollBox1.SetElementClassName("card");
         this.WebScrollBox1.SetAlign(pas["WEBLib.Controls"].TAlign.alBottom);
         this.WebScrollBox1.SetBorderStyle(pas["WEBLib.Controls"].TBorderStyle.bsSingle);
         this.WebScrollBox1.SetChildOrderEx(3);
         this.WebScrollBox1.SetColor(12695295);
         this.WebScrollBox1.SetScrollBars(pas["WEBLib.Controls"].TScrollStyle.ssHorizontal);
+        this.WebScrollBox1.SetVisible(false);
         this.WebHttpRequest1.SetParentComponent(this);
         this.WebHttpRequest1.SetName("WebHttpRequest1");
         this.SetEvent$1(this.WebHttpRequest1,this,"OnResponse","WebHttpRequest1Response");
@@ -65755,21 +65494,6 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebDiv.AfterLoadDFMValues();
         this.WebMemo1.AfterLoadDFMValues();
         this.WebPanel5.AfterLoadDFMValues();
-        this.WebPanel1.AfterLoadDFMValues();
-        this.WebButton2.AfterLoadDFMValues();
-        this.WebButton1.AfterLoadDFMValues();
-        this.WebButton3.AfterLoadDFMValues();
-        this.WebButton4.AfterLoadDFMValues();
-        this.WebButton5.AfterLoadDFMValues();
-        this.WebPanel2.AfterLoadDFMValues();
-        this.WebMessageDlg1.AfterLoadDFMValues();
-        this.WebButton6.AfterLoadDFMValues();
-        this.btn_imprimir.AfterLoadDFMValues();
-        this.btn_exportar.AfterLoadDFMValues();
-        this.btn_exportall.AfterLoadDFMValues();
-        this.WebButton7.AfterLoadDFMValues();
-        this.WebButton8.AfterLoadDFMValues();
-        this.WebButton10.AfterLoadDFMValues();
         this.WebPanel3.AfterLoadDFMValues();
         this.WebPanel4.AfterLoadDFMValues();
         this.WebLabel1.AfterLoadDFMValues();
@@ -65814,32 +65538,17 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     rtl.addIntf(this,pas["WEBLib.Controls"].IControl);
     rtl.addIntf(this,pas.System.IUnknown);
     var $r = this.$rtti;
-    $r.addField("WebPanel1",pas["WEBLib.ExtCtrls"].$rtti["TPanel"]);
-    $r.addField("WebButton2",pas["WEBLib.StdCtrls"].$rtti["TButton"]);
-    $r.addField("WebButton1",pas["WEBLib.StdCtrls"].$rtti["TButton"]);
-    $r.addField("WebButton3",pas["WEBLib.StdCtrls"].$rtti["TButton"]);
     $r.addField("WebHttpRequest1",pas["WEBLib.REST"].$rtti["THttpRequest"]);
     $r.addField("WebMemo1",pas["WEBLib.StdCtrls"].$rtti["TMemo"]);
-    $r.addField("WebButton4",pas["WEBLib.StdCtrls"].$rtti["TButton"]);
     $r.addField("WebDiv",pas["WEBLib.WebCtrls"].$rtti["THTMLDiv"]);
-    $r.addField("WebButton5",pas["WEBLib.StdCtrls"].$rtti["TButton"]);
-    $r.addField("WebPanel2",pas["WEBLib.ExtCtrls"].$rtti["TPanel"]);
     $r.addField("WebPanel3",pas["WEBLib.ExtCtrls"].$rtti["TPanel"]);
-    $r.addField("WebMessageDlg1",pas["WEBLib.Dialogs"].$rtti["TMessageDlg"]);
-    $r.addField("WebButton6",pas["WEBLib.StdCtrls"].$rtti["TButton"]);
     $r.addField("WebPanel4",pas["WEBLib.ExtCtrls"].$rtti["TPanel"]);
-    $r.addField("btn_imprimir",pas["WEBLib.StdCtrls"].$rtti["TButton"]);
-    $r.addField("btn_exportar",pas["WEBLib.StdCtrls"].$rtti["TButton"]);
-    $r.addField("btn_exportall",pas["WEBLib.StdCtrls"].$rtti["TButton"]);
-    $r.addField("WebButton7",pas["WEBLib.StdCtrls"].$rtti["TButton"]);
-    $r.addField("WebButton8",pas["WEBLib.StdCtrls"].$rtti["TButton"]);
     $r.addField("WebMainMenu1",pas["WEBLib.Menus"].$rtti["TMainMenu"]);
     $r.addField("WebButton9",pas["WEBLib.StdCtrls"].$rtti["TButton"]);
     $r.addField("PDF2",pas["WEBLib.Menus"].$rtti["TMenuItem"]);
     $r.addField("PDF3",pas["WEBLib.Menus"].$rtti["TMenuItem"]);
     $r.addField("Exportar1",pas["WEBLib.Menus"].$rtti["TMenuItem"]);
     $r.addField("Exportar2",pas["WEBLib.Menus"].$rtti["TMenuItem"]);
-    $r.addField("WebButton10",pas["WEBLib.StdCtrls"].$rtti["TButton"]);
     $r.addField("WebPanel5",pas["WEBLib.ExtCtrls"].$rtti["TPanel"]);
     $r.addField("Archivo1",pas["WEBLib.Menus"].$rtti["TMenuItem"]);
     $r.addField("Pacientes1",pas["WEBLib.Menus"].$rtti["TMenuItem"]);
@@ -65866,11 +65575,11 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     $r.addField("WebButton11",pas["WEBLib.StdCtrls"].$rtti["TButton"]);
     $r.addField("WebButton12",pas["WEBLib.StdCtrls"].$rtti["TButton"]);
     $r.addField("WebButton13",pas["WEBLib.StdCtrls"].$rtti["TButton"]);
-    $r.addField("WebScrollBox1",pas["WEBLib.ExtCtrls"].$rtti["TScrollBox"]);
     $r.addField("AnlisisGrfico1",pas["WEBLib.Menus"].$rtti["TMenuItem"]);
     $r.addField("Salir1",pas["WEBLib.Menus"].$rtti["TMenuItem"]);
     $r.addField("LimpiarHoja1",pas["WEBLib.Menus"].$rtti["TMenuItem"]);
     $r.addField("lbarchivo",pas["WEBLib.StdCtrls"].$rtti["TEdit"]);
+    $r.addField("WebScrollBox1",pas["WEBLib.ExtCtrls"].$rtti["TScrollBox"]);
     $r.addMethod("WebButton1Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("WebButton2Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("WebButton3Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
@@ -66596,7 +66305,223 @@ rtl.module("uFormaLogin",["System","SysUtils","Classes","JS","Web","WEBLib.Graph
     $impl.fusuariook = false;
   };
 },[]);
-rtl.module("program",["System","WEBLib.Forms","WEBLib.Forms","Unit1","uCargarConsultas","uFormaLogin"],function () {
+rtl.module("Unit2",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","WEBLib.Controls","WEBLib.Forms","WEBLib.Dialogs","WEBLib.WebCtrls","WEBLib.StdCtrls","WEBLib.StdCtrls","WEBLib.Controls","WEBLib.ExtCtrls"],function () {
+  "use strict";
+  var $mod = this;
+  rtl.createClass(this,"TForm2",pas["WEBLib.Forms"].TForm,function () {
+    this.$init = function () {
+      pas["WEBLib.Forms"].TForm.$init.call(this);
+      this.WebPanel1 = null;
+      this.WebButton1 = null;
+      this.WebHTMLDiv1 = null;
+      this.cargar2 = null;
+    };
+    this.$final = function () {
+      this.WebPanel1 = undefined;
+      this.WebButton1 = undefined;
+      this.WebHTMLDiv1 = undefined;
+      this.cargar2 = undefined;
+      pas["WEBLib.Forms"].TForm.$final.call(this);
+    };
+    this.WebButton1Click = function (Sender) {
+      var tabledata = [
+          {id:1, name:"Oli Bob", location:"United Kingdom", gender:"male", rating:1, col:"red", dob:"14/04/1984"},
+          {id:2, name:"Mary May", location:"Germany", gender:"female", rating:2, col:"blue", dob:"14/05/1982"},
+          {id:3, name:"Christine Lobowski", location:"France", gender:"female", rating:0, col:"green", dob:"22/05/1982"},
+          {id:4, name:"Brendon Philips", location:"USA", gender:"male", rating:1, col:"orange", dob:"01/08/1980"},
+          {id:5, name:"Margret Marmajuke", location:"Canada", gender:"female", rating:5, col:"yellow", dob:"31/01/1999"},
+          {id:6, name:"Frank Harbours", location:"Russia", gender:"male", rating:4, col:"red", dob:"12/05/1966"},
+          {id:7, name:"Jamie Newhart", location:"India", gender:"male", rating:3, col:"green", dob:"14/05/1985"},
+          {id:8, name:"Gemma Jane", location:"China", gender:"female", rating:0, col:"red", dob:"22/05/1982"},
+          {id:9, name:"Emily Sykes", location:"South Korea", gender:"female", rating:1, col:"maroon", dob:"11/11/1970"},
+          {id:10, name:"James Newman", location:"Japan", gender:"male", rating:5, col:"red", dob:"22/03/1998"},
+      ];
+      
+        tabledata=[];
+      var table = new Tabulator("#example-table", {
+            rows:10,
+            columns:6,
+            data:tabledata,
+          height:"311px",
+          layout:"fitDataFill",
+          responsiveLayout:"collapse",
+          rowHeader:{formatter:"responsiveCollapse", width:30, minWidth:30, hozAlign:"center", resizable:false, headerSort:false},
+          columns:[
+          {title:"Name", field:"name", width:200, responsive:0},
+          {title:"Progress", field:"progress", hozAlign:"right", sorter:"number", width:150},
+          {title:"Gender", field:"gender", width:150, responsive:2},
+          {title:"Rating", field:"rating", hozAlign:"center", width:150},
+          {title:"Favourite Color", field:"col", width:150},
+          {title:"Date Of Birth", field:"dob", hozAlign:"center", sorter:"date", width:150},
+          {title:"Driver", field:"car", hozAlign:"center", width:150},
+          ],
+      });
+    };
+    this.cargar2Click = function (Sender) {
+      var datos ={nombre:"", articulo:"", importe:"", pagado:"", entregado:"", vds:""};
+         var tabledata = [
+          {nombre:"", articulo:"", importe:"", pagado:"", entregado:"", vds:""}
+          ];
+         tabledata = [];
+      
+        for (let i = 0; i < 10; i++) {
+          tabledata.push(datos);
+        }
+      
+      
+            var sheets = [
+          {
+            name:'huno',
+            title:"Registro",
+            key:"uno",
+            rows:10,
+            columns:6,
+           // data:[],
+           data:tabledata,
+        },
+      
+      ];
+      
+      
+        var table = new Tabulator("#example-table", {
+      
+            rows:10,
+            columns:6,
+            data:tabledata,
+          height:"311px",
+          layout:"fitDataFill",
+          responsiveLayout:"collapse",
+          rowHeader:{formatter:"responsiveCollapse", width:30, minWidth:30, hozAlign:"center", resizable:false, headerSort:false},
+        //        spreadsheet:true,
+        //spreadsheetRows:10,
+        //spreadsheetColumns:6,
+       // spreadsheetColumnDefinition:{editable:editCheck,editor:"input"},
+      
+        //  spreadsheetSheets:sheets,        // DEFINICION HOJAS ARREGLO
+        //  spreadsheetSheetTabs:true,
+        //  spreadsheetSheetTabsElement:"#table-tabs", //insert tabs in element with id of table-tabs
+      
+      
+        //editorEmptyValue:undefined, //ensure empty values are set to undefined so they arent included in spreadsheet output data
+        editorEmptyValue:{editor:"input"},
+      
+        spreadsheetColumnDefinition:{editor:"input"}, //add an input editor to every cell
+              rowHeight:40, //set rows to 40px height
+               columns:[
+          {title:"Nombre", field:"nombre", width:150, responsive:0},
+          {title:"Articulo", field:"articulo", hozAlign:"right", sorter:"number", width:150},
+          {title:"importe", field:"importe", width:100},
+          {title:"P", field:"pagado", hozAlign:"center", width:150, responsive:2},
+          {title:"E", field:"entregado", width:150, responsive:3},
+          {title:"VD/S", field:"vds", hozAlign:"center", sorter:"date", width:150 },
+          ],
+      });
+      
+        table.on("tableBuilt", function(){
+      
+             var cols = table.getColumns() //get array of column components
+      
+            //  cols[0].updateDefinition({title:'Ren',width:5,headerTooltip:''});
+            //   cols[1].updateDefinition({title:'Nombre',width:200,responsive:0,headerTooltip:'Nombre',headerFilter:"input"});
+            //   cols[2].updateDefinition({title:'Articulo',width:150,responsive:0,headerTooltip:'Articulo',headerFilter:"input"});
+            //   cols[3].updateDefinition({title:'Importe',width:150,responsive:0,headerTooltip:'Importe',headerFilter:"input",responsive:2});
+            //   cols[4].updateDefinition({title:'P.',width:150,headerTooltip:'Pagado',editor:true, formatter:"tickCross"});
+            //   cols[5].updateDefinition({title:'E.',width:150,headerTooltip:'Entregado',editor:true, formatter:"tickCross"});
+            //   cols[6].updateDefinition({title:'VD/SUB',width:150,headerTooltip:'Vta.Directa /Subasta',headerFilter:"input"});
+          //  alert('tableBuilt');
+      
+      
+             });
+    };
+    this.LoadDFMValues = function () {
+      pas["WEBLib.Forms"].TCustomForm.LoadDFMValues.call(this);
+      this.WebPanel1 = pas["WEBLib.ExtCtrls"].TPanel.$create("Create$1",[this]);
+      this.WebButton1 = pas["WEBLib.StdCtrls"].TButton.$create("Create$1",[this]);
+      this.cargar2 = pas["WEBLib.StdCtrls"].TButton.$create("Create$1",[this]);
+      this.WebHTMLDiv1 = pas["WEBLib.WebCtrls"].THTMLDiv.$create("Create$2",["example-table"]);
+      this.WebPanel1.BeforeLoadDFMValues();
+      this.WebButton1.BeforeLoadDFMValues();
+      this.cargar2.BeforeLoadDFMValues();
+      this.WebHTMLDiv1.BeforeLoadDFMValues();
+      try {
+        this.SetName("Form2");
+        this.SetWidth(640);
+        this.SetHeight(480);
+        this.SetCSSLibrary(pas["WEBLib.Controls"].TCSSLibrary.cssBootstrap);
+        this.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
+        this.FFont.FCharset = 1;
+        this.FFont.SetColor(65793);
+        this.FFont.SetHeight(-15);
+        this.FFont.SetName("Tahoma");
+        this.FFont.SetStyle({});
+        this.SetParentFont(false);
+        this.WebPanel1.SetParentComponent(this);
+        this.WebPanel1.SetName("WebPanel1");
+        this.WebPanel1.SetLeft(0);
+        this.WebPanel1.SetTop(420);
+        this.WebPanel1.SetWidth(640);
+        this.WebPanel1.SetHeight(60);
+        this.WebPanel1.SetElementClassName("card");
+        this.WebPanel1.SetAlign(pas["WEBLib.Controls"].TAlign.alBottom);
+        this.WebPanel1.FElementBodyClassName = "card-body";
+        this.WebPanel1.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
+        this.WebPanel1.SetTabOrder(0);
+        this.WebButton1.SetParentComponent(this.WebPanel1);
+        this.WebButton1.SetName("WebButton1");
+        this.WebButton1.SetLeft(56);
+        this.WebButton1.SetTop(16);
+        this.WebButton1.SetWidth(96);
+        this.WebButton1.SetHeight(25);
+        this.WebButton1.SetCaption("cargar");
+        this.WebButton1.SetElementClassName("btn btn-light");
+        this.WebButton1.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
+        this.WebButton1.SetHeightStyle(pas["WEBLib.Controls"].TSizeStyle.ssAuto);
+        this.WebButton1.SetHeightPercent(100.000000000000000000);
+        this.WebButton1.SetWidthPercent(100.000000000000000000);
+        this.SetEvent$1(this.WebButton1,this,"OnClick","WebButton1Click");
+        this.cargar2.SetParentComponent(this.WebPanel1);
+        this.cargar2.SetName("cargar2");
+        this.cargar2.SetLeft(176);
+        this.cargar2.SetTop(16);
+        this.cargar2.SetWidth(96);
+        this.cargar2.SetHeight(25);
+        this.cargar2.SetCaption("cargar2");
+        this.cargar2.SetChildOrderEx(1);
+        this.cargar2.SetElementClassName("btn btn-light");
+        this.cargar2.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
+        this.cargar2.SetHeightStyle(pas["WEBLib.Controls"].TSizeStyle.ssAuto);
+        this.cargar2.SetHeightPercent(100.000000000000000000);
+        this.cargar2.SetWidthPercent(100.000000000000000000);
+        this.SetEvent$1(this.cargar2,this,"OnClick","cargar2Click");
+        this.WebHTMLDiv1.SetParentComponent(this);
+        this.WebHTMLDiv1.SetName("WebHTMLDiv1");
+        this.WebHTMLDiv1.SetLeft(64);
+        this.WebHTMLDiv1.SetTop(24);
+        this.WebHTMLDiv1.SetWidth(513);
+        this.WebHTMLDiv1.SetHeight(353);
+        this.WebHTMLDiv1.SetChildOrderEx(1);
+        this.WebHTMLDiv1.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
+        this.WebHTMLDiv1.SetRole("");
+      } finally {
+        this.WebPanel1.AfterLoadDFMValues();
+        this.WebButton1.AfterLoadDFMValues();
+        this.cargar2.AfterLoadDFMValues();
+        this.WebHTMLDiv1.AfterLoadDFMValues();
+      };
+    };
+    rtl.addIntf(this,pas["WEBLib.Controls"].IControl);
+    rtl.addIntf(this,pas.System.IUnknown);
+    var $r = this.$rtti;
+    $r.addField("WebPanel1",pas["WEBLib.ExtCtrls"].$rtti["TPanel"]);
+    $r.addField("WebButton1",pas["WEBLib.StdCtrls"].$rtti["TButton"]);
+    $r.addField("WebHTMLDiv1",pas["WEBLib.WebCtrls"].$rtti["THTMLDiv"]);
+    $r.addField("cargar2",pas["WEBLib.StdCtrls"].$rtti["TButton"]);
+    $r.addMethod("WebButton1Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
+    $r.addMethod("cargar2Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
+  });
+  this.Form2 = null;
+});
+rtl.module("program",["System","WEBLib.Forms","WEBLib.Forms","Unit1","uCargarConsultas","uFormaLogin","Unit2"],function () {
   "use strict";
   var $mod = this;
   $mod.$implcode = function () {
@@ -66615,6 +66540,11 @@ rtl.module("program",["System","WEBLib.Forms","WEBLib.Forms","Unit1","uCargarCon
         return this.p.FormaLogin;
       }, set: function (v) {
         this.p.FormaLogin = v;
+      }});
+    pas["WEBLib.Forms"].Application.CreateForm(pas.Unit2.TForm2,{p: pas.Unit2, get: function () {
+        return this.p.Form2;
+      }, set: function (v) {
+        this.p.Form2 = v;
       }});
     pas["WEBLib.Forms"].Application.Run();
   };
