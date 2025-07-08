@@ -63263,7 +63263,7 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
     };
     xhr.send();
   };
-  this.IniciarHoja = function () {
+  this.IniciarHoja = function (WebScrollRegistro) {
     var selpacid = "";
     var selpacnom = "";
     var editCheck = function(cell){
@@ -63375,7 +63375,7 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
     
            var cols = table.getColumns() //get array of column components
     
-            cols[0].updateDefinition({title:'#',field:"rc",width:1,headerTooltip:''});
+            cols[0].updateDefinition({title:'#',field:"rc",width:1,headerTooltip:'Click para eliminar registro'});
             cols[1].updateDefinition({title:'Nombre', field:"nombre",width:100,responsive:0,headerTooltip:'Nombre',headerFilter:"input"});
             cols[2].updateDefinition({title:'Articulo',field:"articulo",width:100,responsive:0,headerTooltip:'Articulo',headerFilter:"input"});
             cols[3].updateDefinition({title:'Importe',field:"importe",width:70,responsive:0,headerTooltip:'Importe',headerFilter:"input"});
@@ -63388,6 +63388,13 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
            });
     
     table.on("rowClick", function(e, row) {
+    
+    
+          var rowIndex = row.getIndex();
+           var rowPosition = row.getPosition();
+         console.log('index',rowIndex)
+         console.log('pos',rowPosition);
+    
        //alert('row click');
          // alert(row);
        // alert(' identifica'+row.getData().Identifica);
@@ -63408,6 +63415,45 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
        edPacNombre.value =selpacnom;
       // alert (edPacNombre.value);
      //  table.setFilter('B like '+edPacNombre.value);
+    
+       if (confirm("Desea eliminar registro "+rowPosition.toString()+" ?")) {
+           row.delete();
+       }
+    
+     /*
+     // Pendiente actualizar , porque las columnas del Grid son editables
+      if (confirm("Desea actualizar registro "+rowPosition.toString()+" ?"))
+      {;
+    WebScrollRegistro.get().SetVisible(true);
+    const editBox = document.getElementById("rowsel");
+         // Set the text content of the editbox
+         console.log(row);
+          editBox.value = rowPosition;
+    
+    
+         const btnregi = document.getElementById("btnregistrar");
+         btnregi.innerText ='Actualizar';
+    
+    
+        // const btnregd = document.getElementById("btndel");
+        // btnregd.hidden="";
+    
+        // const scrreg = document.getElementById("scrollregistro");
+        // scrreg.display="inline-block";
+       //  console.log(scrreg);
+    
+         var rowData = row.getData();
+         console.log(rowData);
+         const cliente = document.getElementById("cliente");
+         cliente.value=rowData.nombre;
+         const producto = document.getElementById("producto");
+         producto.value=rowData.articulo;
+         const importe = document.getElementById("importe");
+         importe.value=rowData.importe;
+         const vds = document.getElementById("vds");
+         vds.value=rowData.vds;
+         }
+      */;
     });
       table.on("sheetUpdated", function(sheet){
         //sheet - sheet component for sheet
@@ -64005,6 +64051,8 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.btnAgregar = null;
       this.btnCerrar = null;
       this.edArticulo = null;
+      this.edRen = null;
+      this.btnEliminar = null;
     };
     this.$final = function () {
       this.WebHttpRequest1 = undefined;
@@ -64065,6 +64113,8 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.btnAgregar = undefined;
       this.btnCerrar = undefined;
       this.edArticulo = undefined;
+      this.edRen = undefined;
+      this.btnEliminar = undefined;
       pas["WEBLib.Forms"].TForm.$final.call(this);
     };
     this.WebButton1Click = function (Sender) {
@@ -64754,7 +64804,11 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     };
     this.WebFormCreate = function (Sender) {
       this.WebPanel4.SetVisible(false);
-      pas.uCargarConsultas.IniciarHoja();
+      pas.uCargarConsultas.IniciarHoja({p: this, get: function () {
+          return this.p.WebScrollRegistro;
+        }, set: function (v) {
+          this.p.WebScrollRegistro = v;
+        }});
       this.WebPanel4.GetElementHandle().style.setProperty("overflow","visible");
       this.WebPanel4.SetVisible(true);
       this.WebPanel4.FElementBodyClassName = "";
@@ -65154,7 +65208,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       
               //cols[0].updateDefinition({title:'Ren',width:5,headerTooltip:''});
       
-              cols[0].updateDefinition({title:'#',field:"rc",width:1,headerTooltip:''});
+              cols[0].updateDefinition({title:'#',field:"rc",width:1,headerTooltip:'Click para eliminar registro'});
               cols[1].updateDefinition({title:'Nombre', field:"nombre",width:100,responsive:0,headerTooltip:'Nombre',headerFilter:"input"});
               cols[2].updateDefinition({title:'Articulo',field:"articulo",width:100,responsive:0,headerTooltip:'Articulo',headerFilter:"input"});
               cols[3].updateDefinition({title:'Importe',field:"importe",width:70,responsive:0,headerTooltip:'Importe',headerFilter:"input"});
@@ -65171,7 +65225,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       
               //cols[0].updateDefinition({title:'Ren',width:5,headerTooltip:''});
       
-              cols[0].updateDefinition({title:'#',field:"rc",width:1,headerTooltip:''});
+              cols[0].updateDefinition({title:'#',field:"rc",width:1,headerTooltip:'Click para eliminar registro'});
               cols[1].updateDefinition({title:'Nombre', field:"nombre",width:100,responsive:0,headerTooltip:'Nombre',headerFilter:"input"});
               cols[2].updateDefinition({title:'Articulo',field:"articulo",width:100,responsive:0,headerTooltip:'Articulo',headerFilter:"input"});
               cols[3].updateDefinition({title:'Importe',field:"importe",width:70,responsive:0,headerTooltip:'Importe',headerFilter:"input"});
@@ -65182,6 +65236,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     };
     this.Registrar1Click = function (Sender) {
       this.WebScrollRegistro.SetVisible(true);
+      this.edRen.SetText(".");
     };
     this.btnCerrarClick = function (Sender) {
       this.WebScrollRegistro.SetVisible(false);
@@ -65192,6 +65247,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     this.btnAgregarClick = function (Sender) {
       var datosstr = "";
       var src = "";
+      var ren = "";
       var irc = 0;
       var table = Tabulator.findTable("#tabExample")[0];
       var rowCount = table.getDataCount();
@@ -65208,6 +65264,11 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       {
         table.addData(tabledata);
         };
+      this.edNombre.SetText("");
+      this.edArticulo.SetText("");
+      this.edImporte.SetText("");
+      this.edventasuba.SetText("");
+      this.edNombre.SetFocus();
     };
     this.LoadDFMValues = function () {
       pas["WEBLib.Forms"].TCustomForm.LoadDFMValues.call(this);
@@ -65225,19 +65286,21 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.WebButton12 = pas["WEBLib.StdCtrls"].TButton.$create("Create$1",[this]);
       this.WebButton13 = pas["WEBLib.StdCtrls"].TButton.$create("Create$1",[this]);
       this.lbarchivo = pas["WEBLib.StdCtrls"].TEdit.$create("Create$2",["nomarchivo"]);
-      this.WebScrollRegistro = pas["WEBLib.ExtCtrls"].TScrollBox.$create("Create$2",["paginacionSCR"]);
+      this.WebScrollRegistro = pas["WEBLib.ExtCtrls"].TScrollBox.$create("Create$2",["scrollregistro"]);
       this.WebLabel3 = pas["WEBLib.StdCtrls"].TLabel.$create("Create$1",[this]);
       this.WebLabel4 = pas["WEBLib.StdCtrls"].TLabel.$create("Create$1",[this]);
       this.WebLabel5 = pas["WEBLib.StdCtrls"].TLabel.$create("Create$1",[this]);
       this.WebLabel6 = pas["WEBLib.StdCtrls"].TLabel.$create("Create$1",[this]);
       this.WebLabel7 = pas["WEBLib.StdCtrls"].TLabel.$create("Create$1",[this]);
-      this.edNombre = pas["WEBLib.StdCtrls"].TEdit.$create("Create$1",[this]);
-      this.edImporte = pas["WEBLib.StdCtrls"].TEdit.$create("Create$1",[this]);
-      this.edventasuba = pas["WEBLib.StdCtrls"].TEdit.$create("Create$1",[this]);
+      this.edNombre = pas["WEBLib.StdCtrls"].TEdit.$create("Create$2",["cliente"]);
+      this.edImporte = pas["WEBLib.StdCtrls"].TEdit.$create("Create$2",["importe"]);
+      this.edventasuba = pas["WEBLib.StdCtrls"].TEdit.$create("Create$2",["vds"]);
       this.WebPanel1 = pas["WEBLib.ExtCtrls"].TPanel.$create("Create$1",[this]);
-      this.btnAgregar = pas["WEBLib.StdCtrls"].TButton.$create("Create$1",[this]);
+      this.btnAgregar = pas["WEBLib.StdCtrls"].TButton.$create("Create$2",["btnregistrar"]);
       this.btnCerrar = pas["WEBLib.StdCtrls"].TButton.$create("Create$1",[this]);
-      this.edArticulo = pas["WEBLib.StdCtrls"].TEdit.$create("Create$1",[this]);
+      this.edRen = pas["WEBLib.StdCtrls"].TEdit.$create("Create$2",["rowsel"]);
+      this.btnEliminar = pas["WEBLib.StdCtrls"].TButton.$create("Create$2",["btndel"]);
+      this.edArticulo = pas["WEBLib.StdCtrls"].TEdit.$create("Create$2",["producto"]);
       this.WebHttpRequest1 = pas["WEBLib.REST"].THttpRequest.$create("Create$1",[this]);
       this.WebMainMenu1 = pas["WEBLib.Menus"].TMainMenu.$create("Create$1",[this]);
       this.Archivo1 = pas["WEBLib.Menus"].TMenuItem.$create("Create$1",[this]);
@@ -65295,6 +65358,8 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.WebPanel1.BeforeLoadDFMValues();
       this.btnAgregar.BeforeLoadDFMValues();
       this.btnCerrar.BeforeLoadDFMValues();
+      this.edRen.BeforeLoadDFMValues();
+      this.btnEliminar.BeforeLoadDFMValues();
       this.edArticulo.BeforeLoadDFMValues();
       this.WebHttpRequest1.BeforeLoadDFMValues();
       this.WebMainMenu1.BeforeLoadDFMValues();
@@ -65371,6 +65436,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         };
         this.WebMemo1.SetSelLength(0);
         this.WebMemo1.SetSelStart(0);
+        this.WebMemo1.SetTabOrder(1);
         this.WebMemo1.SetVisible(false);
         this.WebMemo1.SetWidthPercent(100.000000000000000000);
         this.WebPanel5.SetParentComponent(this.WebDiv);
@@ -65624,7 +65690,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.edNombre.SetName("edNombre");
         this.edNombre.SetLeft(98);
         this.edNombre.SetTop(32);
-        this.edNombre.SetWidth(369);
+        this.edNombre.SetWidth(303);
         this.edNombre.SetHeight(22);
         this.edNombre.SetChildOrderEx(3);
         this.edNombre.SetElementClassName("form-control");
@@ -65632,30 +65698,33 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.edNombre.SetHeightStyle(pas["WEBLib.Controls"].TSizeStyle.ssAuto);
         this.edNombre.SetHeightPercent(100.000000000000000000);
         this.edNombre.FRequiredText = "cliente";
+        this.edNombre.SetTabOrder(2);
         this.edNombre.SetWidthPercent(100.000000000000000000);
         this.edImporte.SetParentComponent(this.WebScrollRegistro);
         this.edImporte.SetName("edImporte");
         this.edImporte.SetLeft(98);
         this.edImporte.SetTop(124);
-        this.edImporte.SetWidth(136);
+        this.edImporte.SetWidth(111);
         this.edImporte.SetHeight(22);
         this.edImporte.SetChildOrderEx(3);
         this.edImporte.SetElementClassName("form-control");
         this.edImporte.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
         this.edImporte.SetHeightStyle(pas["WEBLib.Controls"].TSizeStyle.ssAuto);
         this.edImporte.SetHeightPercent(100.000000000000000000);
+        this.edImporte.SetTabOrder(4);
         this.edImporte.SetWidthPercent(100.000000000000000000);
         this.edventasuba.SetParentComponent(this.WebScrollRegistro);
         this.edventasuba.SetName("edventasuba");
         this.edventasuba.SetLeft(240);
         this.edventasuba.SetTop(166);
-        this.edventasuba.SetWidth(81);
+        this.edventasuba.SetWidth(65);
         this.edventasuba.SetHeight(22);
         this.edventasuba.SetChildOrderEx(3);
         this.edventasuba.SetElementClassName("form-control");
         this.edventasuba.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
         this.edventasuba.SetHeightStyle(pas["WEBLib.Controls"].TSizeStyle.ssAuto);
         this.edventasuba.SetHeightPercent(100.000000000000000000);
+        this.edventasuba.SetTabOrder(5);
         this.edventasuba.SetWidthPercent(100.000000000000000000);
         this.WebPanel1.SetParentComponent(this.WebScrollRegistro);
         this.WebPanel1.SetName("WebPanel1");
@@ -65671,8 +65740,8 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebPanel1.SetTabOrder(4);
         this.btnAgregar.SetParentComponent(this.WebPanel1);
         this.btnAgregar.SetName("btnAgregar");
-        this.btnAgregar.SetLeft(165);
-        this.btnAgregar.SetTop(11);
+        this.btnAgregar.SetLeft(113);
+        this.btnAgregar.SetTop(19);
         this.btnAgregar.SetWidth(96);
         this.btnAgregar.SetHeight(25);
         this.btnAgregar.SetCaption("Agregar");
@@ -65680,12 +65749,13 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.btnAgregar.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
         this.btnAgregar.SetHeightStyle(pas["WEBLib.Controls"].TSizeStyle.ssAuto);
         this.btnAgregar.SetHeightPercent(100.000000000000000000);
+        this.btnAgregar.SetTabOrder(6);
         this.btnAgregar.SetWidthPercent(100.000000000000000000);
         this.SetEvent$1(this.btnAgregar,this,"OnClick","btnAgregarClick");
         this.btnCerrar.SetParentComponent(this.WebPanel1);
         this.btnCerrar.SetName("btnCerrar");
-        this.btnCerrar.SetLeft(310);
-        this.btnCerrar.SetTop(11);
+        this.btnCerrar.SetLeft(366);
+        this.btnCerrar.SetTop(19);
         this.btnCerrar.SetWidth(96);
         this.btnCerrar.SetHeight(25);
         this.btnCerrar.SetCaption("Cerrar");
@@ -65694,13 +65764,42 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.btnCerrar.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
         this.btnCerrar.SetHeightStyle(pas["WEBLib.Controls"].TSizeStyle.ssAuto);
         this.btnCerrar.SetHeightPercent(100.000000000000000000);
+        this.btnCerrar.SetTabOrder(7);
         this.btnCerrar.SetWidthPercent(100.000000000000000000);
         this.SetEvent$1(this.btnCerrar,this,"OnClick","btnCerrarClick");
+        this.edRen.SetParentComponent(this.WebPanel1);
+        this.edRen.SetName("edRen");
+        this.edRen.SetLeft(620);
+        this.edRen.SetTop(16);
+        this.edRen.SetWidth(57);
+        this.edRen.SetHeight(22);
+        this.edRen.SetChildOrderEx(3);
+        this.edRen.SetElementClassName("form-control");
+        this.edRen.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
+        this.edRen.SetHeightStyle(pas["WEBLib.Controls"].TSizeStyle.ssAuto);
+        this.edRen.SetHeightPercent(100.000000000000000000);
+        this.edRen.SetText(".");
+        this.edRen.SetVisible(false);
+        this.edRen.SetWidthPercent(100.000000000000000000);
+        this.btnEliminar.SetParentComponent(this.WebPanel1);
+        this.btnEliminar.SetName("btnEliminar");
+        this.btnEliminar.SetLeft(240);
+        this.btnEliminar.SetTop(19);
+        this.btnEliminar.SetWidth(96);
+        this.btnEliminar.SetHeight(25);
+        this.btnEliminar.SetCaption("Eliminar");
+        this.btnEliminar.SetChildOrderEx(3);
+        this.btnEliminar.SetElementClassName("btn btn-light");
+        this.btnEliminar.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
+        this.btnEliminar.SetHeightStyle(pas["WEBLib.Controls"].TSizeStyle.ssAuto);
+        this.btnEliminar.SetHeightPercent(100.000000000000000000);
+        this.btnEliminar.SetVisible(false);
+        this.btnEliminar.SetWidthPercent(100.000000000000000000);
         this.edArticulo.SetParentComponent(this.WebScrollRegistro);
         this.edArticulo.SetName("edArticulo");
         this.edArticulo.SetLeft(98);
         this.edArticulo.SetTop(76);
-        this.edArticulo.SetWidth(369);
+        this.edArticulo.SetWidth(303);
         this.edArticulo.SetHeight(22);
         this.edArticulo.SetChildOrderEx(3);
         this.edArticulo.SetElementClassName("form-control");
@@ -65708,6 +65807,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.edArticulo.SetHeightStyle(pas["WEBLib.Controls"].TSizeStyle.ssAuto);
         this.edArticulo.SetHeightPercent(100.000000000000000000);
         this.edArticulo.FRequiredText = "cliente";
+        this.edArticulo.SetTabOrder(3);
         this.edArticulo.SetWidthPercent(100.000000000000000000);
         this.WebHttpRequest1.SetParentComponent(this);
         this.WebHttpRequest1.SetName("WebHttpRequest1");
@@ -65869,6 +65969,8 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebPanel1.AfterLoadDFMValues();
         this.btnAgregar.AfterLoadDFMValues();
         this.btnCerrar.AfterLoadDFMValues();
+        this.edRen.AfterLoadDFMValues();
+        this.btnEliminar.AfterLoadDFMValues();
         this.edArticulo.AfterLoadDFMValues();
         this.WebHttpRequest1.AfterLoadDFMValues();
         this.WebMainMenu1.AfterLoadDFMValues();
@@ -65964,6 +66066,8 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     $r.addField("btnAgregar",pas["WEBLib.StdCtrls"].$rtti["TButton"]);
     $r.addField("btnCerrar",pas["WEBLib.StdCtrls"].$rtti["TButton"]);
     $r.addField("edArticulo",pas["WEBLib.StdCtrls"].$rtti["TEdit"]);
+    $r.addField("edRen",pas["WEBLib.StdCtrls"].$rtti["TEdit"]);
+    $r.addField("btnEliminar",pas["WEBLib.StdCtrls"].$rtti["TButton"]);
     $r.addMethod("WebButton1Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("WebButton2Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("WebButton3Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
