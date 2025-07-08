@@ -63337,6 +63337,7 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
             }
         },
     
+          selectableRows:false,
         pagination:false,
        // paginationElement:paginacionSCR, //build pagination controls in this element
     
@@ -63387,7 +63388,7 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
            });
     
     table.on("rowClick", function(e, row) {
-      // alert('row click');
+       //alert('row click');
          // alert(row);
        // alert(' identifica'+row.getData().Identifica);
     
@@ -63411,6 +63412,15 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
       table.on("sheetUpdated", function(sheet){
         //sheet - sheet component for sheet
       //  alert('sheetUpdated');
+    });
+    
+    table.on("rowDblClick", function(e, row){
+        //e - the click event object
+        //row - row component
+      // alert('rowDblClick');
+       if (confirm("Desea eliminar renglón ?")) {
+           row.delete();
+       }
     });
     
      //********************************************************************************
@@ -64682,7 +64692,44 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
             });
     };
     this.Estudios1Click = function (Sender) {
-      let archivo = prompt("Por favor captura el nombre del archivo", "Archivo");
+      var sfechadia = "";
+      var fechahoy = 0.0;
+      var p = 0;
+      var p1 = 0;
+      var anio = 0;
+      var mes = 0;
+      var dia = 0;
+      var nomarch = "";
+      fechahoy = pas.SysUtils.Now();
+      pas.SysUtils.DecodeDate(fechahoy,{get: function () {
+          return anio;
+        }, set: function (v) {
+          anio = v;
+        }},{get: function () {
+          return mes;
+        }, set: function (v) {
+          mes = v;
+        }},{get: function () {
+          return dia;
+        }, set: function (v) {
+          dia = v;
+        }});
+      sfechadia = pas.SysUtils.DateToStr(fechahoy);
+      sfechadia = pas.SysUtils.Format("%.4d%.2d%.2d",pas.System.VarRecs(0,anio,0,mes,0,dia));
+      nomarch = "Archivo-" + pas.SysUtils.TStringHelper.Trim.call({get: function () {
+          return sfechadia;
+        }, set: function (v) {
+          sfechadia = v;
+        }});
+      if (this.lbarchivo.GetText().length > 0) {
+        sfechadia = this.lbarchivo.GetText();
+        p = pas.System.Pos(":",sfechadia) + 1;
+        sfechadia = pas.System.Copy(sfechadia,p,sfechadia.length - p);
+        p1 = pas.System.Pos(".",sfechadia) - 1;
+        nomarch = pas.System.Copy(sfechadia,1,p1);
+      };
+      // let archivo = prompt("Por favor captura el nombre del archivo", "Archivo");
+        let archivo = prompt("Por favor captura el nombre del archivo", nomarch);
         if (archivo != undefined) {
       //  archivo = archivo.trim()+'.csv';
          archivo = archivo.trim()+'.xlsx';
@@ -65297,9 +65344,9 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebDiv.SetParentComponent(this);
         this.WebDiv.SetName("WebDiv");
         this.WebDiv.SetLeft(0);
-        this.WebDiv.SetTop(79);
+        this.WebDiv.SetTop(96);
         this.WebDiv.SetWidth(701);
-        this.WebDiv.SetHeight(97);
+        this.WebDiv.SetHeight(80);
         this.WebDiv.SetElementClassName("table-striped");
         this.WebDiv.SetAlign(pas["WEBLib.Controls"].TAlign.alClient);
         this.WebDiv.SetChildOrderEx(1);
@@ -65344,7 +65391,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebPanel3.SetLeft(0);
         this.WebPanel3.SetTop(0);
         this.WebPanel3.SetWidth(701);
-        this.WebPanel3.SetHeight(49);
+        this.WebPanel3.SetHeight(48);
         this.WebPanel3.SetElementClassName("card");
         this.WebPanel3.SetAlign(pas["WEBLib.Controls"].TAlign.alTop);
         this.WebPanel3.SetChildOrderEx(3);
@@ -65354,9 +65401,9 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebPanel4.SetParentComponent(this);
         this.WebPanel4.SetName("WebPanel4");
         this.WebPanel4.SetLeft(0);
-        this.WebPanel4.SetTop(49);
+        this.WebPanel4.SetTop(48);
         this.WebPanel4.SetWidth(701);
-        this.WebPanel4.SetHeight(30);
+        this.WebPanel4.SetHeight(48);
         this.WebPanel4.SetElementClassName("card");
         this.WebPanel4.SetAlign(pas["WEBLib.Controls"].TAlign.alTop);
         this.WebPanel4.SetChildOrderEx(1);
@@ -65382,7 +65429,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebLabel2.SetLeft(0);
         this.WebLabel2.SetTop(0);
         this.WebLabel2.SetWidth(701);
-        this.WebLabel2.SetHeight(25);
+        this.WebLabel2.SetHeight(23);
         this.WebLabel2.SetAlign(pas["WEBLib.Controls"].TAlign.alTop);
         this.WebLabel2.SetAlignment(pas.Classes.TAlignment.taCenter);
         this.WebLabel2.SetCaption("Ventas y Subastas");
@@ -65485,8 +65532,8 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.SetEvent$1(this.WebButton13,this,"OnClick","WebButton13Click");
         this.lbarchivo.SetParentComponent(this.WebPanel4);
         this.lbarchivo.SetName("lbarchivo");
-        this.lbarchivo.SetLeft(3);
-        this.lbarchivo.SetTop(3);
+        this.lbarchivo.SetLeft(16);
+        this.lbarchivo.SetTop(20);
         this.lbarchivo.SetWidth(218);
         this.lbarchivo.SetHeight(22);
         this.lbarchivo.SetBorderStyle(pas["WEBLib.Controls"].TBorderStyle.bsNone);
@@ -65679,7 +65726,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebMainMenu1.FFont.SetHeight(-12);
         this.WebMainMenu1.FFont.SetName("Segoe UI");
         this.WebMainMenu1.FFont.SetStyle({});
-        this.WebMainMenu1.SetLeft(632);
+        this.WebMainMenu1.SetLeft(496);
         this.WebMainMenu1.SetTop(112);
         this.Archivo1.SetParentComponent(this.WebMainMenu1);
         this.Archivo1.SetName("Archivo1");
