@@ -63378,7 +63378,16 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
     
             cols[0].updateDefinition({title:'#',field:"rc",width:1,headerTooltip:'Click para eliminar registro'});
             cols[1].updateDefinition({title:'Nombre', field:"nombre",width:100,responsive:0,headerTooltip:'Nombre',headerFilter:"input"});
-            cols[2].updateDefinition({title:'Articulo',field:"articulo",width:100,responsive:0,headerTooltip:'Articulo',headerFilter:"input"});
+            cols[2].updateDefinition({title:'Articulo',field:"articulo",width:100,responsive:0,headerTooltip:'Articulo',headerFilter:"input",
+            editor:"textarea", editorParams:{
+        elementAttributes:{
+            maxlength:"100", //set the maximum character length of the textarea element to 10 characters
+        },
+        //mask:"AAA-999",
+        selectContents:true,
+        verticalNavigation:"editor", //navigate cursor around text area without leaving the cell
+       // shiftEnterSubmit:true, //submit cell value on shift enter
+    }});
             cols[3].updateDefinition({title:'Importe',field:"importe",width:70,responsive:0,headerTooltip:'Importe',headerFilter:"input"});
             cols[4].updateDefinition({title:'P.',width:30,headerTooltip:'Pagado',field:"pagado",editor:true, formatter:"tickCross"});
             cols[5].updateDefinition({title:'E.',width:30,headerTooltip:'Entregado',field:"entregado",editor:true, formatter:"tickCross"});
@@ -65424,7 +65433,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebDiv.SetLeft(0);
         this.WebDiv.SetTop(89);
         this.WebDiv.SetWidth(701);
-        this.WebDiv.SetHeight(141);
+        this.WebDiv.SetHeight(71);
         this.WebDiv.SetElementClassName("table-striped");
         this.WebDiv.SetAlign(pas["WEBLib.Controls"].TAlign.alClient);
         this.WebDiv.SetChildOrderEx(1);
@@ -65626,9 +65635,9 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebScrollRegistro.SetParentComponent(this);
         this.WebScrollRegistro.SetName("WebScrollRegistro");
         this.WebScrollRegistro.SetLeft(0);
-        this.WebScrollRegistro.SetTop(230);
+        this.WebScrollRegistro.SetTop(160);
         this.WebScrollRegistro.SetWidth(701);
-        this.WebScrollRegistro.SetHeight(230);
+        this.WebScrollRegistro.SetHeight(300);
         this.WebScrollRegistro.SetElementClassName("card");
         this.WebScrollRegistro.SetAlign(pas["WEBLib.Controls"].TAlign.alBottom);
         this.WebScrollRegistro.SetBorderStyle(pas["WEBLib.Controls"].TBorderStyle.bsSingle);
@@ -65690,11 +65699,11 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebLabel6.SetWidthPercent(100.000000000000000000);
         this.WebLabel7.SetParentComponent(this.WebScrollRegistro);
         this.WebLabel7.SetName("WebLabel7");
-        this.WebLabel7.SetLeft(215);
-        this.WebLabel7.SetTop(112);
-        this.WebLabel7.SetWidth(210);
-        this.WebLabel7.SetHeight(16);
-        this.WebLabel7.SetCaption("Venta Directa / Subasta (V/S):");
+        this.WebLabel7.SetLeft(183);
+        this.WebLabel7.SetTop(110);
+        this.WebLabel7.SetWidth(203);
+        this.WebLabel7.SetHeight(18);
+        this.WebLabel7.SetCaption("Venta Directa o Subasta (V/S):");
         this.WebLabel7.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
         this.WebLabel7.SetHeightStyle(pas["WEBLib.Controls"].TSizeStyle.ssAuto);
         this.WebLabel7.SetHeightPercent(100.000000000000000000);
@@ -65728,7 +65737,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.edImporte.SetWidthPercent(100.000000000000000000);
         this.edventasuba.SetParentComponent(this.WebScrollRegistro);
         this.edventasuba.SetName("edventasuba");
-        this.edventasuba.SetLeft(215);
+        this.edventasuba.SetLeft(240);
         this.edventasuba.SetTop(134);
         this.edventasuba.SetWidth(65);
         this.edventasuba.SetHeight(22);
@@ -65756,9 +65765,9 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebPanel1.SetParentComponent(this.WebScrollRegistro);
         this.WebPanel1.SetName("WebPanel1");
         this.WebPanel1.SetLeft(0);
-        this.WebPanel1.SetTop(184);
+        this.WebPanel1.SetTop(208);
         this.WebPanel1.SetWidth(701);
-        this.WebPanel1.SetHeight(46);
+        this.WebPanel1.SetHeight(92);
         this.WebPanel1.SetElementClassName("card");
         this.WebPanel1.SetAlign(pas["WEBLib.Controls"].TAlign.alBottom);
         this.WebPanel1.SetChildOrderEx(11);
