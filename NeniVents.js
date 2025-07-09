@@ -63376,19 +63376,18 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
     
            var cols = table.getColumns() //get array of column components
     
-            cols[0].updateDefinition({title:'#',field:"rc",width:1,headerTooltip:'Click para eliminar registro'});
+            cols[0].updateDefinition({title:'#',field:"rc",width:1,headerTooltip:'Click en registro, para eliminar.',
+            cellClick:function(e, cell)
+            {
+            console.log("cell click");
+            var row = cell.getRow();
+            var rowPosition = row.getPosition();
+            if (confirm("Desea eliminar registro "+rowPosition.toString()+" ?")) {
+              row.delete();
+             }
+            }});
             cols[1].updateDefinition({title:'Nombre', field:"nombre",width:100,responsive:0,headerTooltip:'Nombre',headerFilter:"input"});
-            cols[2].updateDefinition({title:'Articulo',field:"articulo",width:100,responsive:0,headerTooltip:'Articulo',headerFilter:"input"
-       //    , editor:"textarea", editorParams:{
-       // elementAttributes:{
-       //     maxlength:"100", //set the maximum character length of the textarea element to 10 characters
-      //  },
-        //mask:"AAA-999",
-      //  selectContents:true,
-      //  verticalNavigation:"editor", //navigate cursor around text area without leaving the cell
-       // shiftEnterSubmit:true, //submit cell value on shift enter
-    //}
-    });
+            cols[2].updateDefinition({title:'Articulo',field:"articulo",width:100,responsive:0,headerTooltip:'Articulo',headerFilter:"input"});
             cols[3].updateDefinition({title:'Importe',field:"importe",width:70,responsive:0,headerTooltip:'Importe',headerFilter:"input"});
             cols[4].updateDefinition({title:'P.',width:30,headerTooltip:'Pagado',field:"pagado",editor:true, formatter:"tickCross"});
             cols[5].updateDefinition({title:'E.',width:30,headerTooltip:'Entregado',field:"entregado",editor:true, formatter:"tickCross"});
@@ -63428,11 +63427,12 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
       // alert (edPacNombre.value);
      //  table.setFilter('B like '+edPacNombre.value);
     
+     /*
        if (confirm("Desea eliminar registro "+rowPosition.toString()+" ?")) {
            row.delete();
        }
     
-     /*
+    
      // Pendiente actualizar , porque las columnas del Grid son editables
       if (confirm("Desea actualizar registro "+rowPosition.toString()+" ?"))
       {;
@@ -64362,6 +64362,8 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     };
     this.Consultas1Click = function (Sender) {
       var nomarch = "";
+      this.WebScrollRegistro.SetVisible(false);
+      this.edRen.SetText(".");
       nomarch = "";
       var table = Tabulator.findTable("#tabExample")[0];
           
@@ -64411,6 +64413,8 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       var mes = 0;
       var dia = 0;
       var nomarch = "";
+      this.WebScrollRegistro.SetVisible(false);
+      this.edRen.SetText(".");
       fechahoy = pas.SysUtils.Now();
       pas.SysUtils.DecodeDate(fechahoy,{get: function () {
           return anio;
@@ -64477,6 +64481,8 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.WebPanel4.SetElementFont(pas["WEBLib.Controls"].TElementFont.efProperty);
     };
     this.Imprimir1Click = function (Sender) {
+      this.WebScrollRegistro.SetVisible(false);
+      this.edRen.SetText(".");
       this.btn_imprimirClick(Sender);
     };
     this.Graficas1Click = async function (Sender) {
@@ -64843,7 +64849,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     };
     this.WebDivClick = function (Sender) {
       var keyhoja = "";
-      this.WebScrollRegistro.SetVisible(!this.WebScrollRegistro.FVisible);
+      this.WebScrollRegistro.SetVisible(false);
       return;
       var table = Tabulator.findTable("#tabExample")[0];
        var sheet = table.getSheet();
@@ -64869,7 +64875,17 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       
               //cols[0].updateDefinition({title:'Ren',width:5,headerTooltip:''});
       
-              cols[0].updateDefinition({title:'#',field:"rc",width:1,headerTooltip:'Click para eliminar registro'});
+           //   cols[0].updateDefinition({title:'#',field:"rc",width:1,headerTooltip:'Click para eliminar registro'});
+           cols[0].updateDefinition({title:'#',field:"rc",width:1,headerTooltip:'Click en registro, para eliminar.',
+              cellClick:function(e, cell)
+              {
+              console.log("cell click");
+              var row = cell.getRow();
+              var rowPosition = row.getPosition();
+              if (confirm("Desea eliminar registro "+rowPosition.toString()+" ?")) {
+                row.delete();
+               }
+              }});
               cols[1].updateDefinition({title:'Nombre', field:"nombre",width:100,responsive:0,headerTooltip:'Nombre',headerFilter:"input"});
               cols[2].updateDefinition({title:'Articulo',field:"articulo",width:100,responsive:0,headerTooltip:'Articulo',headerFilter:"input"});
               cols[3].updateDefinition({title:'Importe',field:"importe",width:70,responsive:0,headerTooltip:'Importe',headerFilter:"input"});
@@ -64879,6 +64895,8 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.lbarchivo.SetText("");
     };
     this.LimpiarHoja2Click = function (Sender) {
+      this.WebScrollRegistro.SetVisible(false);
+      this.edRen.SetText(".");
       var table = Tabulator.findTable("#tabExample")[0];
           table.clearSheet("uno"); //clear the data from the info sheet
           var cols = table.getColumns() //get array of column components
@@ -64886,7 +64904,17 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       
               //cols[0].updateDefinition({title:'Ren',width:5,headerTooltip:''});
       
-              cols[0].updateDefinition({title:'#',field:"rc",width:1,headerTooltip:'Click para eliminar registro'});
+         //     cols[0].updateDefinition({title:'#',field:"rc",width:1,headerTooltip:'Click para eliminar registro'});
+         cols[0].updateDefinition({title:'#',field:"rc",width:1,headerTooltip:'Click en registro, para eliminar.',
+              cellClick:function(e, cell)
+              {
+              console.log("cell click");
+              var row = cell.getRow();
+              var rowPosition = row.getPosition();
+              if (confirm("Desea eliminar registro "+rowPosition.toString()+" ?")) {
+                row.delete();
+               }
+              }});
               cols[1].updateDefinition({title:'Nombre', field:"nombre",width:100,responsive:0,headerTooltip:'Nombre',headerFilter:"input"});
               cols[2].updateDefinition({title:'Articulo',field:"articulo",width:100,responsive:0,headerTooltip:'Articulo',headerFilter:"input"});
               cols[3].updateDefinition({title:'Importe',field:"importe",width:70,responsive:0,headerTooltip:'Importe',headerFilter:"input"});
@@ -64903,6 +64931,8 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.WebScrollRegistro.SetVisible(false);
     };
     this.ExportaraPDF1Click = function (Sender) {
+      this.WebScrollRegistro.SetVisible(false);
+      this.edRen.SetText(".");
       this.btn_exportarClick(Sender);
     };
     this.btnAgregarClick = function (Sender) {
@@ -64943,6 +64973,9 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.edNombre.SetFocus();
     };
     this.WebPanel4Click = function (Sender) {
+      this.WebScrollRegistro.SetVisible(!this.WebScrollRegistro.FVisible);
+    };
+    this.WebLabel2Click = function (Sender) {
       this.WebScrollRegistro.SetVisible(!this.WebScrollRegistro.FVisible);
     };
     this.LoadDFMValues = function () {
@@ -65174,7 +65207,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebLabel2.SetHeight(23);
         this.WebLabel2.SetAlign(pas["WEBLib.Controls"].TAlign.alTop);
         this.WebLabel2.SetAlignment(pas.Classes.TAlignment.taCenter);
-        this.WebLabel2.SetCaption("Ventas y Subastas");
+        this.WebLabel2.SetCaption("Registro de ventas y subastas");
         this.WebLabel2.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
         this.WebLabel2.FFont.FCharset = 1;
         this.WebLabel2.FFont.SetColor(65793);
@@ -65185,6 +65218,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebLabel2.SetHeightPercent(100.000000000000000000);
         this.WebLabel2.SetParentFont(false);
         this.WebLabel2.SetWidthPercent(100.000000000000000000);
+        this.SetEvent$1(this.WebLabel2,this,"OnClick","WebLabel2Click");
         this.WebButton9.SetParentComponent(this.WebPanel4);
         this.WebButton9.SetName("WebButton9");
         this.WebButton9.SetLeft(3);
@@ -65307,7 +65341,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebLabel3.SetHeight(18);
         this.WebLabel3.SetAlign(pas["WEBLib.Controls"].TAlign.alTop);
         this.WebLabel3.SetAlignment(pas.Classes.TAlignment.taCenter);
-        this.WebLabel3.SetCaption("Registro de ventas y subastas");
+        this.WebLabel3.SetCaption("Registro de Productos");
         this.WebLabel3.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
         this.WebLabel3.FFont.FCharset = 1;
         this.WebLabel3.FFont.SetColor(65793);
@@ -65391,7 +65425,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.edImporte.SetWidthPercent(100.000000000000000000);
         this.edventasuba.SetParentComponent(this.WebScrollRegistro);
         this.edventasuba.SetName("edventasuba");
-        this.edventasuba.SetLeft(240);
+        this.edventasuba.SetLeft(246);
         this.edventasuba.SetTop(134);
         this.edventasuba.SetWidth(65);
         this.edventasuba.SetHeight(22);
@@ -65782,6 +65816,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     $r.addMethod("ExportaraPDF1Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("btnAgregarClick",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("WebPanel4Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
+    $r.addMethod("WebLabel2Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
   });
   this.Form1 = null;
 });
