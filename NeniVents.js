@@ -65271,7 +65271,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       
                 //run code after data has been updated
                // console.log(rows);
-                rows.scrollTo("bottom", true);
+               // rows.scrollTo("bottom", true);
                })
                .catch(function(error){
                  //handle error updating data
@@ -65422,9 +65422,9 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebDiv.SetParentComponent(this);
         this.WebDiv.SetName("WebDiv");
         this.WebDiv.SetLeft(0);
-        this.WebDiv.SetTop(96);
+        this.WebDiv.SetTop(89);
         this.WebDiv.SetWidth(701);
-        this.WebDiv.SetHeight(80);
+        this.WebDiv.SetHeight(63);
         this.WebDiv.SetElementClassName("table-striped");
         this.WebDiv.SetAlign(pas["WEBLib.Controls"].TAlign.alClient);
         this.WebDiv.SetChildOrderEx(1);
@@ -65468,9 +65468,9 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebPanel3.SetParentComponent(this);
         this.WebPanel3.SetName("WebPanel3");
         this.WebPanel3.SetLeft(0);
-        this.WebPanel3.SetTop(0);
+        this.WebPanel3.SetTop(48);
         this.WebPanel3.SetWidth(701);
-        this.WebPanel3.SetHeight(48);
+        this.WebPanel3.SetHeight(41);
         this.WebPanel3.SetElementClassName("card");
         this.WebPanel3.SetAlign(pas["WEBLib.Controls"].TAlign.alTop);
         this.WebPanel3.SetChildOrderEx(3);
@@ -65480,7 +65480,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebPanel4.SetParentComponent(this);
         this.WebPanel4.SetName("WebPanel4");
         this.WebPanel4.SetLeft(0);
-        this.WebPanel4.SetTop(48);
+        this.WebPanel4.SetTop(0);
         this.WebPanel4.SetWidth(701);
         this.WebPanel4.SetHeight(48);
         this.WebPanel4.SetElementClassName("card");
@@ -65626,9 +65626,9 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebScrollRegistro.SetParentComponent(this);
         this.WebScrollRegistro.SetName("WebScrollRegistro");
         this.WebScrollRegistro.SetLeft(0);
-        this.WebScrollRegistro.SetTop(176);
+        this.WebScrollRegistro.SetTop(152);
         this.WebScrollRegistro.SetWidth(701);
-        this.WebScrollRegistro.SetHeight(284);
+        this.WebScrollRegistro.SetHeight(308);
         this.WebScrollRegistro.SetElementClassName("card");
         this.WebScrollRegistro.SetAlign(pas["WEBLib.Controls"].TAlign.alBottom);
         this.WebScrollRegistro.SetBorderStyle(pas["WEBLib.Controls"].TBorderStyle.bsSingle);
@@ -65742,7 +65742,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebPanel1.SetParentComponent(this.WebScrollRegistro);
         this.WebPanel1.SetName("WebPanel1");
         this.WebPanel1.SetLeft(0);
-        this.WebPanel1.SetTop(224);
+        this.WebPanel1.SetTop(248);
         this.WebPanel1.SetWidth(701);
         this.WebPanel1.SetHeight(60);
         this.WebPanel1.SetElementClassName("card");
