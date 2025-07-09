@@ -64957,7 +64957,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
            // alert(rowCount);
             if (rowCount < 11)
             {
-              table.addData(tabledata, true);
+              table.addData(tabledata, false);  //ADD true top of the table false bottom of the table
               //  .then(function(rows){
                  //rows - array of the row components for the rows updated or added
       
