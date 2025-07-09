@@ -65262,7 +65262,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
             tabledata.push(obj);
             console.log(tabledata);
             var rowCount = table.getDataCount()+1;
-            alert(rowCount);
+           // alert(rowCount);
             if (rowCount < 11)
             {
               table.addData(tabledata, true)
