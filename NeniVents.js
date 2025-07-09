@@ -63379,10 +63379,11 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
             cols[0].updateDefinition({title:'#',field:"rc",width:1,headerTooltip:'Click en registro, para eliminar.',
             cellClick:function(e, cell)
             {
-            console.log("cell click");
+            console.log("cell click",cell.getValue());
             var row = cell.getRow();
             var rowPosition = row.getPosition();
-            if (confirm("Desea eliminar registro "+rowPosition.toString()+" ?")) {
+            var cellvalue = cell.getValue();
+            if (confirm("Desea eliminar registro "+cellvalue.toString()+" ?")) {
               row.delete();
              }
             }});
@@ -64882,7 +64883,8 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
               console.log("cell click");
               var row = cell.getRow();
               var rowPosition = row.getPosition();
-              if (confirm("Desea eliminar registro "+rowPosition.toString()+" ?")) {
+              var cellvalue = cell.getValue();
+              if (confirm("Desea eliminar registro "+cellvalue.toString()+" ?")) {
                 row.delete();
                }
               }});
@@ -64911,7 +64913,8 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
               console.log("cell click");
               var row = cell.getRow();
               var rowPosition = row.getPosition();
-              if (confirm("Desea eliminar registro "+rowPosition.toString()+" ?")) {
+              var cellvalue = cell.getValue();
+              if (confirm("Desea eliminar registro "+cellvalue.toString()+" ?")) {
                 row.delete();
                }
               }});
