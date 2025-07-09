@@ -63295,7 +63295,6 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
     ];
              var table = new Tabulator("#tabExample",
      {
-    
        dependencies:{
             XLSX:XLSX,
         },
@@ -63367,6 +63366,8 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
     
       spreadsheetColumnDefinition:{editor:"input"}, //add an input editor to every cell
             rowHeight:40, //set rows to 40px height
+    
+         index:"rc",
       },
     );
     
@@ -63383,6 +63384,7 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
             cols[5].updateDefinition({title:'E.',width:30,headerTooltip:'Entregado',field:"entregado",editor:true, formatter:"tickCross"});
             cols[6].updateDefinition({title:'Vd/Sub',width:68,headerTooltip:'Vta.Directa /Subasta',field:"vds",headerFilter:"input"});
         //  alert('tableBuilt');
+    
     
     
            });
@@ -65255,15 +65257,26 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       src = pas.SysUtils.IntToStr(irc);
       datosstr = '{"rc":' + String.fromCharCode(34) + src + String.fromCharCode(34) + "," + '"nombre":' + String.fromCharCode(34) + this.edNombre.GetText() + String.fromCharCode(34) + "," + '"articulo":' + String.fromCharCode(34) + this.edArticulo.GetText() + String.fromCharCode(34) + "," + ' "importe":' + String.fromCharCode(34) + this.edImporte.GetText() + String.fromCharCode(34) + "," + '"vds":' + String.fromCharCode(34) + this.edventasuba.GetText() + String.fromCharCode(34) + "}";
       var table = Tabulator.findTable("#tabExample")[0];
-      var tabledata = [];
-      var obj=JSON.parse(datosstr);
-      tabledata.push(obj);
-      console.log(tabledata);
-      var rowCount = table.getDataCount()+1;
-      if (rowCount < 11)
-      {
-        table.addData(tabledata);
-        };
+            var tabledata = [];
+            var obj=JSON.parse(datosstr);
+            tabledata.push(obj);
+            console.log(tabledata);
+            var rowCount = table.getDataCount()+1;
+            alert(rowCount);
+            if (rowCount < 11)
+            {
+              table.addData(tabledata, true)
+              .then(function(rows){
+                 //rows - array of the row components for the rows updated or added
+      
+                //run code after data has been updated
+               // console.log(rows);
+                rows.scrollTo("bottom", true);
+               })
+               .catch(function(error){
+                 //handle error updating data
+              });
+            };
       this.edNombre.SetText("");
       this.edArticulo.SetText("");
       this.edImporte.SetText("");
@@ -65754,11 +65767,11 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.SetEvent$1(this.btnAgregar,this,"OnClick","btnAgregarClick");
         this.btnCerrar.SetParentComponent(this.WebPanel1);
         this.btnCerrar.SetName("btnCerrar");
-        this.btnCerrar.SetLeft(366);
+        this.btnCerrar.SetLeft(232);
         this.btnCerrar.SetTop(19);
         this.btnCerrar.SetWidth(96);
         this.btnCerrar.SetHeight(25);
-        this.btnCerrar.SetCaption("Cerrar");
+        this.btnCerrar.SetCaption("Terminar");
         this.btnCerrar.SetChildOrderEx(1);
         this.btnCerrar.SetElementClassName("btn btn-primary");
         this.btnCerrar.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
@@ -65783,7 +65796,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.edRen.SetWidthPercent(100.000000000000000000);
         this.btnEliminar.SetParentComponent(this.WebPanel1);
         this.btnEliminar.SetName("btnEliminar");
-        this.btnEliminar.SetLeft(240);
+        this.btnEliminar.SetLeft(352);
         this.btnEliminar.SetTop(19);
         this.btnEliminar.SetWidth(96);
         this.btnEliminar.SetHeight(25);
