@@ -63371,7 +63371,17 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
       },
     );
     
-    
+       table.on("rowAdded", function(row){
+        //row - row component
+         console.log(row);
+         console.log(row.getData());
+         var ddata =row.getData();
+         //console.log('data',ddata);
+         //console.log('rc',ddata.rc);
+        // row.scrollToRow();
+        //table.scrollToRow(row.getIndex(), "center", false);
+        row.scrollTo("bottom", true);
+    });
        table.on("tableBuilt", function(){
     
            var cols = table.getColumns() //get array of column components
@@ -64957,17 +64967,17 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
            // alert(rowCount);
             if (rowCount < 11)
             {
-              table.addData(tabledata, false);  //ADD true top of the table false bottom of the table
-              //  .then(function(rows){
+              table.addData(tabledata, false)  //ADD true top of the table false bottom of the table
+                .then(function(rows){
                  //rows - array of the row components for the rows updated or added
       
                 //run code after data has been updated
                // console.log(rows);
                // rows.scrollTo("bottom", true);
-             //    })
-             //   .catch(function(error){
+                 })
+                .catch(function(error){
                  //handle error updating data
-              //  });
+                });
             };
       this.edNombre.SetText("");
       this.edArticulo.SetText("");
