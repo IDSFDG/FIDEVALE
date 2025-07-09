@@ -64957,17 +64957,17 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
            // alert(rowCount);
             if (rowCount < 11)
             {
-              table.addData(tabledata, true)
-              .then(function(rows){
+              table.addData(tabledata, true);
+              //  .then(function(rows){
                  //rows - array of the row components for the rows updated or added
       
                 //run code after data has been updated
                // console.log(rows);
                // rows.scrollTo("bottom", true);
-               })
-               .catch(function(error){
+             //    })
+             //   .catch(function(error){
                  //handle error updating data
-              });
+              //  });
             };
       this.edNombre.SetText("");
       this.edArticulo.SetText("");
