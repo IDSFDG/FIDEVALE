@@ -63378,16 +63378,17 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
     
             cols[0].updateDefinition({title:'#',field:"rc",width:1,headerTooltip:'Click para eliminar registro'});
             cols[1].updateDefinition({title:'Nombre', field:"nombre",width:100,responsive:0,headerTooltip:'Nombre',headerFilter:"input"});
-            cols[2].updateDefinition({title:'Articulo',field:"articulo",width:100,responsive:0,headerTooltip:'Articulo',headerFilter:"input",
-            editor:"textarea", editorParams:{
-        elementAttributes:{
-            maxlength:"100", //set the maximum character length of the textarea element to 10 characters
-        },
+            cols[2].updateDefinition({title:'Articulo',field:"articulo",width:100,responsive:0,headerTooltip:'Articulo',headerFilter:"input"
+       //    , editor:"textarea", editorParams:{
+       // elementAttributes:{
+       //     maxlength:"100", //set the maximum character length of the textarea element to 10 characters
+      //  },
         //mask:"AAA-999",
-        selectContents:true,
-        verticalNavigation:"editor", //navigate cursor around text area without leaving the cell
+      //  selectContents:true,
+      //  verticalNavigation:"editor", //navigate cursor around text area without leaving the cell
        // shiftEnterSubmit:true, //submit cell value on shift enter
-    }});
+    //}
+    });
             cols[3].updateDefinition({title:'Importe',field:"importe",width:70,responsive:0,headerTooltip:'Importe',headerFilter:"input"});
             cols[4].updateDefinition({title:'P.',width:30,headerTooltip:'Pagado',field:"pagado",editor:true, formatter:"tickCross"});
             cols[5].updateDefinition({title:'E.',width:30,headerTooltip:'Entregado',field:"entregado",editor:true, formatter:"tickCross"});
@@ -64250,357 +64251,6 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       var selpacid = "";
       var selpacnom = "";
       var el = null;
-      respuestaapi = AResponse;
-      charArray[0] = "$";
-      strArray = pas.SysUtils.TStringHelper.Split$1.call({get: function () {
-          return AResponse;
-        }, set: function (v) {
-          AResponse = v;
-        }},charArray);
-      this.WebMemo1.SetText("");
-      strresponse = "";
-      astrresponse = "";
-      var sheetDef = [];
-      var sheetDataPac = [];
-      var sheetDataConsulta = [];
-      var sheetDataEstudios = [];
-      var sheetDataAnalisis = [];
-      for (var $l = 0, $end = rtl.length(strArray) - 2; $l <= $end; $l++) {
-        w = $l;
-        strresponse = strresponse + strArray[w] + ",";
-        //sheetData.concat(strArray[w]+',');
-                  var obj = JSON.parse (strArray[w]);
-        
-                  //sheetData.push(strArray[w]);
-                  sheetDataPac.push(obj);
-      };
-      this.WebMemo1.SetText(pas.System.Copy(strresponse,0,strresponse.length - 1));
-      astrresponse = pas.System.Copy(strresponse,0,strresponse.length - 1);
-      //  var obj = JSON.parse (astrresponse);
-              //  sheetData.push(obj);
-      
-           // sheetData.concat(astrresponse);
-           // sheetData.concat(astrresponse);
-      
-      
-      
-           //
-         var sheets = [
-          {
-            name:'huno',
-            title:"Dir.Pacientes",
-            key:"uno",
-            rows:20,
-            columns:3,
-            data:sheetDataPac,
-        },
-        {
-            name:'hdos',
-            title:"Consultas",
-            key:"dos",
-            rows:20,
-            columns:3,
-            data:[]
-        },   ,
-        {
-            name:'htres',
-            title:"Estudios",
-            key:"tres",
-            rows:20,
-            columns:3,
-            data:[]
-        },,
-        {
-            name:'hcuatro',
-            title:"Analisis",
-            key:"cuatro",
-            rows:20,
-            columns:3,
-            data:[]
-        },
-      
-      ];
-       //
-      
-      
-              //Build Tabulator
-       var editCheck = function(cell){
-          //cell - the cell component for the editable cell
-      
-          //get row data
-          var data = cell.getRow().getData();
-      
-         // return data.age > 18; // only allow the name cell to be edited if the age is over 18
-      
-         return false // no editable
-       // return true // editable
-      }
-      
-      var table = new Tabulator("#tabExample",
-       {   dependencies:{
-              XLSX:XLSX,
-          },
-      
-      
-      rowFormatter:function(row){
-      
-            // alert('rowformatter');
-           // console.log(row.getData());    //OK
-              if((row.getData()._id % 2 ) > 0){
-                 // console.log ('rowformatter');
-                //  row.getElement().classList.add("Modern"); //mark rows with age greater than or equal to 18 as successful;
-             // row.getElement().style.backgroundColor = "#d5f7d7"; //apply css change to row element
-              row.getElement().style.backgroundColor = "#7cbfb2";
-              }
-          },
-          pagination:true, //enable pagination
-          paginationSize:10, // this option can take any positive integer value
-      
-          responsiveLayout:true, // enable responsive layouts
-          responsiveLayout:"collapse", // collapse columns that no longer fit on the table into a list under the row
-          responsiveLayout:"hide",
-      
-            rowHeader:{field:"_id", hozAlign:"center", headerSort:false, title:"Sel.Ren.", headerWordWrap:true},
-       // height:"211px",
-       //   height:"100%",
-          height:"70%",
-        spreadsheet:true,
-        spreadsheetRows:30,
-        spreadsheetColumns:2,
-        spreadsheetColumnDefinition:{editable:editCheck,editor:"input"},
-      
-      
-        //spreadsheetData:sheetData,             // OK
-      
-        //spreadsheetSheetTabs:true, //show spreadsheet tabs in footer    // OK
-      
-      
-          spreadsheetSheets:sheets,        // DEFINICION HOJAS ARREGLO
-          spreadsheetSheetTabs:true,
-        //  spreadsheetSheetTabsElement:"#table-tabs", //insert tabs in element with id of table-tabs
-      
-      
-        editorEmptyValue:undefined, //ensure empty values are set to undefined so they arent included in spreadsheet output data
-      
-      
-        });
-      
-       var iden =0;
-      
-       var table = Tabulator.findTable("#tabExample")[0];
-       table.on("cellClick", function(e, cell){
-              //e - the click event object
-              //cell - cell component
-             // alert("cell click");
-              alert('Valor celda');
-              alert(cell.getValue());
-            //  console.log(cell);
-      
-      });
-       table.on("rowSelected", function(row){
-          //row - row component for the selected row
-              alert('rowSelected');
-      });
-      table.on("rowClick", function(e, row) {
-        // alert('rowclick');
-         // alert(row);
-         // alert(' identifica'+row.getData().Identifica);
-      
-        //iden=row.getData().Identifica;
-        iden=row.getData();
-          //alert(' iden'+iden);
-          console.log(iden);
-          console.log('idenA',iden.A);
-          console.log('idenA',iden.B);
-          selpacid = iden.A
-          selpacnom = iden.B
-      
-      
-              console.log('TABLE ',table);
-              var cols = table.getColumns(true) //get a structured array of column components
-              console.log('columns ',cols);
-      
-              table.hideColumn("_id")
-          console.log('id',selpacid);
-          console.log('nombre',selpacnom);
-         edPaciente.value = selpacid;
-         edPacNombre.value =selpacnom;
-      
-        //idPaciente =iden;
-        //  alert(' idPaciente'+idPaciente);
-        //  document.getElementById("elpaciente").innerHTML = iden;
-      
-         //      document.getElementById('elpaciente').innerHTML = 'Got it ';
-         // edpaciente.innerHTML =idren;
-      
-      
-      
-      
-           var sheet = table.getSheet("uno");
-           var def = sheet.getDefinition();
-           console.log('hoja',sheet);
-           console.log('defin',def);
-           //console.log('column fields',hoja._sheet);
-      
-      
-      
-      
-            var sheetDataConsulta = [];
-            var sheetDataEstudios = [];
-            var sheetDataAnalisis = [];
-      
-      
-        // *****************************************************************
-        // Carga Consultas  ***********************************************
-      
-        jQuery.ajax({
-           // url: 'http://192.168.0.115/WebAppi2/simedic/PacientesConsultasArr/'+selpacid ,
-             url: 'http://192.168.0.115/WebAppi2/simedic/PacientesConsultasArr/11155' ,
-          //url: 'http://sionapp01.vmroom.mx/WebAppapi01/Simedic/Paciente/'+selpacid ,
-                           type: "GET",
-                         async:false,
-                         success: function(json) {
-                         alert('sucess consultas');
-                         respuestaapi =json;
-                         console.log('respuesta',json);
-                         console.log('respuesta2',respuestaapi);
-      strArray = pas.SysUtils.TStringHelper.Split$1.call({get: function () {
-          return respuestaapi;
-        }, set: function (v) {
-          respuestaapi = v;
-        }},charArray);
-      for (var $l1 = 0, $end1 = rtl.length(strArray) - 2; $l1 <= $end1; $l1++) {
-        w = $l1;
-        strresponse = strresponse + strArray[w] + ",";
-        window.console.log(rtl.length(strArray) - 2);
-        console.log('arr ', strArray[w]);
-        var obj = JSON.parse (strArray[w]);
-        console.log('obj',obj);
-        sheetDataConsulta.push(obj);
-      };
-      }
-      
-                         });
-        // *****************************************************************
-        console.log('consulta',sheetDataConsulta);
-       table.activeSheet("dos"); //make the info sheet active
-       table.setSheetData("dos",sheetDataConsulta);       // API
-      
-      
-      
-        // *****************************************************************
-       // Carga Estudios  ***********************************************
-      
-        jQuery.ajax({
-           // url: 'http://192.168.0.115/WebAppi2/simedic/pacientesarr' ,
-          //url: 'http://sionapp01.vmroom.mx/WebAppapi01/Simedic/Paciente/'+selpacid ,
-             url: 'http://192.168.0.115/WebAppi2/simedic/PacientesEstudioAnalisisArr/11154' ,
-                           type: "GET",
-                         async:false,
-                         success: function(json) {
-                         alert('sucess estudios');
-                         respuestaapi =json;
-      strArray = pas.SysUtils.TStringHelper.Split$1.call({get: function () {
-          return respuestaapi;
-        }, set: function (v) {
-          respuestaapi = v;
-        }},charArray);
-      for (var $l2 = 0, $end2 = rtl.length(strArray) - 2; $l2 <= $end2; $l2++) {
-        w = $l2;
-        strresponse = strresponse + strArray[w] + ",";
-        var obj = JSON.parse (strArray[w]);
-        sheetDataEstudios.push(obj);
-      };
-      }
-      
-                         });
-        // *****************************************************************
-      
-       table.activeSheet("tres"); //make the info sheet active
-       table.setSheetData("tres",sheetDataEstudios);       // API
-      
-        // *****************************************************************
-       // Carga Analisis  ***********************************************
-      
-        jQuery.ajax({
-           // url: 'http://192.168.0.115/WebAppi2/simedic/pacientesarr' ,
-          //url: 'http://sionapp01.vmroom.mx/WebAppapi01/Simedic/Paciente/'+selpacid ,
-             url: 'http://192.168.0.115/WebAppi2/simedic/PacientesEstudioAnalisisArr/11154' ,
-                           type: "GET",
-                         async:false,
-                         success: function(json) {
-                         alert('sucess analisis');
-                         respuestaapi =json;
-      strArray = pas.SysUtils.TStringHelper.Split$1.call({get: function () {
-          return respuestaapi;
-        }, set: function (v) {
-          respuestaapi = v;
-        }},charArray);
-      for (var $l3 = 0, $end3 = rtl.length(strArray) - 2; $l3 <= $end3; $l3++) {
-        w = $l3;
-        strresponse = strresponse + strArray[w] + ",";
-        var obj = JSON.parse (strArray[w]);
-        sheetDataAnalisis.push(obj);
-      };
-      }
-      
-                         });
-        // *****************************************************************
-      
-       table.activeSheet("cuatro"); //make the info sheet active
-       table.setSheetData("cuatro",sheetDataAnalisis);       // API
-      
-      
-      
-      });
-      
-      
-       table.on("sheetLoaded", function(sheet){
-          //sheet - sheet component for sheet
-      
-         //  alert('sheetLoaded');      // OK  FUNCIONA
-      
-          var key = sheet.getKey();
-          console.log ('sheet key', key);
-      
-      
-         // alert ('Hoja sel:', key);
-      
-        var table = Tabulator.findTable("#tabExample")[0];
-      
-      
-       //     table.hideColumn("_id");             // Hide Columns
-      
-      
-        switch(key) {
-        case 'uno':
-          // code block
-            table.updateColumnDefinition("A", {title:"Clave"}) //change the title on the name column
-            table.updateColumnDefinition("B", {title:"Nombre"}) //change the title on the name column
-          break;
-        case 'dos':
-          // code block
-            table.updateColumnDefinition("A", {title:"Comentario"}) //change the title on the name column
-            table.updateColumnDefinition("B", {title:"Diagnostico"}) //change the title on the name column
-          break;
-        case 'tres':
-          // code block
-            table.updateColumnDefinition("A", {title:"Comentario"}) //change the title on the name column
-            table.updateColumnDefinition("B", {title:"Estudio"}) //change the title on the name column
-          break;
-        case 'cuatro':
-          // code block
-            table.updateColumnDefinition("A", {title:"Comentario"}) //change the title on the name column
-            table.updateColumnDefinition("B", {title:"Analisis"}) //change the title on the name column
-          break;
-        default:
-          // code block
-            table.updateColumnDefinition("A", {title:"Clave"}) //change the title on the name column
-            table.updateColumnDefinition("B", {title:"Nombre"}) //change the title on the name column
-      }
-      
-      
-      });
     };
     this.WebButton5Click = function (Sender) {
       var sheetDef = {
@@ -65193,7 +64843,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     };
     this.WebDivClick = function (Sender) {
       var keyhoja = "";
-      this.WebScrollRegistro.SetVisible(false);
+      this.WebScrollRegistro.SetVisible(!this.WebScrollRegistro.FVisible);
       return;
       var table = Tabulator.findTable("#tabExample")[0];
        var sheet = table.getSheet();
@@ -65291,6 +64941,9 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.edImporte.SetText("");
       this.edventasuba.SetText("");
       this.edNombre.SetFocus();
+    };
+    this.WebPanel4Click = function (Sender) {
+      this.WebScrollRegistro.SetVisible(!this.WebScrollRegistro.FVisible);
     };
     this.LoadDFMValues = function () {
       pas["WEBLib.Forms"].TCustomForm.LoadDFMValues.call(this);
@@ -65500,6 +65153,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebPanel4.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
         this.WebPanel4.SetTabOrder(2);
         this.WebPanel4.SetVisible(false);
+        this.SetEvent$1(this.WebPanel4,this,"OnClick","WebPanel4Click");
         this.WebLabel1.SetParentComponent(this.WebPanel4);
         this.WebLabel1.SetName("WebLabel1");
         this.WebLabel1.SetLeft(24);
@@ -66127,6 +65781,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     $r.addMethod("btnCerrarClick",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("ExportaraPDF1Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("btnAgregarClick",0,[["Sender",pas.System.$rtti["TObject"]]]);
+    $r.addMethod("WebPanel4Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
   });
   this.Form1 = null;
 });
