@@ -65008,7 +65008,10 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.WebScrollRegistro.SetVisible(!this.WebScrollRegistro.FVisible);
     };
     this.edventasubaEnter = function (Sender) {
-      if (this.edventasuba.GetText().length === 0) this.edventasuba.SetText("V");
+      if (this.edventasuba.GetText().length === 0) {
+        this.edventasuba.SetText("V");
+        this.edventasuba.SetSelLength(0);
+      };
     };
     this.WebScrollRegistroClick = function (Sender) {
       var i = 0;
