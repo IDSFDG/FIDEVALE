@@ -65001,6 +65001,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.edImporte.SetText("");
       this.edventasuba.SetText("");
       this.edNombre.SetFocus();
+      this.WebScrollRegistroClick(Sender);
     };
     this.WebPanel4Click = function (Sender) {
       this.WebScrollRegistro.SetVisible(!this.WebScrollRegistro.FVisible);
@@ -65010,6 +65011,10 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     };
     this.edventasubaEnter = function (Sender) {
       if (this.edventasuba.GetText().length === 0) this.edventasuba.SetText("V");
+    };
+    this.WebScrollRegistroClick = function (Sender) {
+      var i = 0;
+      i = 0;
     };
     this.LoadDFMValues = function () {
       pas["WEBLib.Forms"].TCustomForm.LoadDFMValues.call(this);
@@ -65366,6 +65371,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebScrollRegistro.SetColor(12695295);
         this.WebScrollRegistro.SetScrollBars(pas["WEBLib.Controls"].TScrollStyle.ssHorizontal);
         this.WebScrollRegistro.SetVisible(false);
+        this.SetEvent$1(this.WebScrollRegistro,this,"OnClick","WebScrollRegistroClick");
         this.WebLabel3.SetParentComponent(this.WebScrollRegistro);
         this.WebLabel3.SetName("WebLabel3");
         this.WebLabel3.SetLeft(0);
@@ -65854,6 +65860,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     $r.addMethod("WebPanel4Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("WebLabel2Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("edventasubaEnter",0,[["Sender",pas.System.$rtti["TObject"]]]);
+    $r.addMethod("WebScrollRegistroClick",0,[["Sender",pas.System.$rtti["TObject"]]]);
   });
   this.Form1 = null;
 });
