@@ -63397,9 +63397,9 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
               row.delete();
              }
             }});
-            cols[1].updateDefinition({title:'Nombre', field:"nombre",width:100,responsive:0,headerTooltip:'Nombre',headerFilter:"input"});
+            cols[1].updateDefinition({title:'Nombre', field:"nombre",width:90,responsive:0,headerTooltip:'Nombre',headerFilter:"input"});
             cols[2].updateDefinition({title:'Articulo',field:"articulo",width:100,responsive:0,headerTooltip:'Articulo',headerFilter:"input"});
-            cols[3].updateDefinition({title:'Importe',field:"importe",width:70,responsive:0,headerTooltip:'Importe',headerFilter:"input"});
+            cols[3].updateDefinition({title:'Importe',field:"importe",width:60,responsive:0,headerTooltip:'Importe',headerFilter:"input"});
             cols[4].updateDefinition({title:'P.',width:30,headerTooltip:'Pagado',field:"pagado",editor:true, formatter:"tickCross"});
             cols[5].updateDefinition({title:'E.',width:30,headerTooltip:'Entregado',field:"entregado",editor:true, formatter:"tickCross"});
             cols[6].updateDefinition({title:'Vd/Sub',width:68,headerTooltip:'Vta.Directa /Subasta',field:"vds",headerFilter:"input"});
@@ -64898,9 +64898,9 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
                 row.delete();
                }
               }});
-              cols[1].updateDefinition({title:'Nombre', field:"nombre",width:100,responsive:0,headerTooltip:'Nombre',headerFilter:"input"});
+              cols[1].updateDefinition({title:'Nombre', field:"nombre",width:90,responsive:0,headerTooltip:'Nombre',headerFilter:"input"});
               cols[2].updateDefinition({title:'Articulo',field:"articulo",width:100,responsive:0,headerTooltip:'Articulo',headerFilter:"input"});
-              cols[3].updateDefinition({title:'Importe',field:"importe",width:70,responsive:0,headerTooltip:'Importe',headerFilter:"input"});
+              cols[3].updateDefinition({title:'Importe',field:"importe",width:60,responsive:0,headerTooltip:'Importe',headerFilter:"input"});
               cols[4].updateDefinition({title:'P.',width:30,headerTooltip:'Pagado',field:"pagado",editor:true, formatter:"tickCross"});
               cols[5].updateDefinition({title:'E.',width:30,headerTooltip:'Entregado',field:"entregado",editor:true, formatter:"tickCross"});
               cols[6].updateDefinition({title:'Vd/Sub',width:68,headerTooltip:'Vta.Directa /Subasta',field:"vds",headerFilter:"input"});
@@ -64928,9 +64928,9 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
                 row.delete();
                }
               }});
-              cols[1].updateDefinition({title:'Nombre', field:"nombre",width:100,responsive:0,headerTooltip:'Nombre',headerFilter:"input"});
+              cols[1].updateDefinition({title:'Nombre', field:"nombre",width:90,responsive:0,headerTooltip:'Nombre',headerFilter:"input"});
               cols[2].updateDefinition({title:'Articulo',field:"articulo",width:100,responsive:0,headerTooltip:'Articulo',headerFilter:"input"});
-              cols[3].updateDefinition({title:'Importe',field:"importe",width:70,responsive:0,headerTooltip:'Importe',headerFilter:"input"});
+              cols[3].updateDefinition({title:'Importe',field:"importe",width:60,responsive:0,headerTooltip:'Importe',headerFilter:"input"});
               cols[4].updateDefinition({title:'P.',width:30,headerTooltip:'Pagado',field:"pagado",editor:true, formatter:"tickCross"});
               cols[5].updateDefinition({title:'E.',width:30,headerTooltip:'Entregado',field:"entregado",editor:true, formatter:"tickCross"});
               cols[6].updateDefinition({title:'Vd/Sub',width:68,headerTooltip:'Vta.Directa /Subasta',field:"vds",headerFilter:"input"});
@@ -65244,14 +65244,14 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebLabel2.SetLeft(0);
         this.WebLabel2.SetTop(0);
         this.WebLabel2.SetWidth(701);
-        this.WebLabel2.SetHeight(23);
+        this.WebLabel2.SetHeight(19);
         this.WebLabel2.SetAlign(pas["WEBLib.Controls"].TAlign.alTop);
         this.WebLabel2.SetAlignment(pas.Classes.TAlignment.taCenter);
-        this.WebLabel2.SetCaption("Registro de ventas y subastas");
+        this.WebLabel2.SetCaption("Registro de VENTAS Y SUBASTAS");
         this.WebLabel2.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
         this.WebLabel2.FFont.FCharset = 1;
         this.WebLabel2.FFont.SetColor(65793);
-        this.WebLabel2.FFont.SetHeight(-19);
+        this.WebLabel2.FFont.SetHeight(-16);
         this.WebLabel2.FFont.SetName("Tahoma");
         this.WebLabel2.FFont.SetStyle(rtl.createSet(pas["WEBLib.Graphics"].TFontStyle.fsBold));
         this.WebLabel2.SetHeightStyle(pas["WEBLib.Controls"].TSizeStyle.ssAuto);
@@ -65382,7 +65382,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebLabel3.SetHeight(18);
         this.WebLabel3.SetAlign(pas["WEBLib.Controls"].TAlign.alTop);
         this.WebLabel3.SetAlignment(pas.Classes.TAlignment.taCenter);
-        this.WebLabel3.SetCaption("Registro de Productos");
+        this.WebLabel3.SetCaption("Hoja de registro de PRODUCTOS");
         this.WebLabel3.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
         this.WebLabel3.FFont.FCharset = 1;
         this.WebLabel3.FFont.SetColor(65793);
@@ -65592,15 +65592,15 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.SetEvent$1(this.Pacientes1,this,"OnClick","Pacientes1Click");
         this.Registrar1.SetParentComponent(this.Archivo1);
         this.Registrar1.SetName("Registrar1");
-        this.Registrar1.SetCaption("Registro");
+        this.Registrar1.SetCaption("Escribir Hoja");
         this.SetEvent$1(this.Registrar1,this,"OnClick","Registrar1Click");
         this.Consultas1.SetParentComponent(this.Archivo1);
         this.Consultas1.SetName("Consultas1");
-        this.Consultas1.SetCaption("Abrir");
+        this.Consultas1.SetCaption("Abrir Hoja");
         this.SetEvent$1(this.Consultas1,this,"OnClick","Consultas1Click");
         this.Estudios1.SetParentComponent(this.Archivo1);
         this.Estudios1.SetName("Estudios1");
-        this.Estudios1.SetCaption("Guardar");
+        this.Estudios1.SetCaption("Guardar Hoja");
         this.SetEvent$1(this.Estudios1,this,"OnClick","Estudios1Click");
         this.Analisis1.SetParentComponent(this.Archivo1);
         this.Analisis1.SetName("Analisis1");
@@ -65620,7 +65620,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.SetEvent$1(this.ExportaraPDF1,this,"OnClick","ExportaraPDF1Click");
         this.Imprimir1.SetParentComponent(this.Archivo1);
         this.Imprimir1.SetName("Imprimir1");
-        this.Imprimir1.SetCaption("Imprimir");
+        this.Imprimir1.SetCaption("Imprimir Hoja");
         this.SetEvent$1(this.Imprimir1,this,"OnClick","Imprimir1Click");
         this.N2.SetParentComponent(this.Archivo1);
         this.N2.SetName("N2");
