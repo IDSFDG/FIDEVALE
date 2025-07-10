@@ -64959,13 +64959,29 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       src = pas.SysUtils.IntToStr(irc);
       datosstr = '{"rc":' + String.fromCharCode(34) + src + String.fromCharCode(34) + "," + '"nombre":' + String.fromCharCode(34) + this.edNombre.GetText() + String.fromCharCode(34) + "," + '"articulo":' + String.fromCharCode(34) + this.edArticulo.GetText() + String.fromCharCode(34) + "," + ' "importe":' + String.fromCharCode(34) + this.edImporte.GetText() + String.fromCharCode(34) + "," + '"vds":' + String.fromCharCode(34) + this.edventasuba.GetText() + String.fromCharCode(34) + "}";
       var table = Tabulator.findTable("#tabExample")[0];
-            var tabledata = [];
-            var obj=JSON.parse(datosstr);
-            tabledata.push(obj);
-            console.log(tabledata);
+            var tabledata = [];   // se puede eliminar
+            var obj=JSON.parse(datosstr);   // se puede eliminar
+            tabledata.push(obj);  // se puede eliminar
+            //console.log(tabledata);
             var rowCount = table.getDataCount()+1;
            // alert(rowCount);
-            if (rowCount < 11)
+             if (rowCount < 11)
+            {
+             table.addRow(datosstr)
+                  .then(function(row){
+                      //row - the row component for the row updated or added
+                   row.scrollTo();
+      
+                  //run code after data has been updated
+                  })
+                 .catch(function(error){
+                       //handle error updating data
+                  });
+      
+           }  //if  rowCount
+      
+      
+          /*  if (rowCount < 11)
             {
               table.addData(tabledata, false)  //ADD true top of the table false bottom of the table
                 .then(function(rows){
@@ -64978,7 +64994,8 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
                 .catch(function(error){
                  //handle error updating data
                 });
-            };
+            }
+            */;
       this.edNombre.SetText("");
       this.edArticulo.SetText("");
       this.edImporte.SetText("");
@@ -64990,6 +65007,9 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     };
     this.WebLabel2Click = function (Sender) {
       this.WebScrollRegistro.SetVisible(!this.WebScrollRegistro.FVisible);
+    };
+    this.edventasubaEnter = function (Sender) {
+      if (this.edventasuba.GetText().length === 0) this.edventasuba.SetText("V");
     };
     this.LoadDFMValues = function () {
       pas["WEBLib.Forms"].TCustomForm.LoadDFMValues.call(this);
@@ -65430,6 +65450,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.edImporte.SetWidth(87);
         this.edImporte.SetHeight(22);
         this.edImporte.SetChildOrderEx(3);
+        this.edImporte.SetEditType(pas["WEBLib.StdCtrls"].TEditType.weNumeric);
         this.edImporte.SetElementClassName("form-control");
         this.edImporte.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
         this.edImporte.SetHeightStyle(pas["WEBLib.Controls"].TSizeStyle.ssAuto);
@@ -65447,8 +65468,10 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.edventasuba.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
         this.edventasuba.SetHeightStyle(pas["WEBLib.Controls"].TSizeStyle.ssAuto);
         this.edventasuba.SetHeightPercent(100.000000000000000000);
+        this.edventasuba.SetMaxLength(1);
         this.edventasuba.SetTabOrder(5);
         this.edventasuba.SetWidthPercent(100.000000000000000000);
+        this.SetEvent$1(this.edventasuba,this,"OnEnter","edventasubaEnter");
         this.edArticulo.SetParentComponent(this.WebScrollRegistro);
         this.edArticulo.SetName("edArticulo");
         this.edArticulo.SetLeft(98);
@@ -65830,6 +65853,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     $r.addMethod("btnAgregarClick",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("WebPanel4Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("WebLabel2Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
+    $r.addMethod("edventasubaEnter",0,[["Sender",pas.System.$rtti["TObject"]]]);
   });
   this.Form1 = null;
 });
