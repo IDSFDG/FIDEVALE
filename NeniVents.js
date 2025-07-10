@@ -65013,7 +65013,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     this.WebScrollRegistroClick = function (Sender) {
       var i = 0;
       i = 0;
-      alert('click');
+      // alert('click');
     };
     this.LoadDFMValues = function () {
       pas["WEBLib.Forms"].TCustomForm.LoadDFMValues.call(this);
