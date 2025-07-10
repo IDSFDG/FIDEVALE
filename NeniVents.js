@@ -65000,8 +65000,6 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.edArticulo.SetText("");
       this.edImporte.SetText("");
       this.edventasuba.SetText("");
-      this.edNombre.SetFocus();
-      this.WebScrollRegistroClick(Sender);
     };
     this.WebPanel4Click = function (Sender) {
       this.WebScrollRegistro.SetVisible(!this.WebScrollRegistro.FVisible);
@@ -65015,6 +65013,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     this.WebScrollRegistroClick = function (Sender) {
       var i = 0;
       i = 0;
+      alert('click');
     };
     this.LoadDFMValues = function () {
       pas["WEBLib.Forms"].TCustomForm.LoadDFMValues.call(this);
