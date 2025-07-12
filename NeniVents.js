@@ -64010,7 +64010,210 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
   $mod.$init = function () {
   };
 });
-rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","WEBLib.Controls","WEBLib.Forms","WEBLib.Dialogs","WEBLib.Controls","WEBLib.WebCtrls","WEBLib.StdCtrls","WEBLib.StdCtrls","WEBLib.ExtCtrls","WEBLib.REST","WEBLib.JQCtrls","WEBLib.SideMenu","WEBLib.Menus","WEBLib.Menus","uCargarConsultas"],function () {
+rtl.module("WEBLib.Cookies",["System","SysUtils","Classes"],function () {
+  "use strict";
+  var $mod = this;
+  rtl.createClass(this,"TCookie",pas.Classes.TCollectionItem,function () {
+    this.$init = function () {
+      pas.Classes.TCollectionItem.$init.call(this);
+      this.FPath = "";
+      this.FName = "";
+      this.FExpiry = 0.0;
+      this.FValue = "";
+      this.FChanged = false;
+    };
+    this.SetExpiry = function (Value) {
+      if (this.FExpiry !== Value) {
+        this.FExpiry = Value;
+        this.FChanged = true;
+      };
+    };
+    this.SetName = function (Value) {
+      if (this.FName !== Value) {
+        this.FName = Value;
+        this.FChanged = true;
+      };
+    };
+    this.SetPath = function (Value) {
+      if (this.FPath !== Value) {
+        this.FPath = Value;
+        this.FChanged = true;
+      };
+    };
+    this.SetValue = function (Value) {
+      if (this.FValue !== Value) {
+        this.FValue = Value;
+        this.FChanged = true;
+      };
+    };
+    this.CookieAsString = function () {
+      var Result = "";
+      var d = null;
+      var ye = 0;
+      var mo = 0;
+      var da = 0;
+      var ho = 0;
+      var mi = 0;
+      var se = 0;
+      var ms = 0;
+      var s = "";
+      Result = this.FName + "=" + encodeURIComponent(this.FValue) + ";";
+      if (this.FExpiry !== 0) {
+        pas.SysUtils.DecodeDate(this.FExpiry,{get: function () {
+            return ye;
+          }, set: function (v) {
+            ye = v;
+          }},{get: function () {
+            return mo;
+          }, set: function (v) {
+            mo = v;
+          }},{get: function () {
+            return da;
+          }, set: function (v) {
+            da = v;
+          }});
+        pas.SysUtils.DecodeTime(this.FExpiry,{get: function () {
+            return ho;
+          }, set: function (v) {
+            ho = v;
+          }},{get: function () {
+            return mi;
+          }, set: function (v) {
+            mi = v;
+          }},{get: function () {
+            return se;
+          }, set: function (v) {
+            se = v;
+          }},{get: function () {
+            return ms;
+          }, set: function (v) {
+            ms = v;
+          }});
+        d = new Date(ye,mo-1,da,ho,mi,se,ms);
+        if ((ye === 1970) && (mo === 1) && (da === 1)) {
+          s = "Thu, 01 Jan 1970 00:00:00 UTC"}
+         else s = d.toUTCString();
+        Result = Result + "expires=" + s + ";";
+      };
+      if (this.FPath !== "") {
+        Result = Result + "path=" + this.FPath + ";"}
+       else Result = Result + "path=/;";
+      return Result;
+    };
+    var $r = this.$rtti;
+    $r.addProperty("Name",2,rtl.string,"FName","SetName");
+    $r.addProperty("Value",2,rtl.string,"FValue","SetValue");
+    $r.addProperty("Expiry",2,pas.System.$rtti["TDateTime"],"FExpiry","SetExpiry");
+    $r.addProperty("Path",2,rtl.string,"FPath","SetPath");
+  });
+  rtl.createClass(this,"TWebCookie",this.TCookie,function () {
+  });
+  rtl.createClass(this,"TCookies",pas.Classes.TCollection,function () {
+    this.GetItem$1 = function (Index) {
+      var Result = null;
+      Result = this.GetItem(Index);
+      return Result;
+    };
+    this.SetItem$1 = function (Index, Value) {
+      this.SetItem(Index,Value);
+    };
+    this.Create$2 = function () {
+      pas.Classes.TCollection.Create$1.call(this,$mod.TCookie);
+      return this;
+    };
+    this.GetCookies = function () {
+      var s = "";
+      var sl = null;
+      var i = 0;
+      var cookie = null;
+      s = decodeURIComponent(document.cookie);
+      sl = pas.Classes.TStringList.$create("Create$1");
+      sl.SetDelimiter(";");
+      sl.FStrictDelimiter = true;
+      sl.SetDelimitedText(s);
+      this.Clear();
+      try {
+        for (var $l = 0, $end = sl.GetCount() - 1; $l <= $end; $l++) {
+          i = $l;
+          cookie = pas.Classes.TCollection.Add.call(this);
+          cookie.SetName(pas.SysUtils.Trim(sl.GetName(i)));
+          cookie.SetValue(sl.GetValue(sl.GetName(i)));
+          cookie.FChanged = false;
+        };
+      } finally {
+        sl = rtl.freeLoc(sl);
+      };
+    };
+    this.SetCookies = function () {
+      var s = "";
+      var i = 0;
+      s = "";
+      for (var $l = 0, $end = this.GetCount() - 1; $l <= $end; $l++) {
+        i = $l;
+        if (this.GetItem$1(i).FChanged) {
+          this.GetItem$1(i).FChanged = false;
+          s = this.GetItem$1(i).CookieAsString();
+          document.cookie = s;
+        };
+      };
+    };
+    this.Delete$1 = function (ACookie) {
+      ACookie.SetExpiry(pas.SysUtils.EncodeDate(1970,1,1) + pas.SysUtils.EncodeTime(0,0,0,0));
+    };
+    this.Delete$2 = function (AName) {
+      var cookie = null;
+      cookie = this.Find(AName);
+      if (cookie != null) {
+        this.Delete$1(cookie);
+      };
+    };
+    this.Add$1 = function (AName, AValue, Expiry) {
+      var Result = null;
+      Result = this.Add$4(AName,AValue,"/",Expiry);
+      return Result;
+    };
+    this.Add$2 = function (AName, AValue) {
+      var Result = null;
+      Result = this.Add$4(AName,AValue,"/",0);
+      return Result;
+    };
+    this.Add$3 = function (AName, AValue, APath) {
+      var Result = null;
+      Result = this.Add$4(AName,AValue,APath,0);
+      return Result;
+    };
+    this.Add$4 = function (AName, AValue, APath, Expiry) {
+      var Result = null;
+      Result = null;
+      if (AName === "") return Result;
+      Result = pas.Classes.TCollection.Add.call(this);
+      Result.SetName(AName);
+      Result.SetValue(AValue);
+      Result.SetExpiry(Expiry);
+      Result.SetPath(APath);
+      Result.FChanged = true;
+      return Result;
+    };
+    this.Find = function (AName) {
+      var Result = null;
+      var i = 0;
+      Result = null;
+      for (var $l = 0, $end = this.GetCount() - 1; $l <= $end; $l++) {
+        i = $l;
+        if (this.GetItem$1(i).FName === AName) {
+          Result = this.GetItem$1(i);
+          break;
+        };
+      };
+      return Result;
+    };
+    var $r = this.$rtti;
+    $r.addMethod("Create$2",2,[]);
+  });
+  rtl.createClass(this,"TWebCookies",this.TCookies,function () {
+  });
+},["Web","JS"]);
+rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","WEBLib.Controls","WEBLib.Forms","WEBLib.Dialogs","WEBLib.Controls","WEBLib.WebCtrls","WEBLib.StdCtrls","WEBLib.StdCtrls","WEBLib.ExtCtrls","WEBLib.REST","WEBLib.JQCtrls","WEBLib.SideMenu","WEBLib.Menus","WEBLib.Menus","uCargarConsultas","WEBLib.Cookies"],function () {
   "use strict";
   var $mod = this;
   rtl.createClass(this,"TForm1",pas["WEBLib.Forms"].TForm,function () {
@@ -64077,6 +64280,11 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.edRen = null;
       this.btnEliminar = null;
       this.radioTipo = null;
+      this.lbusuario2 = null;
+      this.lbusuario = null;
+      this.lbminimizar = null;
+      this.WebMessageDlg1 = null;
+      this.minimizo = false;
     };
     this.$final = function () {
       this.WebHttpRequest1 = undefined;
@@ -64140,6 +64348,10 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.edRen = undefined;
       this.btnEliminar = undefined;
       this.radioTipo = undefined;
+      this.lbusuario2 = undefined;
+      this.lbusuario = undefined;
+      this.lbminimizar = undefined;
+      this.WebMessageDlg1 = undefined;
       pas["WEBLib.Forms"].TForm.$final.call(this);
     };
     this.WebButton1Click = function (Sender) {
@@ -64481,6 +64693,12 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.WebButton8Click(Sender);
     };
     this.WebFormCreate = function (Sender) {
+      var usr = "";
+      var usr2 = "";
+      this.minimizo = false;
+      this.lbminimizar.SetCaption("");
+      usr = this.GetCookie("usr");
+      this.lbusuario.SetCaption(usr);
       this.WebPanel4.SetVisible(false);
       pas.uCargarConsultas.IniciarHoja({p: this, get: function () {
           return this.p.WebScrollRegistro;
@@ -64492,6 +64710,21 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.WebPanel4.FElementBodyClassName = "";
       this.WebPanel4.SetElementClassName("");
       this.WebPanel4.SetElementFont(pas["WEBLib.Controls"].TElementFont.efProperty);
+      document.addEventListener("visibilitychange", function() {
+        if (document.visibilityState === "hidden") {
+          // The page is hidden, which could mean the browser is minimized or in a background tab
+          console.log("Browser or tab is hidden/minimized.");
+          // Perform actions like pausing animations, saving state, etc.
+      
+          const myElement = document.getElementById('elminimiza');
+          myElement.innerHTML = 'minimiza';
+      
+        } else {
+          // The page is visible again
+          console.log("Browser or tab is visible.");
+          // Resume activities
+        }
+      });
     };
     this.Imprimir1Click = function (Sender) {
       this.WebScrollRegistro.SetVisible(false);
@@ -65023,6 +65256,139 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       i = 0;
       // alert('click');
     };
+    this.GetCookie = function (cookie_name) {
+      var Result = "";
+      var Cookies = null;
+      var Cookie = null;
+      Result = "";
+      Cookies = pas["WEBLib.Cookies"].TCookies.$create("Create$2");
+      try {
+        Cookies.GetCookies();
+        Cookie = Cookies.Find(cookie_name);
+        if (Cookie != null) Result = Cookie.FValue;
+      } finally {
+        Cookies = rtl.freeLoc(Cookies);
+      };
+      return Result;
+    };
+    this.WebFormEnter = async function (Sender) {
+      var u = "";
+      var p = "";
+      var resultado = false;
+      u = this.lbusuario.FCaption;
+      const myElement = document.getElementById('elminimiza');
+      if (myElement.innerHTML == 'minimiza')
+      {
+         alert('pedir validacion de usuario '+u);
+         myElement.innerHTML='';
+         let pp = prompt("Por favor captura su contraseña de usuario:");
+         p=pp;
+      resultado = await this.ValidarUsuario(u,p);
+      };
+    };
+    this.ValidarUsuario = async function (u, p) {
+      var Result = false;
+      var ustr = "";
+      var pstr = "";
+      var astr = "";
+      var jresult = false;
+      var Cookies = null;
+      Result = false;
+      jresult = false;
+      ustr = pas.SysUtils.TStringHelper.UpperCase(u);
+      //********************************************************************************
+       //********************************************************************************
+       //        const sqlPromise = initSqlJs({
+       //       locateFile: file => 'https://idsfdg.github.io/FIDEVALE/'
+       //     });
+       //        const dataPromise = fetch("//idsfdg.github.io/FIDEVALE/BD_Vale.db").then(res => res.arrayBuffer());
+       //        const [SQL, buf] = await Promise.all([sqlPromise, dataPromise])
+       //        const db = new SQL.Database(new Uint8Array(buf));
+       //   alert('fech');
+       //********************************************************************************
+       //********************************************************************************
+      
+        const xhr = new XMLHttpRequest();
+      
+      // For example: https://github.com/lerocha/chinook-database/raw/master/ChinookDatabase/DataSources/Chinook_Sqlite.sqlite
+      //xhr.open('GET', 'https://idsfdg.github.io/ReportesTXT/Base1.db', true);
+        xhr.open('GET', 'https://idsfdg.github.io/FIDEVALE/BD_Vale.db', true);
+      //alert('1');
+      xhr.responseType = 'arraybuffer';
+      //alert('2');
+       xhr.onload =  e => {
+        const uInt8Array = new Uint8Array(xhr.response);
+       // console.log  ('array',uInt8Array);
+      //   alert('3');
+        const db = new SQL.Database(uInt8Array);
+      //   alert('4');
+      
+       //********************************************************************************
+       //SELECT SQL *********************************************************************
+       //********************************************************************************
+      
+        const  contents =   db.exec("SELECT contrapwd,estado FROM tablausuarios where nombre = '"+ustr+"';");
+       //********************************************************************************
+       //********************************************************************************
+      
+        // contents is now [{columns:['col1','col2',...], values:[[first row], [second row], ...]}]
+         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+          // Request finished. Do processing here.
+      
+           var len = contents.length;
+           console.log('contents');
+          console.log(contents.length);
+           if (len > 0)
+           {
+            console.log(contents);
+            console.log('contents columns');
+            console.log(contents[0].columns);
+            console.log('contents values');
+            console.log(contents[0].values);
+            len = contents[0].values.length;
+            if (len > 0)
+            {
+             //  alert('usuario existe');
+               pstr= contents[0].values[0][0];
+               astr= contents[0].values[0][1];
+               console.log('pwd',pstr);
+               console.log('astr',astr);
+              // const edBox = document.getElementById("tabla");
+               if (pstr==p  && astr=="1")
+               {
+                  jresult=true;
+                 // WebMemo1.text = pwd+astr;
+      
+                 //Set the text content of the editbox
+                 //  edBox.value = "OK";
+               }
+               else
+               {
+                    jresult=false;
+                //   edBox.value = "NOT OK";
+               }
+      
+      
+            }
+         }
+        } // readyState
+        console.log('resultado 1',jresult);
+      //alert('5');
+      if (jresult === true) {
+        Result = true;
+      } else {
+        Result = false;
+        alert('Usuario no tiene autorización para entrar al sistema');
+        this.Salir1Click(this);
+      };
+      //********************************************************************************
+       //********************************************************************************
+      };
+      
+      xhr.send();
+      this.minimizo = false;
+      return Result;
+    };
     this.LoadDFMValues = function () {
       pas["WEBLib.Forms"].TCustomForm.LoadDFMValues.call(this);
       this.WebDiv = pas["WEBLib.WebCtrls"].THTMLDiv.$create("Create$2",["tabExample"]);
@@ -65032,6 +65398,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.WebPanel4 = pas["WEBLib.ExtCtrls"].TPanel.$create("Create$1",[this]);
       this.WebLabel1 = pas["WEBLib.StdCtrls"].TLabel.$create("Create$1",[this]);
       this.WebLabel2 = pas["WEBLib.StdCtrls"].TLabel.$create("Create$1",[this]);
+      this.lbminimizar = pas["WEBLib.StdCtrls"].TLabel.$create("Create$2",["elminimiza"]);
       this.WebButton9 = pas["WEBLib.StdCtrls"].TButton.$create("Create$1",[this]);
       this.edPaciente = pas["WEBLib.StdCtrls"].TEdit.$create("Create$2",["edPaciente"]);
       this.edPacNombre = pas["WEBLib.StdCtrls"].TEdit.$create("Create$2",["edPacNombre"]);
@@ -65050,10 +65417,13 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.edventasuba = pas["WEBLib.StdCtrls"].TEdit.$create("Create$2",["vds"]);
       this.edArticulo = pas["WEBLib.StdCtrls"].TEdit.$create("Create$2",["producto"]);
       this.WebPanel1 = pas["WEBLib.ExtCtrls"].TPanel.$create("Create$1",[this]);
+      this.lbusuario2 = pas["WEBLib.StdCtrls"].TLabel.$create("Create$1",[this]);
+      this.lbusuario = pas["WEBLib.StdCtrls"].TLabel.$create("Create$1",[this]);
       this.btnAgregar = pas["WEBLib.StdCtrls"].TButton.$create("Create$2",["btnregistrar"]);
       this.btnCerrar = pas["WEBLib.StdCtrls"].TButton.$create("Create$1",[this]);
       this.edRen = pas["WEBLib.StdCtrls"].TEdit.$create("Create$2",["rowsel"]);
       this.btnEliminar = pas["WEBLib.StdCtrls"].TButton.$create("Create$2",["btndel"]);
+      this.WebMessageDlg1 = pas["WEBLib.Dialogs"].TMessageDlg.$create("Create$1",[this]);
       this.radioTipo = pas["WEBLib.StdCtrls"].TRadioGroup.$create("Create$1",[this]);
       this.WebHttpRequest1 = pas["WEBLib.REST"].THttpRequest.$create("Create$1",[this]);
       this.WebMainMenu1 = pas["WEBLib.Menus"].TMainMenu.$create("Create$1",[this]);
@@ -65093,6 +65463,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.WebPanel4.BeforeLoadDFMValues();
       this.WebLabel1.BeforeLoadDFMValues();
       this.WebLabel2.BeforeLoadDFMValues();
+      this.lbminimizar.BeforeLoadDFMValues();
       this.WebButton9.BeforeLoadDFMValues();
       this.edPaciente.BeforeLoadDFMValues();
       this.edPacNombre.BeforeLoadDFMValues();
@@ -65111,10 +65482,13 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.edventasuba.BeforeLoadDFMValues();
       this.edArticulo.BeforeLoadDFMValues();
       this.WebPanel1.BeforeLoadDFMValues();
+      this.lbusuario2.BeforeLoadDFMValues();
+      this.lbusuario.BeforeLoadDFMValues();
       this.btnAgregar.BeforeLoadDFMValues();
       this.btnCerrar.BeforeLoadDFMValues();
       this.edRen.BeforeLoadDFMValues();
       this.btnEliminar.BeforeLoadDFMValues();
+      this.WebMessageDlg1.BeforeLoadDFMValues();
       this.radioTipo.BeforeLoadDFMValues();
       this.WebHttpRequest1.BeforeLoadDFMValues();
       this.WebMainMenu1.BeforeLoadDFMValues();
@@ -65161,6 +65535,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.FMenu = this.WebMainMenu1;
         this.SetParentFont(false);
         this.SetEvent(this,"OnCreate","WebFormCreate");
+        this.SetEvent(this,"OnEnter","WebFormEnter");
         this.WebDiv.SetParentComponent(this);
         this.WebDiv.SetName("WebDiv");
         this.WebDiv.SetLeft(0);
@@ -65266,10 +65641,22 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebLabel2.SetParentFont(false);
         this.WebLabel2.SetWidthPercent(100.000000000000000000);
         this.SetEvent$1(this.WebLabel2,this,"OnClick","WebLabel2Click");
+        this.lbminimizar.SetParentComponent(this.WebPanel4);
+        this.lbminimizar.SetName("lbminimizar");
+        this.lbminimizar.SetLeft(8);
+        this.lbminimizar.SetTop(0);
+        this.lbminimizar.SetWidth(25);
+        this.lbminimizar.SetHeight(18);
+        this.lbminimizar.SetCaption(".");
+        this.lbminimizar.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
+        this.lbminimizar.SetHeightStyle(pas["WEBLib.Controls"].TSizeStyle.ssAuto);
+        this.lbminimizar.SetHeightPercent(100.000000000000000000);
+        this.lbminimizar.SetVisible(false);
+        this.lbminimizar.SetWidthPercent(100.000000000000000000);
         this.WebButton9.SetParentComponent(this.WebPanel4);
         this.WebButton9.SetName("WebButton9");
-        this.WebButton9.SetLeft(3);
-        this.WebButton9.SetTop(0);
+        this.WebButton9.SetLeft(93);
+        this.WebButton9.SetTop(3);
         this.WebButton9.SetWidth(96);
         this.WebButton9.SetHeight(25);
         this.WebButton9.SetCaption("JSON");
@@ -65310,7 +65697,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.edPacNombre.SetWidthPercent(100.000000000000000000);
         this.WebButton11.SetParentComponent(this.WebPanel4);
         this.WebButton11.SetName("WebButton11");
-        this.WebButton11.SetLeft(479);
+        this.WebButton11.SetLeft(602);
         this.WebButton11.SetTop(3);
         this.WebButton11.SetWidth(96);
         this.WebButton11.SetHeight(25);
@@ -65515,6 +65902,30 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebPanel1.FElementBodyClassName = "card-body";
         this.WebPanel1.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
         this.WebPanel1.SetTabOrder(4);
+        this.lbusuario2.SetParentComponent(this.WebPanel1);
+        this.lbusuario2.SetName("lbusuario2");
+        this.lbusuario2.SetLeft(512);
+        this.lbusuario2.SetTop(56);
+        this.lbusuario2.SetWidth(5);
+        this.lbusuario2.SetHeight(18);
+        this.lbusuario2.SetCaption(".");
+        this.lbusuario2.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
+        this.lbusuario2.SetHeightStyle(pas["WEBLib.Controls"].TSizeStyle.ssAuto);
+        this.lbusuario2.SetHeightPercent(100.000000000000000000);
+        this.lbusuario2.SetVisible(false);
+        this.lbusuario2.SetWidthPercent(100.000000000000000000);
+        this.lbusuario.SetParentComponent(this.WebPanel1);
+        this.lbusuario.SetName("lbusuario");
+        this.lbusuario.SetLeft(512);
+        this.lbusuario.SetTop(40);
+        this.lbusuario.SetWidth(5);
+        this.lbusuario.SetHeight(18);
+        this.lbusuario.SetCaption(".");
+        this.lbusuario.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
+        this.lbusuario.SetHeightStyle(pas["WEBLib.Controls"].TSizeStyle.ssAuto);
+        this.lbusuario.SetHeightPercent(100.000000000000000000);
+        this.lbusuario.SetVisible(false);
+        this.lbusuario.SetWidthPercent(100.000000000000000000);
         this.btnAgregar.SetParentComponent(this.WebPanel1);
         this.btnAgregar.SetName("btnAgregar");
         this.btnAgregar.SetLeft(113);
@@ -65572,6 +65983,18 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.btnEliminar.SetHeightPercent(100.000000000000000000);
         this.btnEliminar.SetVisible(false);
         this.btnEliminar.SetWidthPercent(100.000000000000000000);
+        this.WebMessageDlg1.SetParentComponent(this.WebPanel1);
+        this.WebMessageDlg1.SetName("WebMessageDlg1");
+        this.WebMessageDlg1.SetLeft(551);
+        this.WebMessageDlg1.SetTop(6);
+        this.WebMessageDlg1.SetWidth(24);
+        this.WebMessageDlg1.SetHeight(24);
+        this.WebMessageDlg1.FButtons = {};
+        this.WebMessageDlg1.FOpacity = 0.200000000000000000;
+        this.WebMessageDlg1.FElementButtonClassName = "btn";
+        this.WebMessageDlg1.FElementDialogClassName = "shadow-lg p-3 mb-5 bg-white rounded";
+        this.WebMessageDlg1.FElementTitleClassName = "text-body";
+        this.WebMessageDlg1.FElementContentClassName = "text-body";
         this.radioTipo.SetParentComponent(this.WebScrollRegistro);
         this.radioTipo.SetName("radioTipo");
         this.radioTipo.SetLeft(201);
@@ -65745,6 +66168,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebPanel4.AfterLoadDFMValues();
         this.WebLabel1.AfterLoadDFMValues();
         this.WebLabel2.AfterLoadDFMValues();
+        this.lbminimizar.AfterLoadDFMValues();
         this.WebButton9.AfterLoadDFMValues();
         this.edPaciente.AfterLoadDFMValues();
         this.edPacNombre.AfterLoadDFMValues();
@@ -65763,10 +66187,13 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.edventasuba.AfterLoadDFMValues();
         this.edArticulo.AfterLoadDFMValues();
         this.WebPanel1.AfterLoadDFMValues();
+        this.lbusuario2.AfterLoadDFMValues();
+        this.lbusuario.AfterLoadDFMValues();
         this.btnAgregar.AfterLoadDFMValues();
         this.btnCerrar.AfterLoadDFMValues();
         this.edRen.AfterLoadDFMValues();
         this.btnEliminar.AfterLoadDFMValues();
+        this.WebMessageDlg1.AfterLoadDFMValues();
         this.radioTipo.AfterLoadDFMValues();
         this.WebHttpRequest1.AfterLoadDFMValues();
         this.WebMainMenu1.AfterLoadDFMValues();
@@ -65865,6 +66292,10 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     $r.addField("edRen",pas["WEBLib.StdCtrls"].$rtti["TEdit"]);
     $r.addField("btnEliminar",pas["WEBLib.StdCtrls"].$rtti["TButton"]);
     $r.addField("radioTipo",pas["WEBLib.StdCtrls"].$rtti["TRadioGroup"]);
+    $r.addField("lbusuario2",pas["WEBLib.StdCtrls"].$rtti["TLabel"]);
+    $r.addField("lbusuario",pas["WEBLib.StdCtrls"].$rtti["TLabel"]);
+    $r.addField("lbminimizar",pas["WEBLib.StdCtrls"].$rtti["TLabel"]);
+    $r.addField("WebMessageDlg1",pas["WEBLib.Dialogs"].$rtti["TMessageDlg"]);
     $r.addMethod("WebButton1Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("WebButton2Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("WebButton3Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
@@ -65906,6 +66337,8 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     $r.addMethod("WebLabel2Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("edventasubaEnter",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("WebScrollRegistroClick",0,[["Sender",pas.System.$rtti["TObject"]]]);
+    $r.addMethod("GetCookie",1,[["cookie_name",rtl.string]],rtl.string);
+    $r.addMethod("WebFormEnter",0,[["Sender",pas.System.$rtti["TObject"]]],null,16,{attr: [pas.JS.AsyncAttribute,"Create"]});
   });
   this.Form1 = null;
 });
@@ -66213,7 +66646,7 @@ rtl.module("WEBLib.Login",["System","Classes","SysUtils","Types","WEBLib.Control
     rtl.addIntf(this,pas.System.IUnknown);
   });
 });
-rtl.module("uFormaLogin",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","WEBLib.Controls","WEBLib.Forms","WEBLib.Dialogs","WEBLib.Controls","WEBLib.Login","Unit1","WEBLib.StdCtrls","WEBLib.StdCtrls","WEBLib.REST","WEBLib.JSON","uCargarConsultas"],function () {
+rtl.module("uFormaLogin",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","WEBLib.Controls","WEBLib.Forms","WEBLib.Dialogs","WEBLib.Controls","WEBLib.Login","Unit1","WEBLib.StdCtrls","WEBLib.StdCtrls","WEBLib.REST","WEBLib.JSON","uCargarConsultas","WEBLib.Cookies"],function () {
   "use strict";
   var $mod = this;
   var $impl = $mod.$impl;
@@ -66275,6 +66708,7 @@ rtl.module("uFormaLogin",["System","SysUtils","Classes","JS","Web","WEBLib.Graph
       var pstr = "";
       var astr = "";
       var jresult = false;
+      var Cookies = null;
       Result = false;
       jresult = false;
       ustr = pas.SysUtils.TStringHelper.UpperCase(u);
@@ -66359,6 +66793,13 @@ rtl.module("uFormaLogin",["System","SysUtils","Classes","JS","Web","WEBLib.Graph
       if (jresult === true) {
         Result = true;
         this.Close();
+        Cookies = pas["WEBLib.Cookies"].TCookies.$create("Create$2");
+        try {
+          Cookies.Add$2("usr",ustr);
+          Cookies.SetCookies();
+        } finally {
+          Cookies = rtl.freeLoc(Cookies);
+        };
         pas["WEBLib.Forms"].Application.CreateForm(pas.Unit1.TForm1,{p: pas.Unit1, get: function () {
             return this.p.Form1;
           }, set: function (v) {
