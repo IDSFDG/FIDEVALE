@@ -64216,6 +64216,7 @@ rtl.module("WEBLib.Cookies",["System","SysUtils","Classes"],function () {
 rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","WEBLib.Controls","WEBLib.Forms","WEBLib.Dialogs","WEBLib.Controls","WEBLib.WebCtrls","WEBLib.StdCtrls","WEBLib.StdCtrls","WEBLib.ExtCtrls","WEBLib.REST","WEBLib.JQCtrls","WEBLib.SideMenu","WEBLib.Menus","WEBLib.Menus","uCargarConsultas","WEBLib.Cookies"],function () {
   "use strict";
   var $mod = this;
+  var $impl = $mod.$impl;
   rtl.createClass(this,"TForm1",pas["WEBLib.Forms"].TForm,function () {
     this.$init = function () {
       pas["WEBLib.Forms"].TForm.$init.call(this);
@@ -64282,8 +64283,8 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.radioTipo = null;
       this.lbusuario2 = null;
       this.lbusuario = null;
-      this.lbminimizar = null;
       this.WebMessageDlg1 = null;
+      this.lbminimizar = null;
       this.minimizo = false;
     };
     this.$final = function () {
@@ -64350,8 +64351,8 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.radioTipo = undefined;
       this.lbusuario2 = undefined;
       this.lbusuario = undefined;
-      this.lbminimizar = undefined;
       this.WebMessageDlg1 = undefined;
+      this.lbminimizar = undefined;
       pas["WEBLib.Forms"].TForm.$final.call(this);
     };
     this.WebButton1Click = function (Sender) {
@@ -64587,57 +64588,40 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     };
     this.Consultas1Click = function (Sender) {
       var nomarch = "";
+      var nomarchcookie = "";
+      var guardarCookie = null;
+      var valorRegistroCookie = "";
       this.WebScrollRegistro.SetVisible(false);
       this.edRen.SetText(".");
       nomarch = "";
-      var table = Tabulator.findTable("#tabExample")[0];
-          
-            // table.import("csv", ".csv","buffer");
-            // table.import("xlsx", [".xlsx", ".csv", ".ods"], "buffer");
-             table.import("xlsx", ".xlsx", "buffer");
-             table.on("importImporting", function(files){
-          //files - the files array returned from the file picker
-               console.log(files);
-               console.log(files[0].name);
-               nomarch ='Archivo:'+files[0].name;
-            const editBox = document.getElementById("nomarchivo");
-           // Set the text content of the editbox
-            editBox.value = nomarch;
-           //  $('#nomarchivo').html(nomarch);
-           //  $('#nomarchivo').innerHTML=nomarch;
-           //  $('#nomarchivo').innerText=nomarch;
-               console.log($('#nomarchivo'));
-            //   $('#nomarchivo').visible= true;
-      
-              });
-      
-            table.on("importImported", function(data){
-          //data - array of row data
-            //var rowCount = table.getDataCount()+1;
-           // console.log('rowcount',rowCount);
-            console.log('data',data);
-             //data.pop();
-            //console.log('data1',data);
-            var l =data.length;
-            for (var i = 0; i < l; i++) {
-               console.log(data[i].rc);
-               if (data[i].rc === undefined)
-               {
-                  data.splice(i);
-               }
-             }
-      
-            });
+      if ($impl.RegistroCookie.GetCount() === 0) {
+        pas["WEBLib.Dialogs"].ShowMessage("No hay nada registrado aún");
+        return;
+      };
+      nomarchcookie = $impl.RegistroCookie.Find("nombrearchivo").FValue;
+      if (nomarchcookie.length > 0) guardarCookie = $impl.RegistroCookie.Find(nomarchcookie);
+      if (!(guardarCookie == null)) {
+        $impl.RegistroCookie.GetCookies();
+        valorRegistroCookie = this.GetCookie(nomarchcookie);
+        console.log('archivo cookie abrir',nomarchcookie);
+        console.log('valor cookie abrir',valorRegistroCookie);
+        var table = Tabulator.findTable("#tabExample")[0];
+        table.setData(valorRegistroCookie);
+      };
     };
     this.Estudios1Click = function (Sender) {
       var sfechadia = "";
       var fechahoy = 0.0;
+      var fechafincookie = 0.0;
       var p = 0;
       var p1 = 0;
       var anio = 0;
       var mes = 0;
       var dia = 0;
       var nomarch = "";
+      var nomarchcookie = "";
+      var guardarCookie = null;
+      var valorCookie = "";
       this.WebScrollRegistro.SetVisible(false);
       this.edRen.SetText(".");
       fechahoy = pas.SysUtils.Now();
@@ -64661,23 +64645,39 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         }, set: function (v) {
           sfechadia = v;
         }});
-      if (this.lbarchivo.GetText().length > 0) {
-        sfechadia = this.lbarchivo.GetText();
-        p = pas.System.Pos(":",sfechadia) + 1;
-        sfechadia = pas.System.Copy(sfechadia,p,sfechadia.length - p);
-        p1 = pas.System.Pos(".",sfechadia) - 1;
-        nomarch = pas.System.Copy(sfechadia,1,p1);
+      nomarchcookie = nomarch;
+      valorCookie ='';
+      var table = Tabulator.findTable("#tabExample")[0];
+      var array = table.getData();
+      var json = JSON.stringify(array);
+      console.log('datos tabla',json);
+      valorCookie=json;
+      guardarCookie = $impl.RegistroCookie.Find(nomarchcookie);
+      console.log(guardarCookie);
+      if (!(guardarCookie == null)) {
+        $impl.RegistroCookie.Delete$2(nomarch);
+        $impl.RegistroCookie.Delete$2("nombrearchivo");
       };
-      // let archivo = prompt("Por favor captura el nombre del archivo", "Archivo");
-        let archivo = prompt("Por favor captura el nombre del archivo", nomarch);
-        if (archivo != undefined) {
-      //  archivo = archivo.trim()+'.csv';
-         archivo = archivo.trim()+'.xlsx';
-        var table = Tabulator.findTable("#tabExample")[0];
-       // table.download("csv", "datos1.csv", {delimiter:","}); //download a CSV file that uses a fullstop (.) delimiter
-       // table.download("csv", archivo, {delimiter:","}); //download a CSV file that uses a fullstop (.) delimiter
-         table.download("xlsx", archivo, {compress:false}); //prevent compression of output file
-        };
+      fechafincookie = fechahoy + 7;
+      $impl.RegistroCookie.Add$1(nomarchcookie,valorCookie,fechafincookie);
+      $impl.RegistroCookie.Add$1("nombrearchivo",nomarchcookie,fechafincookie);
+      pas.SysUtils.DecodeDate(fechafincookie,{get: function () {
+          return anio;
+        }, set: function (v) {
+          anio = v;
+        }},{get: function () {
+          return mes;
+        }, set: function (v) {
+          mes = v;
+        }},{get: function () {
+          return dia;
+        }, set: function (v) {
+          dia = v;
+        }});
+      console.log('archivo cookie guardar',nomarchcookie);
+      console.log('valor cookie guardar',valorCookie);
+      console.log('fecha expira',fechafincookie, anio, mes, dia);
+      $impl.RegistroCookie.SetCookies();
     };
     this.Analisis1Click = function (Sender) {
       var table = Tabulator.findTable("#tabExample")[0];
@@ -64695,8 +64695,36 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     this.WebFormCreate = function (Sender) {
       var usr = "";
       var usr2 = "";
+      var fechahoy = 0.0;
+      var anio = 0;
+      var mes = 0;
+      var dia = 0;
+      var sfechadia = "";
+      var nomarch = "";
+      fechahoy = pas.SysUtils.Now();
+      pas.SysUtils.DecodeDate(fechahoy,{get: function () {
+          return anio;
+        }, set: function (v) {
+          anio = v;
+        }},{get: function () {
+          return mes;
+        }, set: function (v) {
+          mes = v;
+        }},{get: function () {
+          return dia;
+        }, set: function (v) {
+          dia = v;
+        }});
+      sfechadia = pas.SysUtils.DateToStr(fechahoy);
+      sfechadia = pas.SysUtils.Format("%.4d%.2d%.2d",pas.System.VarRecs(0,anio,0,mes,0,dia));
+      nomarch = "Archivo-" + pas.SysUtils.TStringHelper.Trim.call({get: function () {
+          return sfechadia;
+        }, set: function (v) {
+          sfechadia = v;
+        }});
+      this.lbarchivo.SetText(nomarch);
       this.minimizo = false;
-      this.lbminimizar.SetCaption("");
+      this.lbminimizar.SetText("");
       usr = this.GetCookie("usr");
       this.lbusuario.SetCaption(usr);
       this.WebPanel4.SetVisible(false);
@@ -64710,6 +64738,8 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.WebPanel4.FElementBodyClassName = "";
       this.WebPanel4.SetElementClassName("");
       this.WebPanel4.SetElementFont(pas["WEBLib.Controls"].TElementFont.efProperty);
+      $impl.RegistroCookie = pas["WEBLib.Cookies"].TCookies.$create("Create$2");
+      $impl.RegistroCookie.GetCookies();
       document.addEventListener("visibilitychange", function() {
         if (document.visibilityState === "hidden") {
           // The page is hidden, which could mean the browser is minimized or in a background tab
@@ -64717,8 +64747,8 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
           // Perform actions like pausing animations, saving state, etc.
       
           const myElement = document.getElementById('elminimiza');
-          myElement.innerHTML = 'minimiza';
-      
+        //  myElement.innerHTML = 'minimiza';
+          myElement.value = 'minimiza';
         } else {
           // The page is visible again
           console.log("Browser or tab is visible.");
@@ -65109,7 +65139,10 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       // window.open('https://idsfdg.github.io/GrafPrueba/');
       return;
     };
-    this.Salir1Click = function (Sender) {
+    this.Salir1Click = async function (Sender) {
+      var mr = 0;
+      mr = await this.WebMessageDlg1.ShowDialog$2("Desea imprimir el resumen de su Venta Semanal?",pas["WEBLib.Dialogs"].TMsgDlgType.mtConfirmation,rtl.createSet(pas["WEBLib.Dialogs"].TMsgDlgBtn.mbYes,pas["WEBLib.Dialogs"].TMsgDlgBtn.mbNo));
+      if (mr === 6) this.ExportaraPDF1Click(Sender);
       this.Close();
       pas["WEBLib.Forms"].Application.Terminate();
     };
@@ -65139,7 +65172,6 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
               cols[4].updateDefinition({title:'P.',width:30,headerTooltip:'Pagado',field:"pagado",editor:true,headerHozAlign:"left", formatter:"tickCross"});
               cols[5].updateDefinition({title:'E.',width:30,headerTooltip:'Entregado',field:"entregado",editor:true, headerHozAlign:"left",formatter:"tickCross"});
               cols[6].updateDefinition({title:'V/S',width:68,headerTooltip:'Vta.Directa /Subasta',field:"vds",headerHozAlign:"left",headerFilter:"input"});
-      this.lbarchivo.SetText("");
     };
     this.LimpiarHoja2Click = function (Sender) {
       this.WebScrollRegistro.SetVisible(false);
@@ -65169,7 +65201,6 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
               cols[4].updateDefinition({title:'P.',width:30,headerTooltip:'Pagado',field:"pagado",editor:true, headerHozAlign:"left",formatter:"tickCross"});
               cols[5].updateDefinition({title:'E.',width:30,headerTooltip:'Entregado',field:"entregado",editor:true,headerHozAlign:"left", formatter:"tickCross"});
               cols[6].updateDefinition({title:'V/S',width:68,headerTooltip:'Vta.Directa /Subasta',field:"vds",headerHozAlign:"left",headerFilter:"input"});
-      this.lbarchivo.SetText("");
     };
     this.Registrar1Click = function (Sender) {
       this.WebScrollRegistro.SetVisible(true);
@@ -65279,14 +65310,22 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       const myElement = document.getElementById('elminimiza');
       if (myElement.innerHTML == 'minimiza')
       {
-         alert('pedir validacion de usuario '+u);
-         myElement.innerHTML='';
-         let pp = prompt("Por favor captura su contraseña de usuario:");
-         p=pp;
-      resultado = await this.ValidarUsuario(u,p);
+        // alert('pedir validacion de usuario '+u);
+        // myElement.innerHTML='';
+        // let pp = prompt("Por favor captura su contraseña de usuario:");
+        // p=pp;
+      resultado = await this.ValidarUsuarioActivo(u,p);
       };
     };
-    this.ValidarUsuario = async function (u, p) {
+    this.lbminimizarChange = function (Sender) {
+      var ttxt = "";
+      ttxt = rtl.as(Sender,pas["WEBLib.StdCtrls"].TEdit).GetText();
+      if (ttxt === "minimiza") {
+        pas["WEBLib.Dialogs"].ShowMessage("va a grabar");
+        this.Estudios1Click(Sender);
+      };
+    };
+    this.ValidarUsuarioActivo = async function (u, p) {
       var Result = false;
       var ustr = "";
       var pstr = "";
@@ -65354,7 +65393,8 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
                console.log('pwd',pstr);
                console.log('astr',astr);
               // const edBox = document.getElementById("tabla");
-               if (pstr==p  && astr=="1")
+              // if (pstr==p  && astr=="1")  // El password ya lo solicito en la Formalogin
+               if (astr=="1")   // SOLAMENTE VALIDAR QUE EL USUARIO ESTE ACTIVO (pagado servicio)
                {
                   jresult=true;
                  // WebMemo1.text = pwd+astr;
@@ -65378,7 +65418,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         Result = true;
       } else {
         Result = false;
-        alert('Usuario no tiene autorización para entrar al sistema');
+        alert('Usuario, no cuenta con autorización para utilizar, al sistema.');
         this.Salir1Click(this);
       };
       //********************************************************************************
@@ -65398,7 +65438,6 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.WebPanel4 = pas["WEBLib.ExtCtrls"].TPanel.$create("Create$1",[this]);
       this.WebLabel1 = pas["WEBLib.StdCtrls"].TLabel.$create("Create$1",[this]);
       this.WebLabel2 = pas["WEBLib.StdCtrls"].TLabel.$create("Create$1",[this]);
-      this.lbminimizar = pas["WEBLib.StdCtrls"].TLabel.$create("Create$2",["elminimiza"]);
       this.WebButton9 = pas["WEBLib.StdCtrls"].TButton.$create("Create$1",[this]);
       this.edPaciente = pas["WEBLib.StdCtrls"].TEdit.$create("Create$2",["edPaciente"]);
       this.edPacNombre = pas["WEBLib.StdCtrls"].TEdit.$create("Create$2",["edPacNombre"]);
@@ -65406,6 +65445,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.WebButton12 = pas["WEBLib.StdCtrls"].TButton.$create("Create$1",[this]);
       this.WebButton13 = pas["WEBLib.StdCtrls"].TButton.$create("Create$1",[this]);
       this.lbarchivo = pas["WEBLib.StdCtrls"].TEdit.$create("Create$2",["nomarchivo"]);
+      this.lbminimizar = pas["WEBLib.StdCtrls"].TEdit.$create("Create$2",["elminimiza"]);
       this.WebScrollRegistro = pas["WEBLib.ExtCtrls"].TScrollBox.$create("Create$2",["scrollregistro"]);
       this.WebLabel3 = pas["WEBLib.StdCtrls"].TLabel.$create("Create$1",[this]);
       this.WebLabel4 = pas["WEBLib.StdCtrls"].TLabel.$create("Create$1",[this]);
@@ -65463,7 +65503,6 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.WebPanel4.BeforeLoadDFMValues();
       this.WebLabel1.BeforeLoadDFMValues();
       this.WebLabel2.BeforeLoadDFMValues();
-      this.lbminimizar.BeforeLoadDFMValues();
       this.WebButton9.BeforeLoadDFMValues();
       this.edPaciente.BeforeLoadDFMValues();
       this.edPacNombre.BeforeLoadDFMValues();
@@ -65471,6 +65510,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.WebButton12.BeforeLoadDFMValues();
       this.WebButton13.BeforeLoadDFMValues();
       this.lbarchivo.BeforeLoadDFMValues();
+      this.lbminimizar.BeforeLoadDFMValues();
       this.WebScrollRegistro.BeforeLoadDFMValues();
       this.WebLabel3.BeforeLoadDFMValues();
       this.WebLabel4.BeforeLoadDFMValues();
@@ -65641,18 +65681,6 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebLabel2.SetParentFont(false);
         this.WebLabel2.SetWidthPercent(100.000000000000000000);
         this.SetEvent$1(this.WebLabel2,this,"OnClick","WebLabel2Click");
-        this.lbminimizar.SetParentComponent(this.WebPanel4);
-        this.lbminimizar.SetName("lbminimizar");
-        this.lbminimizar.SetLeft(8);
-        this.lbminimizar.SetTop(0);
-        this.lbminimizar.SetWidth(25);
-        this.lbminimizar.SetHeight(18);
-        this.lbminimizar.SetCaption(".");
-        this.lbminimizar.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
-        this.lbminimizar.SetHeightStyle(pas["WEBLib.Controls"].TSizeStyle.ssAuto);
-        this.lbminimizar.SetHeightPercent(100.000000000000000000);
-        this.lbminimizar.SetVisible(false);
-        this.lbminimizar.SetWidthPercent(100.000000000000000000);
         this.WebButton9.SetParentComponent(this.WebPanel4);
         this.WebButton9.SetName("WebButton9");
         this.WebButton9.SetLeft(93);
@@ -65754,6 +65782,20 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.lbarchivo.SetHeightPercent(100.000000000000000000);
         this.lbarchivo.SetReadOnly(true);
         this.lbarchivo.SetWidthPercent(100.000000000000000000);
+        this.lbminimizar.SetParentComponent(this.WebPanel4);
+        this.lbminimizar.SetName("lbminimizar");
+        this.lbminimizar.SetLeft(8);
+        this.lbminimizar.SetTop(8);
+        this.lbminimizar.SetWidth(121);
+        this.lbminimizar.SetHeight(22);
+        this.lbminimizar.SetChildOrderEx(9);
+        this.lbminimizar.SetElementClassName("form-control");
+        this.lbminimizar.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
+        this.lbminimizar.SetHeightStyle(pas["WEBLib.Controls"].TSizeStyle.ssAuto);
+        this.lbminimizar.SetHeightPercent(100.000000000000000000);
+        this.lbminimizar.SetText("lbminimizar");
+        this.lbminimizar.SetWidthPercent(100.000000000000000000);
+        this.SetEvent$1(this.lbminimizar,this,"OnChange","lbminimizarChange");
         this.WebScrollRegistro.SetParentComponent(this);
         this.WebScrollRegistro.SetName("WebScrollRegistro");
         this.WebScrollRegistro.SetLeft(0);
@@ -66168,7 +66210,6 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebPanel4.AfterLoadDFMValues();
         this.WebLabel1.AfterLoadDFMValues();
         this.WebLabel2.AfterLoadDFMValues();
-        this.lbminimizar.AfterLoadDFMValues();
         this.WebButton9.AfterLoadDFMValues();
         this.edPaciente.AfterLoadDFMValues();
         this.edPacNombre.AfterLoadDFMValues();
@@ -66176,6 +66217,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebButton12.AfterLoadDFMValues();
         this.WebButton13.AfterLoadDFMValues();
         this.lbarchivo.AfterLoadDFMValues();
+        this.lbminimizar.AfterLoadDFMValues();
         this.WebScrollRegistro.AfterLoadDFMValues();
         this.WebLabel3.AfterLoadDFMValues();
         this.WebLabel4.AfterLoadDFMValues();
@@ -66294,8 +66336,8 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     $r.addField("radioTipo",pas["WEBLib.StdCtrls"].$rtti["TRadioGroup"]);
     $r.addField("lbusuario2",pas["WEBLib.StdCtrls"].$rtti["TLabel"]);
     $r.addField("lbusuario",pas["WEBLib.StdCtrls"].$rtti["TLabel"]);
-    $r.addField("lbminimizar",pas["WEBLib.StdCtrls"].$rtti["TLabel"]);
     $r.addField("WebMessageDlg1",pas["WEBLib.Dialogs"].$rtti["TMessageDlg"]);
+    $r.addField("lbminimizar",pas["WEBLib.StdCtrls"].$rtti["TEdit"]);
     $r.addMethod("WebButton1Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("WebButton2Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("WebButton3Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
@@ -66326,7 +66368,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     $r.addMethod("WebButton13Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("WebDivClick",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("AnlisisGrfico1Click",0,[["Sender",pas.System.$rtti["TObject"]]],null,16,{attr: [pas.JS.AsyncAttribute,"Create"]});
-    $r.addMethod("Salir1Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
+    $r.addMethod("Salir1Click",0,[["Sender",pas.System.$rtti["TObject"]]],null,16,{attr: [pas.JS.AsyncAttribute,"Create"]});
     $r.addMethod("LimpiarHoja1Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("LimpiarHoja2Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("Registrar1Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
@@ -66339,9 +66381,13 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     $r.addMethod("WebScrollRegistroClick",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("GetCookie",1,[["cookie_name",rtl.string]],rtl.string);
     $r.addMethod("WebFormEnter",0,[["Sender",pas.System.$rtti["TObject"]]],null,16,{attr: [pas.JS.AsyncAttribute,"Create"]});
+    $r.addMethod("lbminimizarChange",0,[["Sender",pas.System.$rtti["TObject"]]]);
   });
   this.Form1 = null;
-});
+  $mod.$implcode = function () {
+    $impl.RegistroCookie = null;
+  };
+},[]);
 rtl.module("WEBLib.Login",["System","Classes","SysUtils","Types","WEBLib.Controls","WEBLib.StdCtrls","WEBLib.Graphics","WEBLib.Dialogs","Web"],function () {
   "use strict";
   var $mod = this;
@@ -67389,6 +67435,8 @@ rtl.module("Unit2",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.btnAgrega = null;
       this.WebMemo1 = null;
       this.edRen = null;
+      this.WebButton3 = null;
+      this.WebButton4 = null;
     };
     this.$final = function () {
       this.WebPanel1 = undefined;
@@ -67400,6 +67448,8 @@ rtl.module("Unit2",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.btnAgrega = undefined;
       this.WebMemo1 = undefined;
       this.edRen = undefined;
+      this.WebButton3 = undefined;
+      this.WebButton4 = undefined;
       pas["WEBLib.Forms"].TForm.$final.call(this);
     };
     this.WebButton1Click = function (Sender) {
@@ -67566,6 +67616,88 @@ rtl.module("Unit2",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     this.WebFormCreate = function (Sender) {
       this.cargar2Click(Sender);
     };
+    this.WebButton3Click = function (Sender) {
+      async function uploadJsonToGitHub(owner, repo, filePath, jsonData, token) {
+          const url = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
+          const content = btoa(JSON.stringify(jsonData, null, 2)); // Base64 encode the JSON data
+          const message = `Upload JSON file: ${filePath}`;
+      
+          try {
+              // Check if the file already exists to get its SHA for updates
+              let sha = null;
+              try {
+                  const existingFileResponse = await fetch(url, {
+                      headers: {
+                          'Authorization': `token ${token}`,
+                          'Accept': 'application/vnd.github.v3+json'
+                      }
+                  });
+                  if (existingFileResponse.ok) {
+                      const existingFileData = await existingFileResponse.json();
+                      sha = existingFileData.sha;
+                  }
+              } catch (error) {
+                  console.warn("Could not retrieve existing file SHA, assuming new file:", error);
+              }
+      
+              const requestBody = {
+                  message: message,
+                  content: content,
+                  branch: 'main' // Or your target branch
+              };
+      
+              if (sha) {
+                  requestBody.sha = sha; // Include SHA for updates
+              }
+      
+              const response = await fetch(url, {
+                  method: 'PUT',
+                  headers: {
+                      'Authorization': `token ${token}`,
+                      'Content-Type': 'application/json',
+                      'Accept': 'application/vnd.github.v3+json'
+                  },
+                  body: JSON.stringify(requestBody)
+              });
+      
+              if (!response.ok) {
+                  const errorData = await response.json();
+                  throw new Error(`GitHub API error: ${response.status} - ${errorData.message}`);
+              }
+      
+              console.log(`Successfully uploaded ${filePath} to ${owner}/${repo}`);
+              return await response.json();
+      
+          } catch (error) {
+              console.error("Error uploading JSON to GitHub:", error);
+              throw error;
+          }
+      }
+      
+      
+      // Example usage:
+      // const owner = 'your-github-username';
+      // const repo = 'your-repository-name';
+      // const filePath = 'data/mydata.json';
+      // const jsonData = { key: 'value', array: [1, 2, 3] };
+      // const githubToken = 'YOUR_PERSONAL_ACCESS_TOKEN'; // Keep this secure!
+      
+      
+      
+       const owner = 'IDSFDG';
+       const repo = 'FIDEVALE';
+       //const filePath = 'blob/main/mydata.json';
+       const filePath = 'mydata.json';
+       const jsonData = { key: 'value', array: [1, 2, 3] };
+       const githubToken = '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'; // Keep this secure!
+      
+       uploadJsonToGitHub(owner, repo, filePath, jsonData, githubToken)
+           .then(result => console.log('Upload successful:', result))
+           .catch(error => console.error('Upload failed:', error));
+    };
+    this.WebButton4Click = function (Sender) {
+      pas["WEBLib.Forms"].Application.DownloadTextFile("prueba archivo","pruebaarchivo.txt");
+    };
     this.AgregaRegistrosTabla = function (datos) {
       var datosloc = null;
       var len = 0;
@@ -67601,6 +67733,8 @@ rtl.module("Unit2",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.cargar2 = pas["WEBLib.StdCtrls"].TButton.$create("Create$1",[this]);
       this.WebButton2 = pas["WEBLib.StdCtrls"].TButton.$create("Create$1",[this]);
       this.edRen = pas["WEBLib.StdCtrls"].TEdit.$create("Create$2",["rowsel"]);
+      this.WebButton3 = pas["WEBLib.StdCtrls"].TButton.$create("Create$1",[this]);
+      this.WebButton4 = pas["WEBLib.StdCtrls"].TButton.$create("Create$1",[this]);
       this.WebPanel2 = pas["WEBLib.ExtCtrls"].TPanel.$create("Create$1",[this]);
       this.WebHTMLDiv1 = pas["WEBLib.WebCtrls"].THTMLDiv.$create("Create$2",["example-table"]);
       this.btnAgrega = pas["WEBLib.StdCtrls"].TButton.$create("Create$2",["btnreg"]);
@@ -67610,6 +67744,8 @@ rtl.module("Unit2",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.cargar2.BeforeLoadDFMValues();
       this.WebButton2.BeforeLoadDFMValues();
       this.edRen.BeforeLoadDFMValues();
+      this.WebButton3.BeforeLoadDFMValues();
+      this.WebButton4.BeforeLoadDFMValues();
       this.WebPanel2.BeforeLoadDFMValues();
       this.WebHTMLDiv1.BeforeLoadDFMValues();
       this.btnAgrega.BeforeLoadDFMValues();
@@ -67640,7 +67776,7 @@ rtl.module("Unit2",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.WebPanel1.SetTabOrder(0);
         this.WebButton1.SetParentComponent(this.WebPanel1);
         this.WebButton1.SetName("WebButton1");
-        this.WebButton1.SetLeft(56);
+        this.WebButton1.SetLeft(16);
         this.WebButton1.SetTop(16);
         this.WebButton1.SetWidth(96);
         this.WebButton1.SetHeight(25);
@@ -67653,7 +67789,7 @@ rtl.module("Unit2",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.SetEvent$1(this.WebButton1,this,"OnClick","WebButton1Click");
         this.cargar2.SetParentComponent(this.WebPanel1);
         this.cargar2.SetName("cargar2");
-        this.cargar2.SetLeft(176);
+        this.cargar2.SetLeft(144);
         this.cargar2.SetTop(16);
         this.cargar2.SetWidth(96);
         this.cargar2.SetHeight(25);
@@ -67667,7 +67803,7 @@ rtl.module("Unit2",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.SetEvent$1(this.cargar2,this,"OnClick","cargar2Click");
         this.WebButton2.SetParentComponent(this.WebPanel1);
         this.WebButton2.SetName("WebButton2");
-        this.WebButton2.SetLeft(320);
+        this.WebButton2.SetLeft(246);
         this.WebButton2.SetTop(16);
         this.WebButton2.SetWidth(96);
         this.WebButton2.SetHeight(25);
@@ -67681,7 +67817,7 @@ rtl.module("Unit2",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.SetEvent$1(this.WebButton2,this,"OnClick","WebButton2Click");
         this.edRen.SetParentComponent(this.WebPanel1);
         this.edRen.SetName("edRen");
-        this.edRen.SetLeft(512);
+        this.edRen.SetLeft(544);
         this.edRen.SetTop(16);
         this.edRen.SetWidth(57);
         this.edRen.SetHeight(22);
@@ -67692,6 +67828,34 @@ rtl.module("Unit2",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.edRen.SetHeightPercent(100.000000000000000000);
         this.edRen.SetText(".");
         this.edRen.SetWidthPercent(100.000000000000000000);
+        this.WebButton3.SetParentComponent(this.WebPanel1);
+        this.WebButton3.SetName("WebButton3");
+        this.WebButton3.SetLeft(361);
+        this.WebButton3.SetTop(19);
+        this.WebButton3.SetWidth(144);
+        this.WebButton3.SetHeight(25);
+        this.WebButton3.SetCaption("subir archivo Github");
+        this.WebButton3.SetChildOrderEx(4);
+        this.WebButton3.SetElementClassName("btn btn-light");
+        this.WebButton3.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
+        this.WebButton3.SetHeightStyle(pas["WEBLib.Controls"].TSizeStyle.ssAuto);
+        this.WebButton3.SetHeightPercent(100.000000000000000000);
+        this.WebButton3.SetWidthPercent(100.000000000000000000);
+        this.SetEvent$1(this.WebButton3,this,"OnClick","WebButton3Click");
+        this.WebButton4.SetParentComponent(this.WebPanel1);
+        this.WebButton4.SetName("WebButton4");
+        this.WebButton4.SetLeft(504);
+        this.WebButton4.SetTop(0);
+        this.WebButton4.SetWidth(96);
+        this.WebButton4.SetHeight(25);
+        this.WebButton4.SetCaption("WebButton4");
+        this.WebButton4.SetChildOrderEx(5);
+        this.WebButton4.SetElementClassName("btn btn-light");
+        this.WebButton4.SetElementFont(pas["WEBLib.Controls"].TElementFont.efCSS);
+        this.WebButton4.SetHeightStyle(pas["WEBLib.Controls"].TSizeStyle.ssAuto);
+        this.WebButton4.SetHeightPercent(100.000000000000000000);
+        this.WebButton4.SetWidthPercent(100.000000000000000000);
+        this.SetEvent$1(this.WebButton4,this,"OnClick","WebButton4Click");
         this.WebPanel2.SetParentComponent(this);
         this.WebPanel2.SetName("WebPanel2");
         this.WebPanel2.SetLeft(0);
@@ -67756,6 +67920,8 @@ rtl.module("Unit2",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.cargar2.AfterLoadDFMValues();
         this.WebButton2.AfterLoadDFMValues();
         this.edRen.AfterLoadDFMValues();
+        this.WebButton3.AfterLoadDFMValues();
+        this.WebButton4.AfterLoadDFMValues();
         this.WebPanel2.AfterLoadDFMValues();
         this.WebHTMLDiv1.AfterLoadDFMValues();
         this.btnAgrega.AfterLoadDFMValues();
@@ -67774,12 +67940,16 @@ rtl.module("Unit2",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     $r.addField("btnAgrega",pas["WEBLib.StdCtrls"].$rtti["TButton"]);
     $r.addField("WebMemo1",pas["WEBLib.StdCtrls"].$rtti["TMemo"]);
     $r.addField("edRen",pas["WEBLib.StdCtrls"].$rtti["TEdit"]);
+    $r.addField("WebButton3",pas["WEBLib.StdCtrls"].$rtti["TButton"]);
+    $r.addField("WebButton4",pas["WEBLib.StdCtrls"].$rtti["TButton"]);
     $r.addMethod("WebButton1Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("cargar2Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("WebButton2Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("WebHTMLDiv1Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("btnAgregaClick",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("WebFormCreate",0,[["Sender",pas.System.$rtti["TObject"]]]);
+    $r.addMethod("WebButton3Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
+    $r.addMethod("WebButton4Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
   });
   this.Form2 = null;
   $mod.$implcode = function () {
