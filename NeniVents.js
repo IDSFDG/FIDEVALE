@@ -63305,8 +63305,9 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
             //custom action to send blob to server could be included here
     
     
-        //    var miBlob = new Blob([fileContents], {type:mimeType});
-    
+            var miBlob = new Blob([fileContents], {type:mimeType});
+            const blobUrl = URL.createObjectURL(miBlob);
+            window.open(blobUrl);
             return new Blob([fileContents], {type:mimeType}); //must return a blob to proceed with the download, return false to abort download
         },
       columnDefaults:{
@@ -64524,8 +64525,8 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       
         // table.download("csv", "data.csv", {delimiter:"."}); //  OK download a CSV file that uses a fullstop (.) delimiter
       
-        // table.download("pdf","data.pdf");
-         table.downloadToTab("pdf");
+         table.download("pdf","data.pdf");
+        // table.downloadToTab("pdf");
     };
     this.btn_exportallClick = function (Sender) {
       alert('entro exportall');
