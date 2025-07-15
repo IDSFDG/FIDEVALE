@@ -63309,7 +63309,9 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
             var miBlob = new Blob([fileContents], {type:mimeType});
             const blobUrl = URL.createObjectURL(miBlob);
             window.open(blobUrl);
-            return new Blob([fileContents], {type:mimeType}); //must return a blob to proceed with the download, return false to abort download
+    
+         return new Blob([fileContents], {type:mimeType}); //must return a blob to proceed with the download, return false to abort download
+    
         },
       columnDefaults:{
             headerTooltip:function(e, cell, onRendered){
@@ -64569,8 +64571,6 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
          table.download("pdf",nomarch);
          //table.download("pdf","data.pdf");
         // table.downloadToTab("pdf");
-      
-        ShowMessage('Se ha creado el archivo '+nomarch+' en su carpeta de DESCARGA, como resumen de VENTA SEMANAL');
     };
     this.btn_exportallClick = function (Sender) {
       alert('entro exportall');
@@ -64650,7 +64650,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.WebScrollRegistro.SetVisible(false);
       this.edRen.SetText(".");
       nomarch = "";
-      if ($impl.RegistroCookie.GetCount() === 0) {
+      if ($impl.RegistroCookie.GetCount() === 1) {
         pas["WEBLib.Dialogs"].ShowMessage("No hay nada registrado aún");
         return;
       };
@@ -64680,10 +64680,6 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       var valorCookie = "";
       this.WebScrollRegistro.SetVisible(false);
       this.edRen.SetText(".");
-      if ($impl.RegistroCookie.GetCount() === 0) {
-        pas["WEBLib.Dialogs"].ShowMessage("No hay nada registrado aún");
-        return;
-      };
       fechahoy = pas.SysUtils.Now();
       pas.SysUtils.DecodeDate(fechahoy,{get: function () {
           return anio;
@@ -64783,7 +64779,6 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         }, set: function (v) {
           sfechadia = v;
         }});
-      this.lbarchivo.SetText(nomarch);
       this.minimizo = false;
       this.lbminimizar.SetText("");
       usr = this.GetCookie("usr");
@@ -64802,6 +64797,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       $impl.RegistroCookie = pas["WEBLib.Cookies"].TCookies.$create("Create$2");
       $impl.RegistroCookie.GetCookies();
       $impl.NomRegistroCookie = "VENTASEMANA";
+      this.lbarchivo.SetText($impl.NomRegistroCookie);
       document.addEventListener("visibilitychange", function() {
         if (document.visibilityState === "hidden") {
           // The page is hidden, which could mean the browser is minimized or in a background tab
@@ -65204,7 +65200,10 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     this.Salir1Click = async function (Sender) {
       var mr = 0;
       mr = await this.WebMessageDlg1.ShowDialog$2("Desea imprimir el resumen de su Venta Semanal?",pas["WEBLib.Dialogs"].TMsgDlgType.mtConfirmation,rtl.createSet(pas["WEBLib.Dialogs"].TMsgDlgBtn.mbYes,pas["WEBLib.Dialogs"].TMsgDlgBtn.mbNo));
-      if (mr === 6) this.ExportaraPDF1Click(Sender);
+      if (mr === 6) {
+        this.ExportaraPDF1Click(Sender);
+        pas["WEBLib.Dialogs"].ShowMessage("Nota: Se ha creado el archivo  en su carpeta de DESCARGA, como resumen de VENTA SEMANAL");
+      };
       this.Close();
       pas["WEBLib.Forms"].Application.Terminate();
     };
@@ -65275,6 +65274,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.WebScrollRegistro.SetVisible(false);
       this.edRen.SetText(".");
       this.btn_exportarClick(Sender);
+      pas["WEBLib.Dialogs"].ShowMessage("Nota:Se ha creado el archivo  en su carpeta de DESCARGA, como resumen de VENTA SEMANAL");
     };
     this.btnAgregarClick = function (Sender) {
       var datosstr = "";
@@ -65856,6 +65856,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.lbminimizar.SetHeightStyle(pas["WEBLib.Controls"].TSizeStyle.ssAuto);
         this.lbminimizar.SetHeightPercent(100.000000000000000000);
         this.lbminimizar.SetText("lbminimizar");
+        this.lbminimizar.SetVisible(false);
         this.lbminimizar.SetWidthPercent(100.000000000000000000);
         this.SetEvent$1(this.lbminimizar,this,"OnChange","lbminimizarChange");
         this.WebScrollRegistro.SetParentComponent(this);
