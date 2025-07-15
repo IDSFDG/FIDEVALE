@@ -63294,6 +63294,7 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
     
     ];
              var table = new Tabulator("#tabExample",
+    
        {
        dependencies:{
             XLSX:XLSX,
@@ -63332,6 +63333,18 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
             rowGroups:false, //do not include row groups in downloaded table
             columnCalcs:false, //do not include column calcs in downloaded table
             dataTree:false, //do not include data tree in downloaded table
+        },
+    
+        printAsHtml:true, //enable html table printing
+        printStyled:true, //copy Tabulator styling to HTML table
+     printConfig:{
+            columnHeaders:true, //do not include column headers in printed table
+            columnGroups:false, //do not include column groups in column headers for printed table
+            rowHeaders:false, //do not include row headers in printed table
+            rowGroups:false, //do not include row groups in printed table
+            columnCalcs:false, //do not include column calcs in printed table
+            dataTree:false, //do not include data tree in printed table
+            formatCells:false, //show raw cell values without formatter
         },
     rowFormatter:function(row){
     
