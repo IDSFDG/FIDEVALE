@@ -63294,11 +63294,21 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
     
     ];
              var table = new Tabulator("#tabExample",
-     {
+       {
        dependencies:{
             XLSX:XLSX,
         },
+       downloadEncoder:function(fileContents, mimeType){
+            //fileContents - the unencoded contents of the file
+            //mimeType - the suggested mime type for the output
     
+            //custom action to send blob to server could be included here
+    
+    
+        //    var miBlob = new Blob([fileContents], {type:mimeType});
+    
+            return new Blob([fileContents], {type:mimeType}); //must return a blob to proceed with the download, return false to abort download
+        },
       columnDefaults:{
             headerTooltip:function(e, cell, onRendered){
                 //e - mouseover event
@@ -64514,6 +64524,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       
         // table.download("csv", "data.csv", {delimiter:"."}); //  OK download a CSV file that uses a fullstop (.) delimiter
       
+        // table.download("pdf","data.pdf");
          table.downloadToTab("pdf");
     };
     this.btn_exportallClick = function (Sender) {
