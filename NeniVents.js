@@ -65183,7 +65183,6 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     };
     this.WebDivClick = function (Sender) {
       var keyhoja = "";
-      this.WebScrollRegistro.SetVisible(false);
       return;
       var table = Tabulator.findTable("#tabExample")[0];
        var sheet = table.getSheet();
@@ -65199,10 +65198,9 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     };
     this.Salir1Click = async function (Sender) {
       var mr = 0;
-      mr = await this.WebMessageDlg1.ShowDialog$2("Desea imprimir el resumen de su Venta Semanal?",pas["WEBLib.Dialogs"].TMsgDlgType.mtConfirmation,rtl.createSet(pas["WEBLib.Dialogs"].TMsgDlgBtn.mbYes,pas["WEBLib.Dialogs"].TMsgDlgBtn.mbNo));
+      mr = await this.WebMessageDlg1.ShowDialog$2("Imprimir el resumen de su Venta Semanal?",pas["WEBLib.Dialogs"].TMsgDlgType.mtConfirmation,rtl.createSet(pas["WEBLib.Dialogs"].TMsgDlgBtn.mbYes));
       if (mr === 6) {
         this.ExportaraPDF1Click(Sender);
-        pas["WEBLib.Dialogs"].ShowMessage("Nota: Se ha creado el archivo  en su carpeta de DESCARGA, como resumen de VENTA SEMANAL");
       };
       this.Close();
       pas["WEBLib.Forms"].Application.Terminate();
@@ -65269,6 +65267,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     };
     this.btnCerrarClick = function (Sender) {
       this.WebScrollRegistro.SetVisible(false);
+      this.Estudios1Click(Sender);
     };
     this.ExportaraPDF1Click = function (Sender) {
       this.WebScrollRegistro.SetVisible(false);
