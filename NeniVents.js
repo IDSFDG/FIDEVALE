@@ -64526,6 +64526,34 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       table.print(false, true);
     };
     this.btn_exportarClick = function (Sender) {
+      var fechahoy = 0.0;
+      var fechafincookie = 0.0;
+      var anio = 0;
+      var mes = 0;
+      var dia = 0;
+      var sfechadia = "";
+      var nomarch = "";
+      fechahoy = pas.SysUtils.Now();
+      pas.SysUtils.DecodeDate(fechahoy,{get: function () {
+          return anio;
+        }, set: function (v) {
+          anio = v;
+        }},{get: function () {
+          return mes;
+        }, set: function (v) {
+          mes = v;
+        }},{get: function () {
+          return dia;
+        }, set: function (v) {
+          dia = v;
+        }});
+      sfechadia = pas.SysUtils.DateToStr(fechahoy);
+      sfechadia = pas.SysUtils.Format("%.4d%.2d%.2d",pas.System.VarRecs(0,anio,0,mes,0,dia));
+      nomarch = "Archivo-" + pas.SysUtils.TStringHelper.Trim.call({get: function () {
+          return sfechadia;
+        }, set: function (v) {
+          sfechadia = v;
+        }});
       Tabulator.extendModule("download", "downloaders", {
           string:function(columns, data, options){
               var fileContents = data.toString();
@@ -64538,8 +64566,11 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       
         // table.download("csv", "data.csv", {delimiter:"."}); //  OK download a CSV file that uses a fullstop (.) delimiter
       
-         table.download("pdf","data.pdf");
+         table.download("pdf",nomarch);
+         //table.download("pdf","data.pdf");
         // table.downloadToTab("pdf");
+      
+        ShowMessage('Se ha creado el archivo '+nomarch+' en su carpeta de DESCARGA, como resumen de VENTA SEMANAL');
     };
     this.btn_exportallClick = function (Sender) {
       alert('entro exportall');
@@ -64649,6 +64680,10 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       var valorCookie = "";
       this.WebScrollRegistro.SetVisible(false);
       this.edRen.SetText(".");
+      if ($impl.RegistroCookie.GetCount() === 0) {
+        pas["WEBLib.Dialogs"].ShowMessage("No hay nada registrado aún");
+        return;
+      };
       fechahoy = pas.SysUtils.Now();
       pas.SysUtils.DecodeDate(fechahoy,{get: function () {
           return anio;
@@ -64671,6 +64706,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
           sfechadia = v;
         }});
       nomarchcookie = nomarch;
+      nomarchcookie = $impl.NomRegistroCookie;
       valorCookie ='';
       var table = Tabulator.findTable("#tabExample")[0];
       var array = table.getData();
@@ -64765,6 +64801,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.WebPanel4.SetElementFont(pas["WEBLib.Controls"].TElementFont.efProperty);
       $impl.RegistroCookie = pas["WEBLib.Cookies"].TCookies.$create("Create$2");
       $impl.RegistroCookie.GetCookies();
+      $impl.NomRegistroCookie = "VENTASEMANA";
       document.addEventListener("visibilitychange", function() {
         if (document.visibilityState === "hidden") {
           // The page is hidden, which could mean the browser is minimized or in a background tab
@@ -66411,6 +66448,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
   this.Form1 = null;
   $mod.$implcode = function () {
     $impl.RegistroCookie = null;
+    $impl.NomRegistroCookie = "";
   };
 },[]);
 rtl.module("WEBLib.Login",["System","Classes","SysUtils","Types","WEBLib.Controls","WEBLib.StdCtrls","WEBLib.Graphics","WEBLib.Dialogs","Web"],function () {
