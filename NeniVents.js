@@ -63338,7 +63338,7 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
         },
     
         printAsHtml:true, //enable html table printing
-        printStyled:false, //copy Tabulator styling to HTML table
+        printStyled:true, //copy Tabulator styling to HTML table
      printConfig:{
             columnHeaders:true, //do not include column headers in printed table
             columnGroups:false, //do not include column groups in column headers for printed table
