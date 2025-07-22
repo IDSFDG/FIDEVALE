@@ -63303,14 +63303,55 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
             //fileContents - the unencoded contents of the file
             //mimeType - the suggested mime type for the output
     
+            alert('downloadEncoder');
             //custom action to send blob to server could be included here
     
     
             var miBlob = new Blob([fileContents], {type:mimeType});
             const blobUrl = URL.createObjectURL(miBlob);
+    
+        // compartir
+     let text = "Desea compartir el archivo, OK or Cancel.";
+         if (confirm(text) == true) {
+           text = "OK";
+          } else {
+            text = "CANCEL";
+          }
+       if (text =="OK")
+       {
+        if ( window.navigator.share) {
+        const pdfBlob = new Blob([fileContents], { type: 'application/pdf' });
+        const file = new File([pdfBlob], 'document.pdf', { type: 'application/pdf' });
+    
+        window.navigator.share({
+            files: [file],
+            title: 'PDF Document',
+            text: 'Check out this PDF document!',
+        })
+        .then(() => console.log('PDF shared successfully'))
+        .catch((error) => console.error('Error sharing PDF:', error));
+    } else {
+        console.log('Web Share API not supported in this browser.');
+    }
+     } // text OK
+    
+        // OK       abrir blob
+    
+     let text1 = "Desea ver el archivo, OK or Cancel.";
+         if (confirm(text1) == true) {
+           text = "OK";
+          } else {
+            text = "CANCEL";
+          }
+       if (text =="OK")
+       {
+    
             window.open(blobUrl);
+       }
     
          return new Blob([fileContents], {type:mimeType}); //must return a blob to proceed with the download, return false to abort download
+    
+    
     
         },
       columnDefaults:{
