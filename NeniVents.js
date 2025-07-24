@@ -63175,7 +63175,210 @@ rtl.module("WEBLib.SideMenu",["System","Classes","SysUtils","Types","WEBLib.Cont
     rtl.addIntf(this,pas.System.IUnknown);
   });
 },["WEBLib.Utils"]);
-rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","WEBLib.Controls","WEBLib.Forms","WEBLib.Dialogs","WEBLib.Controls","WEBLib.WebCtrls","WEBLib.StdCtrls","WEBLib.StdCtrls","WEBLib.ExtCtrls","WEBLib.REST","WEBLib.JQCtrls","WEBLib.SideMenu","WEBLib.Menus","WEBLib.Menus"],function () {
+rtl.module("WEBLib.Cookies",["System","SysUtils","Classes"],function () {
+  "use strict";
+  var $mod = this;
+  rtl.createClass(this,"TCookie",pas.Classes.TCollectionItem,function () {
+    this.$init = function () {
+      pas.Classes.TCollectionItem.$init.call(this);
+      this.FPath = "";
+      this.FName = "";
+      this.FExpiry = 0.0;
+      this.FValue = "";
+      this.FChanged = false;
+    };
+    this.SetExpiry = function (Value) {
+      if (this.FExpiry !== Value) {
+        this.FExpiry = Value;
+        this.FChanged = true;
+      };
+    };
+    this.SetName = function (Value) {
+      if (this.FName !== Value) {
+        this.FName = Value;
+        this.FChanged = true;
+      };
+    };
+    this.SetPath = function (Value) {
+      if (this.FPath !== Value) {
+        this.FPath = Value;
+        this.FChanged = true;
+      };
+    };
+    this.SetValue = function (Value) {
+      if (this.FValue !== Value) {
+        this.FValue = Value;
+        this.FChanged = true;
+      };
+    };
+    this.CookieAsString = function () {
+      var Result = "";
+      var d = null;
+      var ye = 0;
+      var mo = 0;
+      var da = 0;
+      var ho = 0;
+      var mi = 0;
+      var se = 0;
+      var ms = 0;
+      var s = "";
+      Result = this.FName + "=" + encodeURIComponent(this.FValue) + ";";
+      if (this.FExpiry !== 0) {
+        pas.SysUtils.DecodeDate(this.FExpiry,{get: function () {
+            return ye;
+          }, set: function (v) {
+            ye = v;
+          }},{get: function () {
+            return mo;
+          }, set: function (v) {
+            mo = v;
+          }},{get: function () {
+            return da;
+          }, set: function (v) {
+            da = v;
+          }});
+        pas.SysUtils.DecodeTime(this.FExpiry,{get: function () {
+            return ho;
+          }, set: function (v) {
+            ho = v;
+          }},{get: function () {
+            return mi;
+          }, set: function (v) {
+            mi = v;
+          }},{get: function () {
+            return se;
+          }, set: function (v) {
+            se = v;
+          }},{get: function () {
+            return ms;
+          }, set: function (v) {
+            ms = v;
+          }});
+        d = new Date(ye,mo-1,da,ho,mi,se,ms);
+        if ((ye === 1970) && (mo === 1) && (da === 1)) {
+          s = "Thu, 01 Jan 1970 00:00:00 UTC"}
+         else s = d.toUTCString();
+        Result = Result + "expires=" + s + ";";
+      };
+      if (this.FPath !== "") {
+        Result = Result + "path=" + this.FPath + ";"}
+       else Result = Result + "path=/;";
+      return Result;
+    };
+    var $r = this.$rtti;
+    $r.addProperty("Name",2,rtl.string,"FName","SetName");
+    $r.addProperty("Value",2,rtl.string,"FValue","SetValue");
+    $r.addProperty("Expiry",2,pas.System.$rtti["TDateTime"],"FExpiry","SetExpiry");
+    $r.addProperty("Path",2,rtl.string,"FPath","SetPath");
+  });
+  rtl.createClass(this,"TWebCookie",this.TCookie,function () {
+  });
+  rtl.createClass(this,"TCookies",pas.Classes.TCollection,function () {
+    this.GetItem$1 = function (Index) {
+      var Result = null;
+      Result = this.GetItem(Index);
+      return Result;
+    };
+    this.SetItem$1 = function (Index, Value) {
+      this.SetItem(Index,Value);
+    };
+    this.Create$2 = function () {
+      pas.Classes.TCollection.Create$1.call(this,$mod.TCookie);
+      return this;
+    };
+    this.GetCookies = function () {
+      var s = "";
+      var sl = null;
+      var i = 0;
+      var cookie = null;
+      s = decodeURIComponent(document.cookie);
+      sl = pas.Classes.TStringList.$create("Create$1");
+      sl.SetDelimiter(";");
+      sl.FStrictDelimiter = true;
+      sl.SetDelimitedText(s);
+      this.Clear();
+      try {
+        for (var $l = 0, $end = sl.GetCount() - 1; $l <= $end; $l++) {
+          i = $l;
+          cookie = pas.Classes.TCollection.Add.call(this);
+          cookie.SetName(pas.SysUtils.Trim(sl.GetName(i)));
+          cookie.SetValue(sl.GetValue(sl.GetName(i)));
+          cookie.FChanged = false;
+        };
+      } finally {
+        sl = rtl.freeLoc(sl);
+      };
+    };
+    this.SetCookies = function () {
+      var s = "";
+      var i = 0;
+      s = "";
+      for (var $l = 0, $end = this.GetCount() - 1; $l <= $end; $l++) {
+        i = $l;
+        if (this.GetItem$1(i).FChanged) {
+          this.GetItem$1(i).FChanged = false;
+          s = this.GetItem$1(i).CookieAsString();
+          document.cookie = s;
+        };
+      };
+    };
+    this.Delete$1 = function (ACookie) {
+      ACookie.SetExpiry(pas.SysUtils.EncodeDate(1970,1,1) + pas.SysUtils.EncodeTime(0,0,0,0));
+    };
+    this.Delete$2 = function (AName) {
+      var cookie = null;
+      cookie = this.Find(AName);
+      if (cookie != null) {
+        this.Delete$1(cookie);
+      };
+    };
+    this.Add$1 = function (AName, AValue, Expiry) {
+      var Result = null;
+      Result = this.Add$4(AName,AValue,"/",Expiry);
+      return Result;
+    };
+    this.Add$2 = function (AName, AValue) {
+      var Result = null;
+      Result = this.Add$4(AName,AValue,"/",0);
+      return Result;
+    };
+    this.Add$3 = function (AName, AValue, APath) {
+      var Result = null;
+      Result = this.Add$4(AName,AValue,APath,0);
+      return Result;
+    };
+    this.Add$4 = function (AName, AValue, APath, Expiry) {
+      var Result = null;
+      Result = null;
+      if (AName === "") return Result;
+      Result = pas.Classes.TCollection.Add.call(this);
+      Result.SetName(AName);
+      Result.SetValue(AValue);
+      Result.SetExpiry(Expiry);
+      Result.SetPath(APath);
+      Result.FChanged = true;
+      return Result;
+    };
+    this.Find = function (AName) {
+      var Result = null;
+      var i = 0;
+      Result = null;
+      for (var $l = 0, $end = this.GetCount() - 1; $l <= $end; $l++) {
+        i = $l;
+        if (this.GetItem$1(i).FName === AName) {
+          Result = this.GetItem$1(i);
+          break;
+        };
+      };
+      return Result;
+    };
+    var $r = this.$rtti;
+    $r.addMethod("Create$2",2,[]);
+  });
+  rtl.createClass(this,"TWebCookies",this.TCookies,function () {
+  });
+},["Web","JS"]);
+rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","WEBLib.Controls","WEBLib.Forms","WEBLib.Dialogs","WEBLib.Controls","WEBLib.WebCtrls","WEBLib.StdCtrls","WEBLib.StdCtrls","WEBLib.ExtCtrls","WEBLib.REST","WEBLib.JQCtrls","WEBLib.SideMenu","WEBLib.Menus","WEBLib.Menus","WEBLib.Cookies"],function () {
   "use strict";
   var $mod = this;
   this.cargarUsuarios = function () {
@@ -63266,6 +63469,7 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
   this.IniciarHoja = function (WebScrollRegistro) {
     var selpacid = "";
     var selpacnom = "";
+    var opcpdf = "";
     var editCheck = function(cell){
         //cell - the cell component for the editable cell
         //get row data
@@ -63299,60 +63503,14 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
        dependencies:{
             XLSX:XLSX,
         },
-       downloadEncoder:function(fileContents, mimeType){
-            //fileContents - the unencoded contents of the file
-            //mimeType - the suggested mime type for the output
-    
-            alert('downloadEncoder');
-            //custom action to send blob to server could be included here
-    
-    
-            var miBlob = new Blob([fileContents], {type:mimeType});
-            const blobUrl = URL.createObjectURL(miBlob);
-    
-        // compartir
-     let text = "Desea compartir el archivo, OK or Cancel.";
-         if (confirm(text) == true) {
-           text = "OK";
-          } else {
-            text = "CANCEL";
-          }
-       if (text =="OK")
-       {
-        if ( window.navigator.share) {
-        const pdfBlob = new Blob([fileContents], { type: 'application/pdf' });
-        const file = new File([pdfBlob], 'document.pdf', { type: 'application/pdf' });
-    
-        window.navigator.share({
-            files: [file],
-            title: 'PDF Document',
-            text: 'Check out this PDF document!',
-        })
-        .then(() => console.log('PDF shared successfully'))
-        .catch((error) => console.error('Error sharing PDF:', error));
-    } else {
-        console.log('Web Share API not supported in this browser.');
-    }
-     } // text OK
-    
-        // OK       abrir blob
-    
-     let text1 = "Desea ver el archivo, OK or Cancel.";
-         if (confirm(text1) == true) {
-           text = "OK";
-          } else {
-            text = "CANCEL";
-          }
-       if (text =="OK")
-       {
-    
-            window.open(blobUrl);
-       }
-    
-         return new Blob([fileContents], {type:mimeType}); //must return a blob to proceed with the download, return false to abort download
-    
-    
-    
+      htmlOutputConfig:{
+            columnHeaders:true, //do not include column headers in HTML table
+            columnGroups:false, //do not include column groups in column headers for HTML table
+            rowHeaders:true, //do not include row headers in HTML table
+            rowGroups:false, //do not include row groups in HTML table
+            columnCalcs:true, //do not include column calcs in HTML table
+            dataTree:false, //do not include data tree in HTML table
+            formatCells:false, //show raw cell values without formatter
         },
       columnDefaults:{
             headerTooltip:function(e, cell, onRendered){
@@ -63367,6 +63525,30 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
                 return el;
             },
         },
+        downloadEncoder:function(fileContents, mimeType){
+    
+             //fileContents - the unencoded contents of the file
+            //mimeType - the suggested mime type for the output
+    
+            alert('downloadEncoder');
+            //custom action to send blob to server could be included here
+    
+    
+            var miBlob = new Blob([fileContents], {type:mimeType});
+            const blobUrl = URL.createObjectURL(miBlob);
+    
+    
+    
+        // OK       abrir blob
+    
+            window.open(blobUrl);
+    
+    
+         //return new Blob([fileContents], {type:mimeType}); //must return a blob to proceed with the download, return false to abort download
+    
+         // return false, no descargar el archivo.
+         return false;
+       },
        // importFormat:"csv",
        // autoColumns:true,
         downloadConfig:{
@@ -64074,212 +64256,24 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
     
     };
   };
+  this.GetCookie = function (cookie_name) {
+    var Result = "";
+    var Cookies = null;
+    var Cookie = null;
+    Result = "";
+    Cookies = pas["WEBLib.Cookies"].TCookies.$create("Create$2");
+    try {
+      Cookies.GetCookies();
+      Cookie = Cookies.Find(cookie_name);
+      if (Cookie != null) Result = Cookie.FValue;
+    } finally {
+      Cookies = rtl.freeLoc(Cookies);
+    };
+    return Result;
+  };
   $mod.$init = function () {
   };
 });
-rtl.module("WEBLib.Cookies",["System","SysUtils","Classes"],function () {
-  "use strict";
-  var $mod = this;
-  rtl.createClass(this,"TCookie",pas.Classes.TCollectionItem,function () {
-    this.$init = function () {
-      pas.Classes.TCollectionItem.$init.call(this);
-      this.FPath = "";
-      this.FName = "";
-      this.FExpiry = 0.0;
-      this.FValue = "";
-      this.FChanged = false;
-    };
-    this.SetExpiry = function (Value) {
-      if (this.FExpiry !== Value) {
-        this.FExpiry = Value;
-        this.FChanged = true;
-      };
-    };
-    this.SetName = function (Value) {
-      if (this.FName !== Value) {
-        this.FName = Value;
-        this.FChanged = true;
-      };
-    };
-    this.SetPath = function (Value) {
-      if (this.FPath !== Value) {
-        this.FPath = Value;
-        this.FChanged = true;
-      };
-    };
-    this.SetValue = function (Value) {
-      if (this.FValue !== Value) {
-        this.FValue = Value;
-        this.FChanged = true;
-      };
-    };
-    this.CookieAsString = function () {
-      var Result = "";
-      var d = null;
-      var ye = 0;
-      var mo = 0;
-      var da = 0;
-      var ho = 0;
-      var mi = 0;
-      var se = 0;
-      var ms = 0;
-      var s = "";
-      Result = this.FName + "=" + encodeURIComponent(this.FValue) + ";";
-      if (this.FExpiry !== 0) {
-        pas.SysUtils.DecodeDate(this.FExpiry,{get: function () {
-            return ye;
-          }, set: function (v) {
-            ye = v;
-          }},{get: function () {
-            return mo;
-          }, set: function (v) {
-            mo = v;
-          }},{get: function () {
-            return da;
-          }, set: function (v) {
-            da = v;
-          }});
-        pas.SysUtils.DecodeTime(this.FExpiry,{get: function () {
-            return ho;
-          }, set: function (v) {
-            ho = v;
-          }},{get: function () {
-            return mi;
-          }, set: function (v) {
-            mi = v;
-          }},{get: function () {
-            return se;
-          }, set: function (v) {
-            se = v;
-          }},{get: function () {
-            return ms;
-          }, set: function (v) {
-            ms = v;
-          }});
-        d = new Date(ye,mo-1,da,ho,mi,se,ms);
-        if ((ye === 1970) && (mo === 1) && (da === 1)) {
-          s = "Thu, 01 Jan 1970 00:00:00 UTC"}
-         else s = d.toUTCString();
-        Result = Result + "expires=" + s + ";";
-      };
-      if (this.FPath !== "") {
-        Result = Result + "path=" + this.FPath + ";"}
-       else Result = Result + "path=/;";
-      return Result;
-    };
-    var $r = this.$rtti;
-    $r.addProperty("Name",2,rtl.string,"FName","SetName");
-    $r.addProperty("Value",2,rtl.string,"FValue","SetValue");
-    $r.addProperty("Expiry",2,pas.System.$rtti["TDateTime"],"FExpiry","SetExpiry");
-    $r.addProperty("Path",2,rtl.string,"FPath","SetPath");
-  });
-  rtl.createClass(this,"TWebCookie",this.TCookie,function () {
-  });
-  rtl.createClass(this,"TCookies",pas.Classes.TCollection,function () {
-    this.GetItem$1 = function (Index) {
-      var Result = null;
-      Result = this.GetItem(Index);
-      return Result;
-    };
-    this.SetItem$1 = function (Index, Value) {
-      this.SetItem(Index,Value);
-    };
-    this.Create$2 = function () {
-      pas.Classes.TCollection.Create$1.call(this,$mod.TCookie);
-      return this;
-    };
-    this.GetCookies = function () {
-      var s = "";
-      var sl = null;
-      var i = 0;
-      var cookie = null;
-      s = decodeURIComponent(document.cookie);
-      sl = pas.Classes.TStringList.$create("Create$1");
-      sl.SetDelimiter(";");
-      sl.FStrictDelimiter = true;
-      sl.SetDelimitedText(s);
-      this.Clear();
-      try {
-        for (var $l = 0, $end = sl.GetCount() - 1; $l <= $end; $l++) {
-          i = $l;
-          cookie = pas.Classes.TCollection.Add.call(this);
-          cookie.SetName(pas.SysUtils.Trim(sl.GetName(i)));
-          cookie.SetValue(sl.GetValue(sl.GetName(i)));
-          cookie.FChanged = false;
-        };
-      } finally {
-        sl = rtl.freeLoc(sl);
-      };
-    };
-    this.SetCookies = function () {
-      var s = "";
-      var i = 0;
-      s = "";
-      for (var $l = 0, $end = this.GetCount() - 1; $l <= $end; $l++) {
-        i = $l;
-        if (this.GetItem$1(i).FChanged) {
-          this.GetItem$1(i).FChanged = false;
-          s = this.GetItem$1(i).CookieAsString();
-          document.cookie = s;
-        };
-      };
-    };
-    this.Delete$1 = function (ACookie) {
-      ACookie.SetExpiry(pas.SysUtils.EncodeDate(1970,1,1) + pas.SysUtils.EncodeTime(0,0,0,0));
-    };
-    this.Delete$2 = function (AName) {
-      var cookie = null;
-      cookie = this.Find(AName);
-      if (cookie != null) {
-        this.Delete$1(cookie);
-      };
-    };
-    this.Add$1 = function (AName, AValue, Expiry) {
-      var Result = null;
-      Result = this.Add$4(AName,AValue,"/",Expiry);
-      return Result;
-    };
-    this.Add$2 = function (AName, AValue) {
-      var Result = null;
-      Result = this.Add$4(AName,AValue,"/",0);
-      return Result;
-    };
-    this.Add$3 = function (AName, AValue, APath) {
-      var Result = null;
-      Result = this.Add$4(AName,AValue,APath,0);
-      return Result;
-    };
-    this.Add$4 = function (AName, AValue, APath, Expiry) {
-      var Result = null;
-      Result = null;
-      if (AName === "") return Result;
-      Result = pas.Classes.TCollection.Add.call(this);
-      Result.SetName(AName);
-      Result.SetValue(AValue);
-      Result.SetExpiry(Expiry);
-      Result.SetPath(APath);
-      Result.FChanged = true;
-      return Result;
-    };
-    this.Find = function (AName) {
-      var Result = null;
-      var i = 0;
-      Result = null;
-      for (var $l = 0, $end = this.GetCount() - 1; $l <= $end; $l++) {
-        i = $l;
-        if (this.GetItem$1(i).FName === AName) {
-          Result = this.GetItem$1(i);
-          break;
-        };
-      };
-      return Result;
-    };
-    var $r = this.$rtti;
-    $r.addMethod("Create$2",2,[]);
-  });
-  rtl.createClass(this,"TWebCookies",this.TCookies,function () {
-  });
-},["Web","JS"]);
 rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","WEBLib.Controls","WEBLib.Forms","WEBLib.Dialogs","WEBLib.Controls","WEBLib.WebCtrls","WEBLib.StdCtrls","WEBLib.StdCtrls","WEBLib.ExtCtrls","WEBLib.REST","WEBLib.JQCtrls","WEBLib.SideMenu","WEBLib.Menus","WEBLib.Menus","uCargarConsultas","WEBLib.Cookies"],function () {
   "use strict";
   var $mod = this;
@@ -64352,6 +64346,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.lbusuario = null;
       this.WebMessageDlg1 = null;
       this.lbminimizar = null;
+      this.Compartir1 = null;
       this.minimizo = false;
     };
     this.$final = function () {
@@ -64420,6 +64415,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.lbusuario = undefined;
       this.WebMessageDlg1 = undefined;
       this.lbminimizar = undefined;
+      this.Compartir1 = undefined;
       pas["WEBLib.Forms"].TForm.$final.call(this);
     };
     this.WebButton1Click = function (Sender) {
@@ -64577,6 +64573,8 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       var dia = 0;
       var sfechadia = "";
       var nomarch = "";
+      var Cookies = null;
+      var PDFCookie = null;
       fechahoy = pas.SysUtils.Now();
       pas.SysUtils.DecodeDate(fechahoy,{get: function () {
           return anio;
@@ -64598,6 +64596,15 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         }, set: function (v) {
           sfechadia = v;
         }});
+      Cookies = pas["WEBLib.Cookies"].TCookies.$create("Create$2");
+      try {
+        PDFCookie = Cookies.Find("PDF");
+        if (!(PDFCookie == null)) Cookies.Delete$2("PDF");
+        Cookies.Add$2("PDF","E");
+        Cookies.SetCookies();
+      } finally {
+        Cookies = rtl.freeLoc(Cookies);
+      };
       Tabulator.extendModule("download", "downloaders", {
           string:function(columns, data, options){
               var fileContents = data.toString();
@@ -64609,6 +64616,9 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         var table = Tabulator.findTable("#tabExample")[0];
       
         // table.download("csv", "data.csv", {delimiter:"."}); //  OK download a CSV file that uses a fullstop (.) delimiter
+        var opcion = "E"
+      
+      
       
          table.download("pdf",nomarch);
          //table.download("pdf","data.pdf");
@@ -65315,7 +65325,25 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.WebScrollRegistro.SetVisible(false);
       this.edRen.SetText(".");
       this.btn_exportarClick(Sender);
-      pas["WEBLib.Dialogs"].ShowMessage("Nota:Se ha creado el archivo  en su carpeta de DESCARGA, como resumen de VENTA SEMANAL");
+      return;
+      var table = Tabulator.findTable("#tabExample")[0];
+       table.download("pdf", "data.pdf", {
+       orientation:"portrait", //set page orientation to portrait
+       title:"Dynamics Quotation Report", //add title to report
+       //jsPDF:{
+      //     unit:"in", //set units to inches
+      // },
+      // autoTable:{ //advanced table styling
+      //     styles: {
+      //         fillColor: [100, 255, 255]
+      //     },
+      //     columnStyles: {
+      //         id: {fillColor: 255}
+      //     },
+      //     margin: {top: 60},
+      // },
+       
+      });
     };
     this.btnAgregarClick = function (Sender) {
       var datosstr = "";
@@ -65427,6 +65455,126 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         pas["WEBLib.Dialogs"].ShowMessage("va a grabar");
         this.Estudios1Click(Sender);
       };
+    };
+    this.Compartir1Click = function (Sender) {
+      var Cookies = null;
+      var PDFCookie = null;
+      Cookies = pas["WEBLib.Cookies"].TCookies.$create("Create$2");
+      PDFCookie = Cookies.Find("PDF");
+      if (!(PDFCookie == null)) Cookies.Delete$2("PDF");
+      Cookies.Add$2("PDF","C");
+      var table = Tabulator.findTable("#tabExample")[0];
+            //var table = $("#tabExample").Tabulator("getHtml", "true"); //true option preserves current sort
+      
+            var htmlTable = table.getHtml("active",false);
+            var jsonData = table.getSheetData("uno");
+            // $('#html-table').append(table); $('#html-table>table').attr("id", "table");
+           var elem = $("#htmlTable");
+           //var doc = new jsPDF('l', 'pt'); //set document to landscape, better for most tables
+           const { jsPDF } = window.jspdf;
+      
+          // const doc = new jsPDF();
+           var doc = new jsPDF('l', 'pt'); //set document to landscape, better for most tables
+           //var res = doc.autoTableHtmlToJson(elem);
+           //console.log('res',res);
+           //doc.autotable(res.columns, res.data, { additional autotable options go in here - see website for details })
+          //doc.autotable(res.columns, res.data, { additional autotable options go in here - see website for details })
+      
+            console.log('htmltable',htmlTable);
+      
+         // doc.autoTable({ html:  '#html-table' })
+            const myElement = document.getElementById('tabExample');
+            console.log('element',myElement.innerHTML);
+            console.log('jsondata',jsonData);
+         //   doc.autoTable({ html:  myElement })
+         //  doc.save('myPDF.pdf'); 
+         //   doc.autoTable({ html:  'htmlTable' })
+      
+      
+          var specialElementHandlers = {
+          '#getPDF': function(element, renderer){
+            return true;
+          },
+          '.controls': function(element, renderer){
+            return true;
+          }
+        };
+      
+            // Convert HTML to PDF in JavaScript
+       //  var pdf_el=document.getElementById('tabExample');
+      //doc.html(  pdf_el , {x:20, y:75,maxWidth:200 , callback: function(doc_e){
+      //    doc_e.save("bbb.pdf");
+      //}});
+      
+      
+            // Convert HTML to PDF in JavaScript
+      
+         doc.html(htmlTable, {
+         callback: function (doc) {
+         //  doc.save();
+      
+           const pdfBlob = doc.output('blob');
+      
+           const file = new File([pdfBlob], 'document.pdf', { type: 'application/pdf' });
+            if ( window.navigator.share) {
+            //  const pdfBlob = new Blob([fileContents], { type: 'application/pdf' });
+            //const file = new File([pdfBlob], 'document.pdf', { type: 'application/pdf' });
+      
+          window.navigator.share({
+              files: [file],
+              title: 'PDF Document',
+              text: 'Check out this PDF document!',
+          })
+          .then(() => console.log('PDF shared successfully'))
+          .catch((error) => console.error('Error sharing PDF:', error));
+      } else {
+          console.log('Web Share API not supported in this browser.');
+      }
+      
+         }
+      });
+      return;
+      console.log('cookie');
+           console.log(Cookies);
+           var table = Tabulator.findTable("#tabExample")[0];
+          table.download("pdf", "data.pdf", {
+          orientation:"portrait", //set page orientation to portrait
+          title:"Dynamics Quotation Report", //add title to report
+          //jsPDF:{
+         //     unit:"in", //set units to inches
+         // },
+         // autoTable:{ //advanced table styling
+         //     styles: {
+         //         fillColor: [100, 255, 255]
+         //     },
+         //     columnStyles: {
+         //         id: {fillColor: 255}
+         //     },
+         //     margin: {top: 60},
+         // },
+          documentProcessing:function(doc){
+              //carry out an action on the doc object
+      
+              // Assuming 'doc' is your jsPDF instance and you've added your AutoTable
+            const pdfBlob = doc.output('blob');
+      
+           const file = new File([pdfBlob], 'document.pdf', { type: 'application/pdf' });
+            if ( window.navigator.share) {
+            //  const pdfBlob = new Blob([fileContents], { type: 'application/pdf' });
+            //const file = new File([pdfBlob], 'document.pdf', { type: 'application/pdf' });
+      
+          window.navigator.share({
+              files: [file],
+              title: 'PDF Document',
+              text: 'Check out this PDF document!',
+          })
+          .then(() => console.log('PDF shared successfully'))
+          .catch((error) => console.error('Error sharing PDF:', error));
+      } else {
+          console.log('Web Share API not supported in this browser.');
+      }
+          }
+         });
     };
     this.ValidarUsuarioActivo = async function (u, p) {
       var Result = false;
@@ -65579,6 +65727,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.LimpiarHoja2 = pas["WEBLib.Menus"].TMenuItem.$create("Create$1",[this]);
       this.N1 = pas["WEBLib.Menus"].TMenuItem.$create("Create$1",[this]);
       this.ExportaraPDF1 = pas["WEBLib.Menus"].TMenuItem.$create("Create$1",[this]);
+      this.Compartir1 = pas["WEBLib.Menus"].TMenuItem.$create("Create$1",[this]);
       this.Imprimir1 = pas["WEBLib.Menus"].TMenuItem.$create("Create$1",[this]);
       this.N2 = pas["WEBLib.Menus"].TMenuItem.$create("Create$1",[this]);
       this.Salir1 = pas["WEBLib.Menus"].TMenuItem.$create("Create$1",[this]);
@@ -65644,6 +65793,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.LimpiarHoja2.BeforeLoadDFMValues();
       this.N1.BeforeLoadDFMValues();
       this.ExportaraPDF1.BeforeLoadDFMValues();
+      this.Compartir1.BeforeLoadDFMValues();
       this.Imprimir1.BeforeLoadDFMValues();
       this.N2.BeforeLoadDFMValues();
       this.Salir1.BeforeLoadDFMValues();
@@ -66228,6 +66378,10 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.ExportaraPDF1.SetName("ExportaraPDF1");
         this.ExportaraPDF1.SetCaption("Exportar a PDF");
         this.SetEvent$1(this.ExportaraPDF1,this,"OnClick","ExportaraPDF1Click");
+        this.Compartir1.SetParentComponent(this.Archivo1);
+        this.Compartir1.SetName("Compartir1");
+        this.Compartir1.SetCaption("Compartir PDF");
+        this.SetEvent$1(this.Compartir1,this,"OnClick","Compartir1Click");
         this.Imprimir1.SetParentComponent(this.Archivo1);
         this.Imprimir1.SetName("Imprimir1");
         this.Imprimir1.SetCaption("Imprimir Hoja");
@@ -66352,6 +66506,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.LimpiarHoja2.AfterLoadDFMValues();
         this.N1.AfterLoadDFMValues();
         this.ExportaraPDF1.AfterLoadDFMValues();
+        this.Compartir1.AfterLoadDFMValues();
         this.Imprimir1.AfterLoadDFMValues();
         this.N2.AfterLoadDFMValues();
         this.Salir1.AfterLoadDFMValues();
@@ -66442,6 +66597,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     $r.addField("lbusuario",pas["WEBLib.StdCtrls"].$rtti["TLabel"]);
     $r.addField("WebMessageDlg1",pas["WEBLib.Dialogs"].$rtti["TMessageDlg"]);
     $r.addField("lbminimizar",pas["WEBLib.StdCtrls"].$rtti["TEdit"]);
+    $r.addField("Compartir1",pas["WEBLib.Menus"].$rtti["TMenuItem"]);
     $r.addMethod("WebButton1Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("WebButton2Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("WebButton3Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
@@ -66486,6 +66642,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     $r.addMethod("GetCookie",1,[["cookie_name",rtl.string]],rtl.string);
     $r.addMethod("WebFormEnter",0,[["Sender",pas.System.$rtti["TObject"]]],null,16,{attr: [pas.JS.AsyncAttribute,"Create"]});
     $r.addMethod("lbminimizarChange",0,[["Sender",pas.System.$rtti["TObject"]]]);
+    $r.addMethod("Compartir1Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
   });
   this.Form1 = null;
   $mod.$implcode = function () {
