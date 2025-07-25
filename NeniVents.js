@@ -63530,7 +63530,7 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
              //fileContents - the unencoded contents of the file
             //mimeType - the suggested mime type for the output
     
-            alert('downloadEncoder');
+            //alert('downloadEncoder');
             //custom action to send blob to server could be included here
     
     
@@ -64347,6 +64347,8 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.WebMessageDlg1 = null;
       this.lbminimizar = null;
       this.Compartir1 = null;
+      this.CompartirPDF21 = null;
+      this.compartirpdf31 = null;
       this.minimizo = false;
     };
     this.$final = function () {
@@ -64416,6 +64418,8 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.WebMessageDlg1 = undefined;
       this.lbminimizar = undefined;
       this.Compartir1 = undefined;
+      this.CompartirPDF21 = undefined;
+      this.compartirpdf31 = undefined;
       pas["WEBLib.Forms"].TForm.$final.call(this);
     };
     this.WebButton1Click = function (Sender) {
@@ -65466,7 +65470,8 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       var table = Tabulator.findTable("#tabExample")[0];
             //var table = $("#tabExample").Tabulator("getHtml", "true"); //true option preserves current sort
       
-            var htmlTable = table.getHtml("active",false);
+            //var htmlTable = table.getHtml("active",false);
+            var htmlTable = table.getHtml("all",false);
             var jsonData = table.getSheetData("uno");
             // $('#html-table').append(table); $('#html-table>table').attr("id", "table");
            var elem = $("#htmlTable");
@@ -65575,6 +65580,92 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       }
           }
          });
+    };
+    this.CompartirPDF21Click = function (Sender) {
+      var table = Tabulator.findTable("#tabExample")[0];
+            //var table = $("#tabExample").Tabulator("getHtml", "true"); //true option preserves current sort
+      
+             var columnas = table.getColumnDefinitions();
+             var renglones = table.getRows();
+             var allTableData = table.getData();
+             console.log('columnas',columnas);
+             for (let i = 0; i < columnas.length; i++) {
+              console.log("Iteration number:", i, columnas[i]);
+              console.log("Iteration number:", i, columnas[i].values[0]);
+      
+             }
+             console.log(allTableData);
+      
+      
+      
+           var doc = new jsPDF('l', 'pt'); //set document to landscape, better for most tables
+           var columns = [{ title: "ID", dataKey: "id" }, { title: "Name", dataKey: "name" }];
+              var rows = [
+                  { id: 1, name: "Item 1" },
+                  { id: 2, name: "Item 2" }
+              ];
+      
+      
+              //doc.autoTable(columns, rows);
+              doc.autoTable(columnas, rows);
+      
+          doc.save('table.pdf');
+    };
+    this.compartirpdf31Click = function (Sender) {
+      var table = Tabulator.findTable("#tabExample")[0];
+            //var htmlTable = table.getHtml("active",false);
+            var htmlTable = table.getHtml("all",false);
+            var jsonData = table.getSheetData("uno");
+            const { jsPDF } = window.jspdf;
+            var doc = new jsPDF('l', 'pt'); //set document to landscape, better for most tables
+      
+      
+           var specialElementHandlers = {
+           '#getPDF': function(element, renderer){
+             return true;
+           },
+           '.controls': function(element, renderer){
+             return true;
+           }
+         };
+      
+      
+         const myElement = document.getElementById('html-table');
+         myElement.innerHTML = htmlTable;
+         // OK
+         //doc.autoTable({ html: myElement.querySelector('table') });
+         //doc.save("aaa.pdf");
+         // fin ok
+      
+        doc.autoTable({ html: myElement.querySelector('table') ,
+      
+          didDrawPage: function(data) {
+      
+          // alert('entro a funcion didDrawPage');
+           doc.text("Page " + data.pageNumber, doc.internal.pageSize.width - 30, doc.internal.pageSize.height - 10);
+      
+      
+           const pdfBlob = doc.output('blob');
+      
+           const file = new File([pdfBlob], 'document.pdf', { type: 'application/pdf' });
+            if ( window.navigator.share) {
+            //  const pdfBlob = new Blob([fileContents], { type: 'application/pdf' });
+            //const file = new File([pdfBlob], 'document.pdf', { type: 'application/pdf' });
+      
+          window.navigator.share({
+              files: [file],
+              title: 'PDF Document',
+              text: 'Check out this PDF document!',
+          })
+          .then(() => console.log('PDF shared successfully'))
+          .catch((error) => console.error('Error sharing PDF:', error));
+      } else {
+          console.log('Web Share API not supported in this browser.');
+      }
+              }
+      
+      
+          });
     };
     this.ValidarUsuarioActivo = async function (u, p) {
       var Result = false;
@@ -65728,6 +65819,8 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.N1 = pas["WEBLib.Menus"].TMenuItem.$create("Create$1",[this]);
       this.ExportaraPDF1 = pas["WEBLib.Menus"].TMenuItem.$create("Create$1",[this]);
       this.Compartir1 = pas["WEBLib.Menus"].TMenuItem.$create("Create$1",[this]);
+      this.CompartirPDF21 = pas["WEBLib.Menus"].TMenuItem.$create("Create$1",[this]);
+      this.compartirpdf31 = pas["WEBLib.Menus"].TMenuItem.$create("Create$1",[this]);
       this.Imprimir1 = pas["WEBLib.Menus"].TMenuItem.$create("Create$1",[this]);
       this.N2 = pas["WEBLib.Menus"].TMenuItem.$create("Create$1",[this]);
       this.Salir1 = pas["WEBLib.Menus"].TMenuItem.$create("Create$1",[this]);
@@ -65794,6 +65887,8 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.N1.BeforeLoadDFMValues();
       this.ExportaraPDF1.BeforeLoadDFMValues();
       this.Compartir1.BeforeLoadDFMValues();
+      this.CompartirPDF21.BeforeLoadDFMValues();
+      this.compartirpdf31.BeforeLoadDFMValues();
       this.Imprimir1.BeforeLoadDFMValues();
       this.N2.BeforeLoadDFMValues();
       this.Salir1.BeforeLoadDFMValues();
@@ -66382,6 +66477,15 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.Compartir1.SetName("Compartir1");
         this.Compartir1.SetCaption("Compartir PDF");
         this.SetEvent$1(this.Compartir1,this,"OnClick","Compartir1Click");
+        this.CompartirPDF21.SetParentComponent(this.Archivo1);
+        this.CompartirPDF21.SetName("CompartirPDF21");
+        this.CompartirPDF21.SetCaption("Compartir PDF2");
+        this.CompartirPDF21.FVisible = false;
+        this.SetEvent$1(this.CompartirPDF21,this,"OnClick","CompartirPDF21Click");
+        this.compartirpdf31.SetParentComponent(this.Archivo1);
+        this.compartirpdf31.SetName("compartirpdf31");
+        this.compartirpdf31.SetCaption("Compartir PDF Tabla");
+        this.SetEvent$1(this.compartirpdf31,this,"OnClick","compartirpdf31Click");
         this.Imprimir1.SetParentComponent(this.Archivo1);
         this.Imprimir1.SetName("Imprimir1");
         this.Imprimir1.SetCaption("Imprimir Hoja");
@@ -66507,6 +66611,8 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
         this.N1.AfterLoadDFMValues();
         this.ExportaraPDF1.AfterLoadDFMValues();
         this.Compartir1.AfterLoadDFMValues();
+        this.CompartirPDF21.AfterLoadDFMValues();
+        this.compartirpdf31.AfterLoadDFMValues();
         this.Imprimir1.AfterLoadDFMValues();
         this.N2.AfterLoadDFMValues();
         this.Salir1.AfterLoadDFMValues();
@@ -66598,6 +66704,8 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     $r.addField("WebMessageDlg1",pas["WEBLib.Dialogs"].$rtti["TMessageDlg"]);
     $r.addField("lbminimizar",pas["WEBLib.StdCtrls"].$rtti["TEdit"]);
     $r.addField("Compartir1",pas["WEBLib.Menus"].$rtti["TMenuItem"]);
+    $r.addField("CompartirPDF21",pas["WEBLib.Menus"].$rtti["TMenuItem"]);
+    $r.addField("compartirpdf31",pas["WEBLib.Menus"].$rtti["TMenuItem"]);
     $r.addMethod("WebButton1Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("WebButton2Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("WebButton3Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
@@ -66643,6 +66751,8 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     $r.addMethod("WebFormEnter",0,[["Sender",pas.System.$rtti["TObject"]]],null,16,{attr: [pas.JS.AsyncAttribute,"Create"]});
     $r.addMethod("lbminimizarChange",0,[["Sender",pas.System.$rtti["TObject"]]]);
     $r.addMethod("Compartir1Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
+    $r.addMethod("CompartirPDF21Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
+    $r.addMethod("compartirpdf31Click",0,[["Sender",pas.System.$rtti["TObject"]]]);
   });
   this.Form1 = null;
   $mod.$implcode = function () {
