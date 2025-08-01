@@ -63470,6 +63470,7 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
     var selpacid = "";
     var selpacnom = "";
     var opcpdf = "";
+    var keyhoja = "";
     var editCheck = function(cell){
         //cell - the cell component for the editable cell
         //get row data
@@ -63492,7 +63493,7 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
           key:"uno",
          // rows:10,
           rows:0,
-          columns:6,
+          columns:7,
           data:[],
       },
      {
@@ -63501,7 +63502,7 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
           key:"dos",
          // rows:10,
           rows:10,
-          columns:2,
+          columns:3,
           data:[],
       },
     
@@ -63643,158 +63644,23 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
         //table.scrollToRow(row.getIndex(), "center", false);
         row.scrollTo("bottom", true);
     });
+    
        table.on("tableBuilt", function(){
+          // alert('tableBuilt');
     
-           //table.activeSheet("uno"); //make the info sheet active
-           var cols = table.getColumns() //get array of column components
-    
-             cols[0].updateDefinition({title:'#',field:"rc",width:1,headerTooltip:'Click en registro, para eliminar.',
-            cellClick:function(e, cell)
-            {
-            console.log("cell click",cell.getValue());
-            var row = cell.getRow();
-            var rowPosition = row.getPosition();
-            var cellvalue = cell.getValue();
-            if (confirm("Desea eliminar registro "+cellvalue.toString()+" ?")) {
-              row.delete();
-             }
-            }});
-    
-             cols[1].updateDefinition({title:'Nombre', field:"nombre",width:90,responsive:0,headerTooltip:'Nombre',headerFilter:"input"});
-             cols[2].updateDefinition({title:'Articulo',field:"articulo",width:100,responsive:0,headerTooltip:'Articulo',headerFilter:"input"});
-             cols[3].updateDefinition({title:'$Importe',field:"importe",width:70,responsive:0,headerTooltip:'Importe',headerFilter:"input" , bottomCalc:"sum"});
-             cols[4].updateDefinition({title:'P.',width:30,headerTooltip:'Pagado',field:"pagado",editor:true, headerHozAlign:"left",formatter:"tickCross"});
-             cols[5].updateDefinition({title:'E.',width:30,headerTooltip:'Entregado',field:"entregado",editor:true,headerHozAlign:"left", formatter:"tickCross"});
-             cols[6].updateDefinition({title:'V/S',width:68,headerTooltip:'Vta.Directa /Subasta',field:"vds",headerHozAlign:"left",headerFilter:"input"});
-         //  alert('tableBuilt');
-    
-    
-    
-    
+           table.activeSheet("uno"); //make the info sheet active
            });
-    table.on("sheetLoaded", function(sheet){
+    
+    
+        table.on("sheetLoaded", function(sheet){
         //sheet - sheet component for sheet
-        // alert('loaded');
-         var kkey = sheet.getKey();
-         console.log('Key',kkey);
-    
-    
-        if (kkey =='uno')
-        {
-         var newColumns = [
-         {title:'#',field:"rc",width:1,headerTooltip:'Click en registro, para eliminar.'},
-         {title:'Nombre', field:"nombre",width:90,responsive:0,headerTooltip:'Nombre',headerFilter:"input"},
-         {title:'Articulo',field:"articulo",width:100,responsive:0,headerTooltip:'Articulo',headerFilter:"input"},
-         {title:'$Importe',field:"importe",width:70,responsive:0,headerTooltip:'Importe',headerFilter:"input" , bottomCalc:"sum"},
-         {title:'P.',width:30,headerTooltip:'Pagado',field:"pagado",editor:true, headerHozAlign:"left",formatter:"tickCross"},
-         {title:'E.',width:30,headerTooltip:'Entregado',field:"entregado",editor:true,headerHozAlign:"left", formatter:"tickCross"},
-         {title:'V/S',width:68,headerTooltip:'Vta.Directa /Subasta',field:"vds",headerHozAlign:"left",headerFilter:"input"}
-         ];
-    
-        //table.activeSheet("uno");
-        table.setColumns(newColumns); //overwrite existing columns with new columns definition array
-        }
-    
-        if (kkey =='dos')
-        {
-         var newColumns = [
-         {title:'#',field:"rc",width:1,headerTooltip:'Click en registro, para eliminar.'},
-         {title:'Concepto', field:"nombre",width:200,responsive:0,headerTooltip:'Nombre',headerFilter:"input",editor: "input"},
-         {title:'$Importe',field:"importe",width:110,responsive:0,headerTooltip:'Importe',headerFilter:"input" , bottomCalc:"sum",editor: "input",editorParams:{mask:"9999"}},
-          ];
-    
-        //table.activeSheet("uno");
-        table.setColumns(newColumns); //overwrite existing columns with new columns definition array
-        }
-    
-       
+           var key = sheet.getKey();
+           keyhoja=key;
+    if (keyhoja === "uno") $mod.ActualizaTitulosCol("uno");
+    if (keyhoja === "dos") $mod.ActualizaTitulosCol("dos");
     });
-    
-    table.on("rowClick", function(e, row) {
-    
-          return;
-          //var rowIndex = row.getIndex();
-           var rowPosition = row.getPosition();
-         //console.log('index',rowIndex)
-         console.log('pos',rowPosition);
-    
-       //alert('row click');
-         // alert(row);
-       // alert(' identifica'+row.getData().Identifica);
-    
-      //iden=row.getData().Identifica;
-     var iden=row.getData();
-        //alert(' iden'+iden);
-        console.log(iden);
-        console.log('idenA',iden.A);
-        console.log('idenA',iden.B);
-        selpacid = iden.A
-        selpacnom = iden.B
-        console.log('id',selpacid);
-     //   alert('paciente');
-     //   alert(selpacid);
-    
-       edPaciente.value = selpacid;
-       edPacNombre.value =selpacnom;
-      // alert (edPacNombre.value);
-     //  table.setFilter('B like '+edPacNombre.value);
-    
-     /*
-       if (confirm("Desea eliminar registro "+rowPosition.toString()+" ?")) {
-           row.delete();
-       }
-    
-    
-     // Pendiente actualizar , porque las columnas del Grid son editables
-      if (confirm("Desea actualizar registro "+rowPosition.toString()+" ?"))
-      {;
-    WebScrollRegistro.get().SetVisible(true);
-    const editBox = document.getElementById("rowsel");
-         // Set the text content of the editbox
-         console.log(row);
-          editBox.value = rowPosition;
-    
-    
-         const btnregi = document.getElementById("btnregistrar");
-         btnregi.innerText ='Actualizar';
-    
-    
-        // const btnregd = document.getElementById("btndel");
-        // btnregd.hidden="";
-    
-        // const scrreg = document.getElementById("scrollregistro");
-        // scrreg.display="inline-block";
-       //  console.log(scrreg);
-    
-         var rowData = row.getData();
-         console.log(rowData);
-         const cliente = document.getElementById("cliente");
-         cliente.value=rowData.nombre;
-         const producto = document.getElementById("producto");
-         producto.value=rowData.articulo;
-         const importe = document.getElementById("importe");
-         importe.value=rowData.importe;
-         const vds = document.getElementById("vds");
-         vds.value=rowData.vds;
-         }
-      */;
-    });
-      table.on("sheetUpdated", function(sheet){
-        //sheet - sheet component for sheet
-        //alert('sheetUpdated');
-    });
-    
-    table.on("rowDblClick", function(e, row){
-        //e - the click event object
-        //row - row component
-      // alert('rowDblClick');
-       if (confirm("Desea eliminar renglón ?")) {
-           row.delete();
-       }
-    });
-    
-     //********************************************************************************
-     //********************************************************************************;
+    //********************************************************************************
+    //********************************************************************************;
   };
   this.CargarVentas = function () {
     var selpacid = "";
@@ -64269,42 +64135,32 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
   };
   this.ActualizaTitulosCol = function (key) {
     var table = Tabulator.findTable("#tabExample")[0];
-        alert (key);
+    
+           var cols = table.getColumns() //get array of column components
+           console.log('columnas',cols);
+      //  alert (key);
     switch(key) {
       case 'uno':
+    
         // code block
-          table.updateColumnDefinition("A", {title:"Nombre",width:250}) //change the title on the name column
-          table.updateColumnDefinition("B", {title:"Articulo",width:250}) //change the title on the name column
-          table.updateColumnDefinition("C", {title:"Importe",width:150}) //change the title on the name column
-          table.updateColumnDefinition("D", {title:"Pagado",width:80}) //change the title on the name column
-          table.updateColumnDefinition("E", {title:"VD/S",width:80}) //change the title on the name column
+          table.updateColumnDefinition("A", {title:"#",field:"rc",width:1}) //change the title on the name column
+          table.updateColumnDefinition("B", {title:"Nombre",field:"nombre",width:90}) //change the title on the name column
+          table.updateColumnDefinition("C", {title:"Articulo",field:"articulo",width:100}) //change the title on the name column
+          table.updateColumnDefinition("D", {title:"$Importe",field:"importe",width:70}) //change the title on the name column
+          table.updateColumnDefinition("E", {title:"P.",width:30,field:"pagado",editor:true,formatter:"tickCross"}) //change the title on the name column
+          table.updateColumnDefinition("F", {title:"E.",width:30,field:"entregado",editor:true,formatter:"tickCross"}) //change the title on the name column
+          table.updateColumnDefinition("G", {title:"VD/S",field:"vds",width:68}) //change the title on the name column
+    
     
         break;
       case 'dos':
         // code block
-          table.updateColumnDefinition("A", {title:"fecha"}) //change the title on the name column
-          table.updateColumnDefinition("B", {title:"Comentario",width:130}) //change the title on the name column
-          table.updateColumnDefinition("C", {title:"Diagnostico",width:130}) //change the title on the name column
-    
+          table.updateColumnDefinition("A", {title:"#",field:"rc",width:1}) //change the title on the name column
+          table.updateColumnDefinition("B", {title:"Concepto",field:"concepto",width:90}) //change the title on the name column
+          table.updateColumnDefinition("C", {title:"$Importe",field:"importe",width:70}) //change the title on the name column
         break;
-      case 'tres':
+        default:
         // code block
-          table.updateColumnDefinition("A", {title:"fecha"}) //change the title on the name column
-          table.updateColumnDefinition("B", {title:"Comentario",width:130}) //change the title on the name column
-          table.updateColumnDefinition("C", {title:"Tipo"}) //change the title on the name column
-    
-        break;
-      case 'cuatro':
-        // code block
-          table.updateColumnDefinition("A", {title:"fecha"}) //change the title on the name column
-          table.updateColumnDefinition("B", {title:"Comentario",width:130}) //change the title on the name column
-          table.updateColumnDefinition("C", {title:"Tipo"}) //change the title on the name column
-    
-        break;
-      default:
-        // code block
-          table.updateColumnDefinition("A", {title:"Clave"}) //change the title on the name column
-          table.updateColumnDefinition("B", {title:"Nombre",width:250}) //change the title on the name column
     
     };
   };
@@ -65421,7 +65277,6 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       src = pas.SysUtils.IntToStr(irc);
       datosstr = '{"rc":' + String.fromCharCode(34) + src + String.fromCharCode(34) + "," + '"nombre":' + String.fromCharCode(34) + this.edNombre.GetText() + String.fromCharCode(34) + "," + '"articulo":' + String.fromCharCode(34) + this.edArticulo.GetText() + String.fromCharCode(34) + "," + ' "importe":' + String.fromCharCode(34) + this.edImporte.GetText() + String.fromCharCode(34) + "," + '"vds":' + String.fromCharCode(34) + ventasubasta + String.fromCharCode(34) + "}";
       var table = Tabulator.findTable("#tabExample")[0];
-            table.activeSheet("uno");
             var tabledata = [];   // se puede eliminar
             var obj=JSON.parse(datosstr);   // se puede eliminar
             tabledata.push(obj);  // se puede eliminar
@@ -65430,6 +65285,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
            // alert(rowCount);
              if (rowCount < 11)
             {
+             //alert('add');
              table.addRow(datosstr)
                   .then(function(row){
                       //row - the row component for the row updated or added
@@ -65442,6 +65298,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
                   });
       
            }  //if  rowCount
+      
       
           /*  if (rowCount < 11)
             {
@@ -65745,6 +65602,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
     this.lbIngresosClick = function (Sender) {
       var table = Tabulator.findTable("#tabExample")[0];
       table.activeSheet('uno');
+      this.Consultas1Click(Sender);
     };
     this.CompartirPDF1Click = function (Sender) {
       this.compartirpdf31Click(Sender);
