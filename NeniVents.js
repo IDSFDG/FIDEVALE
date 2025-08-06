@@ -63507,7 +63507,8 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
       },
     
     ];
-             var table = new Tabulator("#tabExample",
+       var table = new Tabulator("#tabExample",
+    
     
        {
        dependencies:{
@@ -63522,19 +63523,20 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
             dataTree:false, //do not include data tree in HTML table
             formatCells:false, //show raw cell values without formatter
         },
-      columnDefaults:{
-            headerTooltip:function(e, cell, onRendered){
-                //e - mouseover event
-                //cell - cell component
-                //onRendered - onRendered callback registration function
-    
-                var el = document.createElement("div");
-                el.style.backgroundColor = "red";
-                el.innerText = column.getDefinition().title;
-    
-                return el;
-            },
-        },
+     // columnDefaults:{
+     //       headerTooltip:function(e, cell, onRendered){
+     //           //e - mouseover event
+     //           //cell - cell component
+     //           //onRendered - onRendered callback registration function
+     //           console.log('cell', cell);
+     //           //var column = cell.getColumn();
+     //           var el = document.createElement("div");
+     //           el.style.backgroundColor = "red";
+     //           el.innerText = column.getDefinition().title;
+     //
+     //           return el;
+     //       },
+     //   },
         downloadEncoder:function(fileContents, mimeType){
     
              //fileContents - the unencoded contents of the file
@@ -63589,12 +63591,14 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
                // console.log ('rowformatter');
               //  row.getElement().classList.add("Modern"); //mark rows with age greater than or equal to 18 as successful;
            // row.getElement().style.backgroundColor = "#d5f7d7"; //apply css change to row element
-            row.getElement().style.backgroundColor = "#7cbfb2";
-            row.getElement().style.backgroundColor = "#b87cbf"; // Gine
+           //// row.getElement().style.backgroundColor = "#7cbfb2";
+          ////  row.getElement().style.backgroundColor = "#b87cbf"; // Gine
           //  row.getElement().classList.add("table-danger");
             }
         },
-    
+        headerTooltip:true,
+        layout:"fitColumns",
+        colResizable: false,
           selectableRows:false,
         pagination:false,
        // paginationElement:paginacionSCR, //build pagination controls in this element
@@ -63656,11 +63660,39 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
         //sheet - sheet component for sheet
            var key = sheet.getKey();
            keyhoja=key;
-    if (keyhoja === "uno") $mod.ActualizaTitulosCol("uno");
-    if (keyhoja === "dos") $mod.ActualizaTitulosCol("dos");
+      // end;
+      //    if (keyhoja = 'uno') then ActualizaTitulosCol('uno');
+      //    if (keyhoja = 'dos') then ActualizaTitulosCol('dos');
+      // asm
+    
+      switch(keyhoja) {
+      case 'uno':
+    
+        // code block
+          table.updateColumnDefinition("A", {title:"#",field:"rc",width:1, headerTooltip:"Registro"}) //change the title on the name column
+          table.updateColumnDefinition("B", {title:"Nombre",field:"nombre",width:90, headerTooltip:"Nombre"}) //change the title on the name column
+          table.updateColumnDefinition("C", {title:"Articulo",field:"articulo",width:100, headerTooltip:"Articulo"}) //change the title on the name column
+          table.updateColumnDefinition("D", {title:"$Importe",field:"importe",width:70, headerTooltip:"Importe"}) //change the title on the name column
+          table.updateColumnDefinition("E", {title:"P.",width:30,field:"pagado",editor:true,formatter:"tickCross", headerTooltip:"Pagado"}) //change the title on the name column
+          table.updateColumnDefinition("F", {title:"E.",width:30,field:"entregado",editor:true,formatter:"tickCross", headerTooltip:"Entregado"}) //change the title on the name column
+          table.updateColumnDefinition("G", {title:"VD/S",field:"vds",width:68 ,resizable:false, headerTooltip:"Venta/Subasta"}) //change the title on the name column
+    
+    
+        break;
+      case 'dos':
+        // code block
+          table.updateColumnDefinition("A", {title:"#",field:"rc",width:1}) //change the title on the name column
+          table.updateColumnDefinition("B", {title:"Concepto",field:"concepto",width:300, headerTooltip:"Concepto"}) //change the title on the name column
+          table.updateColumnDefinition("C", {title:"$Importe",field:"importe",width:120, resizable:false, headerTooltip:"Importe"}) //change the title on the name column
+        break;
+        default:
+        // code block
+    
+    }
+    
     });
-    //********************************************************************************
-    //********************************************************************************;
+     //********************************************************************************
+     //********************************************************************************;
   };
   this.CargarVentas = function () {
     var selpacid = "";
@@ -70247,6 +70279,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       this.edRen.SetText(".");
       var table = Tabulator.findTable("#tabExample")[0];
           table.clearSheet("uno"); //clear the data from the info sheet
+          return;
           var cols = table.getColumns() //get array of column components
       
       
