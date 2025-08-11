@@ -63747,9 +63747,9 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
       case 'uno':
         // code block
           table.updateColumnDefinition("A", {title:"#",field:"rc",width:1, headerTooltip:"Registro" ,editor:false}) //change the title on the name column
-          table.updateColumnDefinition("B", {title:"Nombre",field:"nombre",width:90, headerTooltip:"Nombre"}) //change the title on the name column
-          table.updateColumnDefinition("C", {title:"Articulo",field:"articulo",width:90, headerTooltip:"Articulo"}) //change the title on the name column
-          table.updateColumnDefinition("D", {title:"$Importe",field:"importe",width:70, headerTooltip:"Importe",bottomCalc:"sum"}) //change the title on the name column
+          table.updateColumnDefinition("B", {title:"Nombre",field:"nombre",width:80, headerTooltip:"Nombre"}) //change the title on the name column
+          table.updateColumnDefinition("C", {title:"Articulo",field:"articulo",width:80, headerTooltip:"Articulo"}) //change the title on the name column
+          table.updateColumnDefinition("D", {title:"$Importe",field:"importe",width:60, headerTooltip:"Importe",bottomCalc:"sum"}) //change the title on the name column
           table.updateColumnDefinition("E", {title:"P.",width:30,field:"pagado",editor:true,formatter:"tickCross", headerTooltip:"Pagado"}) //change the title on the name column
           table.updateColumnDefinition("F", {title:"E.",width:30,field:"entregado",editor:true,formatter:"tickCross", headerTooltip:"Entregado"}) //change the title on the name column
           table.updateColumnDefinition("G", {title:"VD/S",field:"vds",width:68 ,resizable:false, headerTooltip:"Venta/Subasta"}) //change the title on the name column
@@ -67396,6 +67396,16 @@ rtl.module("uFormaLogin",["System","SysUtils","Classes","JS","Web","WEBLib.Graph
         $impl.fusuariook = jresult;
       });
       return Result;
+    };
+    this.CargarFormaModal = function () {
+      var $Self = this;
+      var newform = null;
+      function AfterShowModal(AValue) {
+      };
+      function AfterCreate(AForm) {
+      };
+      newform = pas.Unit1.TForm1.$create("CreateNew$3",[AfterCreate]);
+      newform.ShowModal$1(AfterShowModal);
     };
     this.LoadDFMValues = function () {
       pas["WEBLib.Forms"].TCustomForm.LoadDFMValues.call(this);
