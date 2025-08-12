@@ -63759,7 +63759,7 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
       case 'dos':
         // code block
           table.updateColumnDefinition("A", {title:"#",field:"rc",width:1}) //change the title on the name column
-          table.updateColumnDefinition("B", {title:"Concepto",field:"concepto",width:350, headerTooltip:"Concepto"}) //change the title on the name column
+          table.updateColumnDefinition("B", {title:"Concepto",field:"concepto",width:280, headerTooltip:"Concepto"}) //change the title on the name column
           table.updateColumnDefinition("C", {title:"$Importe",field:"importe",width:120, resizable:false, headerTooltip:"Importe",bottomCalc:"sum"}) //change the title on the name column
         break;
         default:
