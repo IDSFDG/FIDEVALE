@@ -65403,7 +65403,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
             //console.log(tabledata);
             var rowCount = table.getDataCount()+1;
            // alert(rowCount);
-             if (rowCount < 11)
+             if (rowCount < 101)
             {
              table.addRow(datosstr)
                   .then(function(row){
