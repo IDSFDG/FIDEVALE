@@ -65724,58 +65724,7 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
           .catch((error) => console.error('Error sharing PDF:', error));
       } else {
           console.log('Web Share API not supported in this browser.');
-      }
-      
-      
-      RETURN;
-      //----------------------------------------  CODIGO DE PRUEBAS PDF AUTO TABLE
-      
-        doc.autoTable({ html: myElement.querySelector('table') ,
-      
-      
-          drawRow: function(row) {
-              if (row.index > 0 && row.index % 10 === 0) {
-                 doc.autoTableAddPage();
-               }
-             },
-      
-          //pageBreak: 'always', // Forces the table to start on a new page
-      
-          didDrawPage: function(data) {
-          //pageBreak: 'always', // Forces the table to start on a new page
-      
-          // alert('entro a funcion didDrawPage');
-          console.log('data',data);
-           doc.text("Page " + data.pageNumber, doc.internal.pageSize.width - 30, doc.internal.pageSize.height - 10,{ align: 'center' });
-          //const pageNumber = doc.internal.getNumberOfPages();
-          //doc.text("Page ${pageNumber}", doc.internal.pageSize.width / 2, doc.internal.pageSize.height - 10, { align: 'center' });
-      
-      
-           const pdfBlob = doc.output('blob');
-      
-           const file = new File([pdfBlob], 'document.pdf', { type: 'application/pdf' });
-            if ( window.navigator.share) {
-            //  const pdfBlob = new Blob([fileContents], { type: 'application/pdf' });
-            //const file = new File([pdfBlob], 'document.pdf', { type: 'application/pdf' });
-      
-          window.navigator.share({
-              files: [file],
-              title: 'PDF Document',
-              text: 'Check out this PDF document!',
-          })
-          .then(() => console.log('PDF shared successfully'))
-          .catch((error) => console.error('Error sharing PDF:', error));
-      } else {
-          console.log('Web Share API not supported in this browser.');
-      }
-              }
-      
-      
-      
-          });
-      
-      
-      //---------------------------------------- FIN  CODIGO DE PRUEBAS PDF AUTO TABLE;
+      };
     };
     this.Compartir2Click = function (Sender) {
       this.compartirpdf31Click(Sender);
