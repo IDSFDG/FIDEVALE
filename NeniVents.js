@@ -64301,7 +64301,7 @@ rtl.module("uCargarConsultas",["System","SysUtils","Classes","JS","Web","WEBLib.
   $mod.$init = function () {
   };
 },["Unit1"]);
-rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","WEBLib.Controls","WEBLib.Forms","WEBLib.Dialogs","WEBLib.Controls","WEBLib.WebCtrls","WEBLib.StdCtrls","WEBLib.StdCtrls","WEBLib.ExtCtrls","WEBLib.REST","WEBLib.JQCtrls","WEBLib.SideMenu","WEBLib.Menus","WEBLib.Menus","uCargarConsultas","WEBLib.Cookies"],function () {
+rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","WEBLib.Controls","WEBLib.Forms","WEBLib.Dialogs","WEBLib.Controls","WEBLib.WebCtrls","WEBLib.StdCtrls","WEBLib.StdCtrls","WEBLib.ExtCtrls","WEBLib.REST","WEBLib.JQCtrls","WEBLib.SideMenu","WEBLib.Menus","WEBLib.Menus","uCargarConsultas","WEBLib.Cookies","WEBLib.Storage"],function () {
   "use strict";
   var $mod = this;
   var $impl = $mod.$impl;
@@ -64732,20 +64732,36 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       var nomarchcookie = "";
       var guardarCookie = null;
       var valorRegistroCookie = "";
+      var opcionGuardar = 0;
+      var LLocalStorage = null;
       this.WebScrollRegistro.SetVisible(false);
       this.edRen.SetText(".");
       nomarch = "";
-      if ($impl.RegistroCookie.GetCount() === 1) {
-        pas["WEBLib.Dialogs"].ShowMessage("No hay nada registrado aún");
-        return;
-      };
+      opcionGuardar = 3;
       nomarchcookie = $impl.RegistroCookie.Find("nombrearchivo").FValue;
-      if (nomarchcookie.length > 0) guardarCookie = $impl.RegistroCookie.Find(nomarchcookie);
-      if (!(guardarCookie == null)) {
-        $impl.RegistroCookie.GetCookies();
-        valorRegistroCookie = this.GetCookie(nomarchcookie);
-        console.log('archivo cookie abrir',nomarchcookie);
-        console.log('valor cookie abrir',valorRegistroCookie);
+      var $tmp = opcionGuardar;
+      if ($tmp === 1) {
+        if ($impl.RegistroCookie.GetCount() === 1) {
+          pas["WEBLib.Dialogs"].ShowMessage("No hay nada registrado aún");
+          return;
+        };
+        nomarchcookie = $impl.RegistroCookie.Find("nombrearchivo").FValue;
+        if (nomarchcookie.length > 0) guardarCookie = $impl.RegistroCookie.Find(nomarchcookie);
+        if (!(guardarCookie == null)) {
+          $impl.RegistroCookie.GetCookies();
+          valorRegistroCookie = this.GetCookie(nomarchcookie);
+          console.log('archivo cookie abrir',nomarchcookie);
+          console.log('valor cookie abrir',valorRegistroCookie);
+          var table = Tabulator.findTable("#tabExample")[0];
+          table.setData(valorRegistroCookie);
+        };
+      } else if ($tmp === 3) {
+        LLocalStorage = pas["WEBLib.Storage"].TLocalStorage.$create("Create");
+        try {
+          valorRegistroCookie = LLocalStorage.GetValues(nomarchcookie);
+        } finally {
+          LLocalStorage = rtl.freeLoc(LLocalStorage);
+        };
         var table = Tabulator.findTable("#tabExample")[0];
         table.setData(valorRegistroCookie);
       };
@@ -64763,6 +64779,9 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       var nomarchcookie = "";
       var guardarCookie = null;
       var valorCookie = "";
+      var LLocalStorage = null;
+      var opcionGuardar = 0;
+      opcionGuardar = 3;
       this.WebScrollRegistro.SetVisible(false);
       this.edRen.SetText(".");
       fechahoy = pas.SysUtils.Now();
@@ -64794,32 +64813,44 @@ rtl.module("Unit1",["System","SysUtils","Classes","JS","Web","WEBLib.Graphics","
       var json = JSON.stringify(array);
       console.log('datos tabla',json);
       valorCookie=json;
-      guardarCookie = $impl.RegistroCookie.Find(nomarchcookie);
-      console.log(guardarCookie);
-      if (!(guardarCookie == null)) {
-        $impl.RegistroCookie.Delete$2(nomarch);
-        $impl.RegistroCookie.Delete$2("nombrearchivo");
-      };
-      fechafincookie = fechahoy + 7;
-      $impl.RegistroCookie.Add$1(nomarchcookie,valorCookie,fechafincookie);
-      $impl.RegistroCookie.Add$1("nombrearchivo",nomarchcookie,fechafincookie);
-      pas.SysUtils.DecodeDate(fechafincookie,{get: function () {
-          return anio;
-        }, set: function (v) {
-          anio = v;
-        }},{get: function () {
-          return mes;
-        }, set: function (v) {
-          mes = v;
-        }},{get: function () {
-          return dia;
-        }, set: function (v) {
-          dia = v;
-        }});
-      console.log('archivo cookie guardar',nomarchcookie);
-      console.log('valor cookie guardar',valorCookie);
-      console.log('fecha expira',fechafincookie, anio, mes, dia);
-      $impl.RegistroCookie.SetCookies();
+      var $tmp = opcionGuardar;
+      if ($tmp === 1) {
+        guardarCookie = $impl.RegistroCookie.Find(nomarchcookie);
+        console.log(guardarCookie);
+        if (!(guardarCookie == null)) {
+          $impl.RegistroCookie.Delete$2(nomarch);
+          $impl.RegistroCookie.Delete$2("nombrearchivo");
+        };
+        fechafincookie = fechahoy + 7;
+        $impl.RegistroCookie.Add$1(nomarchcookie,valorCookie,fechafincookie);
+        $impl.RegistroCookie.Add$1("nombrearchivo",nomarchcookie,fechafincookie);
+        pas.SysUtils.DecodeDate(fechafincookie,{get: function () {
+            return anio;
+          }, set: function (v) {
+            anio = v;
+          }},{get: function () {
+            return mes;
+          }, set: function (v) {
+            mes = v;
+          }},{get: function () {
+            return dia;
+          }, set: function (v) {
+            dia = v;
+          }});
+        console.log('archivo cookie guardar',nomarchcookie);
+        console.log('valor cookie guardar',valorCookie);
+        console.log('fecha expira',fechafincookie, anio, mes, dia);
+        $impl.RegistroCookie.SetCookies();
+      } else if ($tmp === 2) {
+        pas["WEBLib.Forms"].Application.DownloadTextFile(valorCookie,"PedidoSemana.txt");
+      } else if ($tmp === 3) {
+        LLocalStorage = pas["WEBLib.Storage"].TLocalStorage.$create("Create");
+        try {
+          LLocalStorage.SetValues(nomarchcookie,valorCookie);
+        } finally {
+          LLocalStorage = rtl.freeLoc(LLocalStorage);
+        };
+      } else if ($tmp === 4) ;
     };
     this.Analisis1Click = function (Sender) {
       var table = Tabulator.findTable("#tabExample")[0];
